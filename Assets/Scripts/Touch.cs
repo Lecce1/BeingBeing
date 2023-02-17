@@ -149,35 +149,35 @@ public class Touch : MonoBehaviour
             switch (vals[1])
             {
                 case 1:
-                    Debug.Log("위로 긋는선");
+                    Debug.Log("위로 드래그");
                     result = Result.up;
                     break;
                 case 2:
-                    Debug.Log("오른쪽 위로 긋는 대각선");
+                    Debug.Log("오른쪽 위로 긋는 드래그");
                     result = Result.rightup;
                     break;
                 case 3:
-                    Debug.Log("오른쪽으로 긋는선");
+                    Debug.Log("오른쪽으로 드래그");
                     result = Result.right;
                     break;
                 case 4:
-                    Debug.Log("오른쪽 아래로 긋는 대각선");
+                    Debug.Log("오른쪽 아래로 긋는 드래그");
                     result = Result.rightdown;
                     break;
                 case 5:
-                    Debug.Log("아래로 긋는선");
+                    Debug.Log("아래로 드래그");
                     result = Result.down;
                     break;
                 case 6:
-                    Debug.Log("왼쪽 아래로 긋는 대각선");
+                    Debug.Log("왼쪽 아래로 긋는 드래그");
                     result = Result.leftdown;
                     break;
                 case 7:
-                    Debug.Log("왼쪽으로 긋는선");
+                    Debug.Log("왼쪽으로 드래그");
                     result = Result.left;
                     break;
                 case 8:
-                    Debug.Log("왼쪽 위로 긋는 대각선");
+                    Debug.Log("왼쪽 위로 긋는 드래그");
                     result = Result.leftup;
                     break;
             }
