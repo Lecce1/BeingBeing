@@ -38,12 +38,12 @@ public class Breath : MonoBehaviour
             finger.GetComponent<Image>().sprite = Resources.Load<Sprite>("Finger");
         }
 
-        if (gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
+        if (Input.mousePosition.x > 300 && Input.mousePosition.x < 900 && Input.mousePosition.y > 850 && Input.mousePosition.y < 1650 && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
         {
             isUp = true;
             gameObject.GetComponent<Touch>().result = Result.none;
         }
-        else if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false && isBreathe == true)
+        else if (Input.mousePosition.x > 300 && Input.mousePosition.x < 900 && Input.mousePosition.y > 850 && Input.mousePosition.y < 1650 && gameObject.GetComponent<Touch>().result == Result.down && isLimit == false && isBreathe == true)
         {
             isDown = true;
             gameObject.GetComponent<Touch>().result = Result.none;
@@ -77,7 +77,7 @@ public class Breath : MonoBehaviour
         while (circle.fillAmount < (count * 0.1f))
         {
             yield return waitForEndOfFrame;
-            circle.fillAmount += 0.0005f;
+            circle.fillAmount += 0.5f * Time.deltaTime;
         }
 
         yield return null;
@@ -90,7 +90,7 @@ public class Breath : MonoBehaviour
             isBreathe = true;
             StartCoroutine(Breathe2());
         }
-        else if (isDown == true && isBreathe == true)
+        else if (isDown == true && isLimit == false && isBreathe == true)
         {
             isBreathe = false;
             StartCoroutine(Breathe2());
@@ -104,7 +104,7 @@ public class Breath : MonoBehaviour
             while (body.transform.localScale.x < 1.2f)
             {
                 yield return waitForEndOfFrame;
-                body.transform.localScale += new Vector3(0.001f, 0.001f, 0);
+                body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
             }
         }
         else if (isBreathe == false)
@@ -112,7 +112,7 @@ public class Breath : MonoBehaviour
             while (body.transform.localScale.x > 1)
             {
                 yield return waitForEndOfFrame;
-                body.transform.localScale -= new Vector3(0.001f, 0.001f, 0);
+                body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
             }
         }
 
