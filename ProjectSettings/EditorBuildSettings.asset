@@ -8,13 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 9a554f981e0894c8e8a47b7cc17a3346
-  - enabled: 1
-    path: Assets/Scenes/Breath.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/Smile.unity
-    guid: 0604801ccc7864efe909d570eca17171
-  - enabled: 1
-    path: Assets/Scenes/Recognition.unity
-    guid: a9ce44e6fbc5c4bf09551a1ac38fca82
   m_configObjects: {}

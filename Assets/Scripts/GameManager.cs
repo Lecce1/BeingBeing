@@ -12,7 +12,13 @@ public class GameManager : MonoBehaviour
     public GameObject lobby_Pause;
     public GameObject lobby_Set;
     public Slider lobby_Set_Music;
+    public Image lobby_Set_Music_Handle;
+    public Image lobby_Set_Music_Border;
     public Slider lobby_Set_Sound;
+    public Image lobby_Set_Sound_Handle;
+    public Image lobby_Set_Sound_Border;
+    public Sprite lobby_Set_Handle_Green;
+    public Sprite lobby_Set_Handle_Gray;
     public GameObject lobby_Shadow;
     public GameObject level;
     public GameObject level_Slider;
@@ -22,8 +28,12 @@ public class GameManager : MonoBehaviour
     public GameObject level_Start;
     public TMP_Text level_Stage_Text;
     private int level_Num = 1;
-    private int level_Stage_Num;
+    public int level_Stage_Num;
     public TMP_Text level_Text;
+    public bool isLevel_Start = false;
+    public GameObject smile;
+    public GameObject bodyRecog;
+    public GameObject emotionRecog;
     public GameObject fade;
     Anim_Manager anim_Manager;
 
@@ -32,14 +42,21 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 144;
         anim_Manager = GameObject.Find("Anim_Manager").GetComponent<Anim_Manager>();
         anim_Manager.Logo();
-        PlayerPrefs();
+        Data();
     }
 
-    void PlayerPrefs()
+    void Data()
     {
-        lobby_Set_Music.value = UnityEngine.PlayerPrefs.GetInt("Music");
-        lobby_Set_Sound.value = UnityEngine.PlayerPrefs.GetInt("Sound");
-        transform.GetComponent<AudioSource>().volume = lobby_Set_Music.value;
+        if (PlayerPrefs.HasKey("Music"))
+        {
+            lobby_Set_Music.value = PlayerPrefs.GetInt("Music");
+            transform.GetComponent<AudioSource>().volume = lobby_Set_Music.value;
+        }
+        
+        if (PlayerPrefs.HasKey("Sound"))
+        {
+            lobby_Set_Sound.value = PlayerPrefs.GetInt("Sound");
+        }
     }
 
     public void Lobby_Start()
@@ -73,13 +90,35 @@ public class GameManager : MonoBehaviour
 
     public void Lobby_Set_Music()
     {
-        UnityEngine.PlayerPrefs.SetInt("Music", (int)lobby_Set_Music.value);
+        PlayerPrefs.SetInt("Music", (int)lobby_Set_Music.value);
         transform.GetComponent<AudioSource>().volume = lobby_Set_Music.value;
+
+        if (lobby_Set_Music.value == 0)
+        {
+            lobby_Set_Music_Handle.sprite = lobby_Set_Handle_Gray;
+            lobby_Set_Music_Border.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
+        }
+        else if (lobby_Set_Music.value == 1)
+        {
+            lobby_Set_Music_Handle.sprite = lobby_Set_Handle_Green;
+            lobby_Set_Music_Border.color = new Color(60 / 255f, 129 / 255f, 11 / 255f, 255 / 255f);
+        }
     }
     
     public void Lobby_Set_Sound()
     {
-        UnityEngine.PlayerPrefs.SetInt("Sound", (int)lobby_Set_Sound.value);
+        PlayerPrefs.SetInt("Sound", (int)lobby_Set_Sound.value);
+        
+        if (lobby_Set_Sound.value == 0)
+        {
+            lobby_Set_Sound_Handle.sprite = lobby_Set_Handle_Gray;
+            lobby_Set_Sound_Border.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
+        }
+        else if (lobby_Set_Sound.value == 1)
+        {
+            lobby_Set_Sound_Handle.sprite = lobby_Set_Handle_Green;
+            lobby_Set_Sound_Border.color = new Color(60 / 255f, 129 / 255f, 11 / 255f, 255 / 255f);
+        }
     }
     
     public void Level_Left()
@@ -189,22 +228,22 @@ public class GameManager : MonoBehaviour
         {
             level_Stage_Text.text = "빙그레";
         }
+        else if (num == 3)
+        {
+            level_Stage_Text.text = "신체 자각";
+        }
+        else if (num == 4)
+        {
+            level_Stage_Text.text = "감정 자각";
+        }
     }
 
     public void Level_Start()
     {
-        var animator = level_Stage.GetComponent<Animator>();
-        animator.Play("Close");
+        level_Stage.GetComponent<Animator>().Play("Close");
         Invoke("Delay", 0.5f);
-
-        if (level_Stage_Num == 1)
-        {
-            
-        }
-        else if (level_Stage_Num == 2)
-        {
-            
-        }
+        isLevel_Start = true;
+        anim_Manager.Fade_Out();
     }
 
     public void Back()
@@ -236,8 +275,33 @@ public class GameManager : MonoBehaviour
         }
         else if (level.activeSelf == true)
         {
-            if (level_Stage.activeSelf == true)
+            if (lobby_Info.activeSelf == true)
             {
+                lobby_Shadow.SetActive(false);
+                var animator = lobby_Info.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+            else if (lobby_Help.activeSelf == true)
+            {
+                lobby_Shadow.SetActive(false);
+                var animator = lobby_Help.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+            else if (lobby_Pause.activeSelf == true)
+            {
+                lobby_Shadow.SetActive(false);
+                var animator = lobby_Pause.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+            else if (lobby_Set.activeSelf == true)
+            {
+                lobby_Shadow.SetActive(false);
+                var animator = lobby_Set.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+            else if (level_Stage.activeSelf == true)
+            {
+                lobby_Shadow.SetActive(false);
                 var animator = level_Stage.GetComponent<Animator>();
                 animator.Play("Close");
             }

@@ -21,7 +21,6 @@ public class Breath_Manager : MonoBehaviour
     void Awake()
     {
         anim_Manager = GameObject.Find("Anim_Manager").GetComponent<Anim_Manager>();
-        anim_Manager.Fade_In();
     }
 
     void Update()
