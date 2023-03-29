@@ -37,65 +37,15 @@ public class BodyRecog_Manager : MonoBehaviour
         if (isStart == false)
         {
             isStart = true;
-            line.GetComponent<Animator>().Play("Line");
         }
         
         if (isStop == false)
         {
-            if (pointNum == 1 && line.transform.position.y <= points.transform.GetChild(0).position.y + 0.8f)
-            {
-                line.GetComponent<Animator>().speed = 0f;
-                points.transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetComponent<AudioSource>().Play();
-                isStop = true;
-                Point();
-            }
-            else if (pointNum == 2 && line.transform.position.y <= points.transform.GetChild(1).position.y + 0.8f)
-            {
-                line.GetComponent<Animator>().speed = 0f;
-                points.transform.GetChild(1).gameObject.SetActive(false);
-                transform.GetComponent<AudioSource>().Play();
-                isStop = true;
-                Point();
-            }
-            else if (pointNum == 3 && line.transform.position.y <= points.transform.GetChild(2).position.y + 0.8f)
-            {
-                line.GetComponent<Animator>().speed = 0f;
-                points.transform.GetChild(2).gameObject.SetActive(false);
-                transform.GetComponent<AudioSource>().Play();
-                isStop = true;
-                Point();
-            }
-            else if (pointNum == 4 && line.transform.position.y <= points.transform.GetChild(3).position.y + 0.8f)
-            {
-                line.GetComponent<Animator>().speed = 0f;
-                points.transform.GetChild(3).gameObject.SetActive(false);
-                points.transform.GetChild(4).gameObject.SetActive(false);
-                transform.GetComponent<AudioSource>().Play();
-                isStop = true;
-                Point();
-            }
-            else if (pointNum == 5 && line.transform.position.y <= points.transform.GetChild(5).position.y + 0.8f)
-            {
-                line.GetComponent<Animator>().speed = 0f;
-                points.transform.GetChild(5).gameObject.SetActive(false);
-                points.transform.GetChild(6).gameObject.SetActive(false);
-                transform.GetComponent<AudioSource>().Play();
-                isStop = true;
-                Point();
-            }
-            else if (pointNum == 6 && line.transform.position.y <= points.transform.GetChild(7).position.y + 0.8f)
-            {
-                line.GetComponent<Animator>().speed = 0f;
-                isStop = true;
-                result.gameObject.SetActive(true);
-                shadow.SetActive(true);
-                success.SetActive(true);
-            }
+            line.transform.Translate(new Vector3(0, -0.5f, 0) * Time.deltaTime);
         }
     }
 
-    void Point()
+    public void Point()
     {
         choices.SetActive(true);
         choices.transform.GetChild(0).gameObject.SetActive(true);
@@ -187,7 +137,6 @@ public class BodyRecog_Manager : MonoBehaviour
             }
             
             pointNum++;
-            line.GetComponent<Animator>().speed = 1f;
         }
         
         choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
@@ -286,7 +235,6 @@ public class BodyRecog_Manager : MonoBehaviour
 
     public void Reset()
     {
-        line.GetComponent<Animator>().speed = 1f;
         line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -150);
         points.transform.GetChild(0).gameObject.SetActive(true);
         points.transform.GetChild(1).gameObject.SetActive(false);
