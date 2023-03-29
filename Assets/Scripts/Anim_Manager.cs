@@ -59,27 +59,46 @@ public class Anim_Manager : MonoBehaviour
     {
         Handheld.Vibrate();
         smile_Manager = GameObject.Find("Smile_Manager").GetComponent<Smile_Manager>();
-        smile_Manager.backGlow.SetActive(true);
-        smile_BackGlow_Animator = smile_Manager.backGlow.GetComponent<Animator>();
-        smile_BackGlow_Animator.Play("BackGlow");
+
+        if (smile_Manager.isTutorial == false)
+        {
+            smile_Manager.tutorial_BackGlow.SetActive(true);
+            smile_BackGlow_Animator = smile_Manager.tutorial_BackGlow.GetComponent<Animator>();
+            smile_BackGlow_Animator.Play("BackGlow");
+        }
+        else if (smile_Manager.isTutorial == true)
+        {
+            smile_Manager.backGlow.SetActive(true);
+            smile_BackGlow_Animator = smile_Manager.backGlow.GetComponent<Animator>();
+            smile_BackGlow_Animator.Play("BackGlow");
+        }
     }
     
     void BackGlow_Finish()
     {
         smile_Manager = GameObject.Find("Smile_Manager").GetComponent<Smile_Manager>();
-        smile_Manager.backGlow.SetActive(false);
 
-        if (smile_Manager.num != 3)
+        if (smile_Manager.isTutorial == false)
         {
-            smile_Manager.time = 0;
-            smile_Manager.isLeftUp = false;
-            smile_Manager.isRightUp = false;
-            smile_Manager.isNum = false;
+            smile_Manager.tutorial_BackGlow.SetActive(false);
+            smile_Manager.isTutorial = true;
         }
-        else if (smile_Manager.num == 3)
+        else if (smile_Manager.isTutorial == true)
         {
-            smile_Manager.shadow.SetActive(true);
-            smile_Manager.success.SetActive(true);
+            smile_Manager.backGlow.SetActive(false);
+            
+            if (smile_Manager.num != 3)
+            {
+                smile_Manager.time = 0;
+                smile_Manager.isLeftUp = false;
+                smile_Manager.isRightUp = false;
+                smile_Manager.isNum = false;
+            }
+            else if (smile_Manager.num == 3)
+            {
+                smile_Manager.shadow.SetActive(true);
+                smile_Manager.success.SetActive(true);
+            }
         }
     }
 

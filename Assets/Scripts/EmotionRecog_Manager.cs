@@ -25,8 +25,8 @@ public class EmotionRecog_Manager : MonoBehaviour
     WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     GameManager gameManager;
     Anim_Manager anim_Manager;
-    private float emotionColorFill;
-    
+    private float emotionColor_Fill = 1;
+
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -42,12 +42,12 @@ public class EmotionRecog_Manager : MonoBehaviour
     
     void EmotionTimer()
     {
-        if (emotionTimer.activeSelf == true)
+        if (emotionTimer.activeSelf == true && success.activeSelf == false)
         {
-            emotionTime = Time.time - emotionStartTime;
+            emotionTime = 45 - (Time.time - emotionStartTime);
             emotionTimer.GetComponent<Slider>().value = emotionTime;
 
-            if (emotionTimer.GetComponent<Slider>().value == 60)
+            if (emotionTimer.GetComponent<Slider>().value == 0)
             {
                 shadow.SetActive(true);
                 fail.SetActive(true);
@@ -63,23 +63,27 @@ public class EmotionRecog_Manager : MonoBehaviour
             {
                 emotionColor.GetComponent<Image>().fillAmount += 0.1f * Time.deltaTime;
 
-                if (emotionColor.GetComponent<Image>().fillAmount >= 0.7f)
+                if (emotionColor.GetComponent<Image>().fillAmount == 1f)
                 {
+                    emotionStartTime = Time.time;
+                    emotionTimer.SetActive(true);
                     emotionComing.SetActive(true);
+                    isComing = true;
+                    Invoke("EmotionComing", 3.0f);
                 }
             }
             else if (isComing == true)
             {
                 if (isCloud == true)
                 {
-                    if (emotionColor.GetComponent<Image>().fillAmount > emotionColorFill / 2)
+                    if (emotionColor.GetComponent<Image>().fillAmount > emotionColor_Fill / 2)
                     {
                         emotionColor.GetComponent<Image>().fillAmount -= 0.1f * Time.deltaTime;
                     }
                     else
                     {
                         isCloud = false;
-                        emotionColorFill = 0;
+                        emotionColor_Fill = 0;
                         
                         if (emotionColor.GetComponent<Image>().fillAmount != 0)
                         {
@@ -87,6 +91,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                         }
                         else if (emotionColor.GetComponent<Image>().fillAmount == 0)
                         {
+                            emotionComing.SetActive(false);
                             anim_Manager.EmotionColor();
                             isDot = true;
                             string rand = emotionFeel;
@@ -121,12 +126,10 @@ public class EmotionRecog_Manager : MonoBehaviour
         }
     }
     
-    public void EmotionComing()
+    void EmotionComing()
     {
-        isComing = true;
-        emotionComing.SetActive(false);
+        emotionComing.transform.GetChild(2).gameObject.SetActive(false);
         emotionCloud.SetActive(true);
-        emotionColorFill = emotionColor.GetComponent<Image>().fillAmount;
     }
 
     public void EmotionCloud(string type)
@@ -197,8 +200,6 @@ public class EmotionRecog_Manager : MonoBehaviour
         character.SetActive(true);
         emotionColor.SetActive(true);
         emotionColor.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = emotionFeel;
-        emotionTimer.SetActive(true);
-        emotionStartTime = Time.time;
     }
     
     public void ReStart()
@@ -231,7 +232,6 @@ public class EmotionRecog_Manager : MonoBehaviour
             animator.Play("Close");
         }
         
-        Reset();
         gameManager.isLevel_Start = false;
         anim_Manager.Fade_Out();
         Invoke("Success_Fail_Close", 0.5f);
@@ -264,6 +264,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         emotionColor.SetActive(false);
         emotionColor.GetComponent<Image>().fillAmount = 0;
         emotionComing.SetActive(false);
+        emotionComing.transform.GetChild(2).gameObject.SetActive(true);
         emotionCloud.SetActive(false);
         emotionCloud.transform.GetChild(0).gameObject.SetActive(true);
         emotionCloud.transform.GetChild(1).gameObject.SetActive(true);
@@ -279,5 +280,6 @@ public class EmotionRecog_Manager : MonoBehaviour
         isCloud = false;
         isDot = false;
         shadow.SetActive(false);
+        emotionColor_Fill = 1;
     }
 }

@@ -13,7 +13,8 @@ public class BodyRecog_Manager : MonoBehaviour
     public int pointNum = 1;
     private int choiceNum;
     private int step = 0;
-    private bool isStop = false;
+    private bool isStart = false;
+    public bool isStop = false;
     public bool isNext = false;
     WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     GameManager gameManager;
@@ -33,49 +34,59 @@ public class BodyRecog_Manager : MonoBehaviour
     
     void Line()
     {
+        if (isStart == false)
+        {
+            isStart = true;
+            line.GetComponent<Animator>().Play("Line");
+        }
+        
         if (isStop == false)
         {
-            line.transform.Translate(new Vector3(0, -0.5f, 0) * Time.deltaTime);
-            
-            if (pointNum == 1 && line.GetComponent<RectTransform>().anchoredPosition.y <= 425)
+            if (pointNum == 1 && line.transform.position.y <= points.transform.GetChild(0).position.y + 0.8f)
             {
+                line.GetComponent<Animator>().speed = 0f;
                 points.transform.GetChild(0).gameObject.SetActive(false);
                 transform.GetComponent<AudioSource>().Play();
                 isStop = true;
                 Point();
             }
-            else if (pointNum == 2 && line.GetComponent<RectTransform>().anchoredPosition.y <= -25)
+            else if (pointNum == 2 && line.transform.position.y <= points.transform.GetChild(1).position.y + 0.8f)
             {
+                line.GetComponent<Animator>().speed = 0f;
                 points.transform.GetChild(1).gameObject.SetActive(false);
                 transform.GetComponent<AudioSource>().Play();
                 isStop = true;
                 Point();
             }
-            else if (pointNum == 3 && line.GetComponent<RectTransform>().anchoredPosition.y <= -160)
+            else if (pointNum == 3 && line.transform.position.y <= points.transform.GetChild(2).position.y + 0.8f)
             {
+                line.GetComponent<Animator>().speed = 0f;
                 points.transform.GetChild(2).gameObject.SetActive(false);
                 transform.GetComponent<AudioSource>().Play();
                 isStop = true;
                 Point();
             }
-            else if (pointNum == 4 && line.GetComponent<RectTransform>().anchoredPosition.y <= -300)
+            else if (pointNum == 4 && line.transform.position.y <= points.transform.GetChild(3).position.y + 0.8f)
             {
+                line.GetComponent<Animator>().speed = 0f;
                 points.transform.GetChild(3).gameObject.SetActive(false);
                 points.transform.GetChild(4).gameObject.SetActive(false);
                 transform.GetComponent<AudioSource>().Play();
                 isStop = true;
                 Point();
             }
-            else if (pointNum == 5 && line.GetComponent<RectTransform>().anchoredPosition.y <= -550)
+            else if (pointNum == 5 && line.transform.position.y <= points.transform.GetChild(5).position.y + 0.8f)
             {
+                line.GetComponent<Animator>().speed = 0f;
                 points.transform.GetChild(5).gameObject.SetActive(false);
                 points.transform.GetChild(6).gameObject.SetActive(false);
                 transform.GetComponent<AudioSource>().Play();
                 isStop = true;
                 Point();
             }
-            else if (pointNum == 6 && line.GetComponent<RectTransform>().anchoredPosition.y <= -900)
+            else if (pointNum == 6 && line.transform.position.y <= points.transform.GetChild(7).position.y + 0.8f)
             {
+                line.GetComponent<Animator>().speed = 0f;
                 isStop = true;
                 result.gameObject.SetActive(true);
                 shadow.SetActive(true);
@@ -170,8 +181,13 @@ public class BodyRecog_Manager : MonoBehaviour
                 points.transform.GetChild(5).gameObject.SetActive(true);
                 points.transform.GetChild(6).gameObject.SetActive(true);
             }
+            else if (pointNum == 5)
+            {
+                points.transform.GetChild(7).gameObject.SetActive(true);
+            }
             
             pointNum++;
+            line.GetComponent<Animator>().speed = 1f;
         }
         
         choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
@@ -220,8 +236,7 @@ public class BodyRecog_Manager : MonoBehaviour
                 result.text += $"발 : {data}, ";
             }
         }
-
-
+        
         if (step == 2)
         {
             result.text += $"{data}, ";
@@ -236,7 +251,6 @@ public class BodyRecog_Manager : MonoBehaviour
     {
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
-        Reset();
         gameManager.isLevel_Start = false;
         anim_Manager.Fade_Out();
         Invoke("Success_Close", 0.5f);
@@ -255,7 +269,6 @@ public class BodyRecog_Manager : MonoBehaviour
         isNext = true;
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
-        Reset();
         anim_Manager.Fade_Out();
         Invoke("Success_Close", 0.5f);
     }
@@ -273,7 +286,8 @@ public class BodyRecog_Manager : MonoBehaviour
 
     public void Reset()
     {
-        line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 850);
+        line.GetComponent<Animator>().speed = 1f;
+        line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -150);
         points.transform.GetChild(0).gameObject.SetActive(true);
         points.transform.GetChild(1).gameObject.SetActive(false);
         points.transform.GetChild(2).gameObject.SetActive(false);
@@ -286,6 +300,7 @@ public class BodyRecog_Manager : MonoBehaviour
         choices.transform.GetChild(1).gameObject.SetActive(false);
         pointNum = 1;
         step = 0;
+        isStart = false;
         isStop = false;
         result.text = "";
         shadow.SetActive(false);

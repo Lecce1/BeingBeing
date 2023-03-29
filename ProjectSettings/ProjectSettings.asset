@@ -766,7 +766,10 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: USC_UNITY_PIPELINE_LEGACY;USC_EXCLUDE_SHARE
+    WebGL: USC_EXCLUDE_SHARE
+    iPhone: USC_EXCLUDE_SHARE;USC_UNITY_PIPELINE_LEGACY
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

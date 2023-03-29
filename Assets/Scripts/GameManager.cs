@@ -35,11 +35,15 @@ public class GameManager : MonoBehaviour
     public GameObject bodyRecog;
     public GameObject emotionRecog;
     public GameObject fade;
+    public int screen_Width;
+    public int screen_Height;
     Anim_Manager anim_Manager;
 
     void Awake()
     {
         Application.targetFrameRate = 144;
+        screen_Width = Screen.width;
+        screen_Height = Screen.height;
         anim_Manager = GameObject.Find("Anim_Manager").GetComponent<Anim_Manager>();
         anim_Manager.Logo();
         Data();
