@@ -5,7 +5,6 @@ public class Anim_Manager : MonoBehaviour
     Animator logo_Animator;
     Animator fade_Animator;
     Animator smile_BackGlow_Animator;
-    Animator emotionRecog_EmotionColor_Animator;
     Animator emotionRecog_Dot_Animator;
     Animator emotionRecog_Fade_Animator;
     GameManager gameManager;
@@ -29,30 +28,26 @@ public class Anim_Manager : MonoBehaviour
     {
         gameManager.logo.SetActive(false);
         gameManager.lobby.SetActive(true);
+        gameManager.buttons.SetActive(true);
         gameManager.GetComponent<AudioSource>().Play();
     }
 
-    public void EmotionColor()
+    public void Dot()
     {
         emotionRecog_Manager = GameObject.Find("EmotionRecog_Manager").GetComponent<EmotionRecog_Manager>();
-        emotionRecog_EmotionColor_Animator = emotionRecog_Manager.emotionColor.GetComponent<Animator>();
-        emotionRecog_EmotionColor_Animator.enabled = true;
-        emotionRecog_EmotionColor_Animator.Play("EmotionColor");
-    }
-    
-    void EmotionColor_Finish()
-    {
-        emotionRecog_Manager = GameObject.Find("EmotionRecog_Manager").GetComponent<EmotionRecog_Manager>();
-        emotionRecog_Manager.emotionDot.SetActive(true);
-        emotionRecog_EmotionColor_Animator = emotionRecog_Manager.emotionColor.GetComponent<Animator>();
-        emotionRecog_EmotionColor_Animator.enabled = false;
-        Dot();
-    }
-
-    void Dot()
-    {
-        emotionRecog_Dot_Animator = emotionRecog_Manager.emotionDot.GetComponent<Animator>();
-        emotionRecog_Dot_Animator.Play("Dot");
+        
+        if (emotionRecog_Manager.isTutorial == false)
+        {
+            emotionRecog_Manager.tutorial_EmotionDot.SetActive(true);
+            emotionRecog_Dot_Animator = emotionRecog_Manager.tutorial_EmotionDot.GetComponent<Animator>();
+            emotionRecog_Dot_Animator.Play("Dot");
+        }
+        else if (emotionRecog_Manager.isTutorial == true)
+        {
+            emotionRecog_Manager.emotionDot.SetActive(true);
+            emotionRecog_Dot_Animator = emotionRecog_Manager.emotionDot.GetComponent<Animator>();
+            emotionRecog_Dot_Animator.Play("Dot");
+        }
     }
     
     public void BackGlow()
@@ -118,31 +113,23 @@ public class Anim_Manager : MonoBehaviour
         }
         else if (gameManager.level.activeSelf == true)
         {
-            if (gameManager.isLevel_Start == false)
-            {
-                gameManager.lobby.SetActive(true);
-                gameManager.level.SetActive(false);
-            }
-            else  if (gameManager.isLevel_Start == true)
-            {
-                gameManager.level.SetActive(false);
+            gameManager.level.SetActive(false);
 
-                if (gameManager.level_Stage_Num == 1)
-                {
+            if (gameManager.level_Stage_Num == 1)
+            {
                     
-                }
-                else if (gameManager.level_Stage_Num == 2)
-                {
-                    gameManager.smile.SetActive(true);
-                }
-                else if (gameManager.level_Stage_Num == 3)
-                {
-                    gameManager.bodyRecog.SetActive(true);
-                }
-                else if (gameManager.level_Stage_Num == 4)
-                {
-                    gameManager.emotionRecog.SetActive(true);
-                }
+            }
+            else if (gameManager.level_Stage_Num == 2)
+            {
+                gameManager.smile.SetActive(true);
+            }
+            else if (gameManager.level_Stage_Num == 3)
+            {
+                gameManager.bodyRecog.SetActive(true);
+            }
+            else if (gameManager.level_Stage_Num == 4)
+            {
+                gameManager.emotionRecog.SetActive(true);
             }
         }
         else if (gameManager.smile.activeSelf == true)

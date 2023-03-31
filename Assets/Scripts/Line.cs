@@ -10,6 +10,18 @@ public class Line : MonoBehaviour
     {
         bodyRecog_Manager = GameObject.Find("BodyRecog_Manager").GetComponent<BodyRecog_Manager>();
         
+        if (bodyRecog_Manager.isTutorial == false)
+        {
+            if (other.gameObject.name == "1")
+            {
+                bodyRecog_Manager.tutorial_Points.transform.GetChild(0).gameObject.SetActive(false);
+                bodyRecog_Manager.GetComponent<AudioSource>().Play();
+                bodyRecog_Manager.isStop = true;
+                bodyRecog_Manager.Point();
+            }
+        }
+        else if (bodyRecog_Manager.isTutorial == true)
+        {
             if (bodyRecog_Manager.pointNum == 1 && other.gameObject.name == "1")
             {
                 bodyRecog_Manager.points.transform.GetChild(0).gameObject.SetActive(false);
@@ -54,5 +66,6 @@ public class Line : MonoBehaviour
                 bodyRecog_Manager.shadow.SetActive(true);
                 bodyRecog_Manager.success.SetActive(true);
             }
+        }
     }
 }

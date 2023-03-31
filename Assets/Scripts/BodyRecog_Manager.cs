@@ -1,9 +1,17 @@
+using NUnit.Framework.Constraints;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BodyRecog_Manager : MonoBehaviour
 {
+    public GameObject tutorial;
+    public GameObject tutorial_Notice;
+    public GameObject tutorial_Line;
+    public GameObject tutorial_Points;
+    public GameObject tutorial_Choices;
+    public GameObject game;
     public GameObject line;
     public GameObject points;
     public GameObject choices;
@@ -13,12 +21,13 @@ public class BodyRecog_Manager : MonoBehaviour
     public int pointNum = 1;
     private int choiceNum;
     private int step = 0;
-    private bool isStart = false;
     public bool isStop = false;
     public bool isNext = false;
     WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     GameManager gameManager;
     Anim_Manager anim_Manager;
+    public bool isTutorial;
+    private bool isTutorial_Check;
 
     void Awake()
     {
@@ -29,42 +38,85 @@ public class BodyRecog_Manager : MonoBehaviour
 
     void Update()
     {
+        Tutorial();
         Line();
+    }
+    
+    void Tutorial()
+    {
+        if (isTutorial == true && isTutorial_Check == false)
+        {
+            isTutorial_Check = true;
+            isStop = false;
+            tutorial.SetActive(false);
+            game.SetActive(true);
+        }
+    }
+
+    public void Skip()
+    {
+        isTutorial = true;
     }
     
     void Line()
     {
-        if (isStart == false)
+        if (isTutorial == false)
         {
-            isStart = true;
+            if (isStop == false)
+            {
+                tutorial_Line.transform.Translate(new Vector3(0, -0.5f, 0) * Time.deltaTime);
+            }
         }
-        
-        if (isStop == false)
+        else if (isTutorial == true)
         {
-            line.transform.Translate(new Vector3(0, -0.5f, 0) * Time.deltaTime);
+            if (isStop == false)
+            {
+                line.transform.Translate(new Vector3(0, -0.5f, 0) * Time.deltaTime);
+            }
         }
     }
 
     public void Point()
     {
-        choices.SetActive(true);
-        choices.transform.GetChild(0).gameObject.SetActive(true);
-        choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
-        choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
-        step = 1;
+        if (isTutorial == false)
+        {
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "자신의 상황에 맞게 버튼을 눌러요";
+            tutorial_Choices.SetActive(true);
+            tutorial_Choices.transform.GetChild(0).gameObject.SetActive(true);
+            tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
+            tutorial_Choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
+            step = 1;
+        }
+        else if (isTutorial == true)
+        {
+            choices.SetActive(true);
+            choices.transform.GetChild(0).gameObject.SetActive(true);
+            choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
+            choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
+            step = 1;
+        }
     }
 
     public void Choice(int num)
     {
-        choiceNum = num;
-        choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
-        choices.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
-        choices.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = false;
-        choices.transform.GetChild(1).GetChild(1).GetComponent<Button>().interactable = false;
-        choices.transform.GetChild(1).GetChild(2).GetComponent<Button>().interactable = false;
-        choices.transform.GetChild(1).GetChild(3).GetComponent<Button>().interactable = false;
-        choices.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = false;
-        Invoke("Choice2", 0.5f);
+        if (isTutorial == false)
+        {
+            tutorial_Choices.SetActive(false);
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 연습은 여기까지 ~";
+            Invoke("Skip", 3.0f);
+        }
+        else if (isTutorial == true)
+        {
+            choiceNum = num;
+            choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
+            choices.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
+            choices.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = false;
+            choices.transform.GetChild(1).GetChild(1).GetComponent<Button>().interactable = false;
+            choices.transform.GetChild(1).GetChild(2).GetComponent<Button>().interactable = false;
+            choices.transform.GetChild(1).GetChild(3).GetComponent<Button>().interactable = false;
+            choices.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = false;
+            Invoke("Choice2", 0.5f); 
+        }
     }
     
     public void Choice2()
@@ -200,7 +252,6 @@ public class BodyRecog_Manager : MonoBehaviour
     {
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
-        gameManager.isLevel_Start = false;
         anim_Manager.Fade_Out();
         Invoke("Success_Close", 0.5f);
     }
@@ -229,13 +280,16 @@ public class BodyRecog_Manager : MonoBehaviour
 
     public void Back()
     {
-        gameManager.isLevel_Start = false;
         anim_Manager.Fade_Out();
     }
 
     public void Reset()
     {
-        line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -150);
+        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "선이 포인트에 도착할때까지 기다려요";
+        tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -100);
+        tutorial_Choices.SetActive(false);
+        tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
+        line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -100);
         points.transform.GetChild(0).gameObject.SetActive(true);
         points.transform.GetChild(1).gameObject.SetActive(false);
         points.transform.GetChild(2).gameObject.SetActive(false);
@@ -248,9 +302,12 @@ public class BodyRecog_Manager : MonoBehaviour
         choices.transform.GetChild(1).gameObject.SetActive(false);
         pointNum = 1;
         step = 0;
-        isStart = false;
         isStop = false;
         result.text = "";
         shadow.SetActive(false);
+        tutorial.SetActive(true);
+        game.SetActive(false);
+        isTutorial = false;
+        isTutorial_Check = false;
     }
 }

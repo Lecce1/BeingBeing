@@ -1,9 +1,12 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Smile_Manager : MonoBehaviour
 {
     public GameObject tutorial;
+    public GameObject tutorial_Notice;
     public GameObject tutorial_Arrow;
     public GameObject tutorial_Mouse;
     public GameObject tutorial_BackGlow;
@@ -27,10 +30,10 @@ public class Smile_Manager : MonoBehaviour
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
+    private bool isTutorial_Cursor;
 
     void Awake()
     {
-        PlayerPrefs.DeleteAll();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         anim_Manager = GameObject.Find("Anim_Manager").GetComponent<Anim_Manager>();
     }
@@ -71,17 +74,21 @@ public class Smile_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            if (Input.mousePosition.x < (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            if (isTutorial_Cursor == false && Input.mousePosition.x < (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
             {
+                isTutorial_Cursor = true;
                 isLeftUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-                tutorial_Arrow.GetComponent<Animator>().Play("Arrow2");
-            }
-            else if (isLeftUp == true && Input.mousePosition.x > (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
-            {
-                isRightUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요!";
                 tutorial_Arrow.SetActive(false);
+                Invoke("Tutorial_Cursor", 2.0f);
+            }
+            else if (isTutorial_Cursor == false && isLeftUp == true && Input.mousePosition.x > (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            {
+                isTutorial_Cursor = true;
+                isRightUp = true;
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
+                tutorial_Arrow.SetActive(false);
+                Invoke("Tutorial_Cursor", 3.0f);
             }
         }
         else if (isTutorial == true)
@@ -98,6 +105,23 @@ public class Smile_Manager : MonoBehaviour
                 isRightUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
+        }
+    }
+
+    void Tutorial_Cursor()
+    {
+        if (isLeftUp == true && isRightUp == false)
+        {
+            isTutorial_Cursor = false;
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "화살표를 따라 위로 드래그 해주세요";
+            gameObject.GetComponent<Touch>().result = Result.none;
+            tutorial_Arrow.SetActive(true);
+            tutorial_Arrow.GetComponent<Animator>().Play("Arrow2");
+        }
+        else if (isLeftUp == true && isRightUp == true)
+        {
+            gameObject.GetComponent<Touch>().result = Result.none;
+            tutorial_Arrow.SetActive(false);
         }
     }
 
@@ -206,7 +230,6 @@ public class Smile_Manager : MonoBehaviour
     {
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
-        gameManager.isLevel_Start = false;
         anim_Manager.Fade_Out();
         Invoke("Success_Close", 0.5f);
     }
@@ -216,15 +239,11 @@ public class Smile_Manager : MonoBehaviour
         success.SetActive(false);
     }
 
-    public void Back()
-    {
-        gameManager.isLevel_Start = false;
-        anim_Manager.Fade_Out();
-    }
-
     public void Reset()
     {
         tutorial.SetActive(true);
+        tutorial_LightEffect.SetActive(false);
+        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "화살표를 따라 위로 드래그 해주세요";
         tutorial_Arrow.SetActive(true);
         game.SetActive(false);
         checks.transform.GetChild(0).Find("Image").gameObject.SetActive(false);
@@ -241,5 +260,6 @@ public class Smile_Manager : MonoBehaviour
         isTutorial = false;
         isTutorial_Check = false;
         isTutorial_Check2 = false;
+        isTutorial_Cursor = false;
     }
 }

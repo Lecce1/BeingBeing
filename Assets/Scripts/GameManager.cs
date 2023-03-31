@@ -6,9 +6,9 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public GameObject logo;
+    public GameObject buttons;
     public GameObject lobby;
     public GameObject lobby_Info;
-    public GameObject lobby_Help;
     public GameObject lobby_Pause;
     public GameObject lobby_Set;
     public Slider lobby_Set_Music;
@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     private int level_Num = 1;
     public int level_Stage_Num;
     public TMP_Text level_Text;
-    public bool isLevel_Start = false;
     public GameObject smile;
     public GameObject bodyRecog;
     public GameObject emotionRecog;
@@ -73,13 +72,7 @@ public class GameManager : MonoBehaviour
         lobby_Shadow.SetActive(true);
         lobby_Info.SetActive(true);
     }
-    
-    public void Lobby_HelpBtn()
-    {
-        lobby_Shadow.SetActive(true);
-        lobby_Help.SetActive(true);
-    }
-    
+
     public void Lobby_PauseBtn()
     {
         lobby_Shadow.SetActive(true);
@@ -245,88 +238,82 @@ public class GameManager : MonoBehaviour
     public void Level_Start()
     {
         level_Stage.GetComponent<Animator>().Play("Close");
-        Invoke("Delay", 0.5f);
-        isLevel_Start = true;
+        Invoke("Back_Delay", 0.5f);
         anim_Manager.Fade_Out();
     }
 
     public void Back()
     {
-        if (lobby.activeSelf == true)
+        if (level_Stage.activeSelf == true)
+        {
+            level_Stage.GetComponent<Animator>().Play("Close");
+            Invoke("Back_Delay", 0.5f);
+        }
+        else
         {
             lobby_Shadow.SetActive(false);
-            
-            if (lobby_Info.activeSelf == true)
-            {
-                var animator = lobby_Info.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (lobby_Help.activeSelf == true)
-            {
-                var animator = lobby_Help.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (lobby_Pause.activeSelf == true)
-            {
-                var animator = lobby_Pause.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (lobby_Set.activeSelf == true)
-            {
-                var animator = lobby_Set.GetComponent<Animator>();
-                animator.Play("Close");
-            }
+            var animator = lobby_Pause.GetComponent<Animator>();
+            animator.Play("Close");
+            Invoke("Back_Delay", 0.5f);
+        }
+    }
+    
+    void Back_Delay()
+    {
+        if (lobby.activeSelf == true)
+        {
+            lobby_Pause.SetActive(false);
         }
         else if (level.activeSelf == true)
         {
-            if (lobby_Info.activeSelf == true)
+            if (level_Stage.activeSelf == true)
             {
-                lobby_Shadow.SetActive(false);
-                var animator = lobby_Info.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (lobby_Help.activeSelf == true)
-            {
-                lobby_Shadow.SetActive(false);
-                var animator = lobby_Help.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (lobby_Pause.activeSelf == true)
-            {
-                lobby_Shadow.SetActive(false);
-                var animator = lobby_Pause.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (lobby_Set.activeSelf == true)
-            {
-                lobby_Shadow.SetActive(false);
-                var animator = lobby_Set.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (level_Stage.activeSelf == true)
-            {
-                lobby_Shadow.SetActive(false);
-                var animator = level_Stage.GetComponent<Animator>();
-                animator.Play("Close");
+                level_Stage.SetActive(false);
             }
             else
             {
-                anim_Manager.Fade_Out();
+                lobby_Pause.SetActive(false);
             }
         }
-        
-        Invoke("Delay", 0.5f);
+        else
+        {
+            lobby_Pause.SetActive(false);
+            anim_Manager.Fade_Out();
+        }
     }
-
-    void Delay()
+    
+    public void Buttons_Back()
     {
+        lobby_Shadow.SetActive(false);
+            
         if (lobby_Info.activeSelf == true)
         {
-            lobby_Info.SetActive(false);
+            var animator = lobby_Info.GetComponent<Animator>();
+            animator.Play("Close");
         }
-        else if (lobby_Help.activeSelf == true)
+        else if (lobby_Pause.activeSelf == true)
         {
-            lobby_Help.SetActive(false);
+            var animator = lobby_Pause.GetComponent<Animator>();
+            animator.Play("Close");
+        }
+        else if (lobby_Set.activeSelf == true)
+        {
+            var animator = lobby_Set.GetComponent<Animator>();
+            animator.Play("Close");
+        }
+        
+        Invoke("Buttons_Delay", 0.5f);
+    }
+
+    void Buttons_Delay()
+    {
+        if (lobby.activeSelf == true)
+        {
+            lobby_Pause.SetActive(false);
+        }
+        else if (lobby_Info.activeSelf == true)
+        {
+            lobby_Info.SetActive(false);
         }
         else if (lobby_Pause.activeSelf == true)
         {
@@ -342,9 +329,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Resume()
+    public void Logo()
     {
-        SceneManager.LoadScene("Main");
+        Application.OpenURL("http://yeppi.kr");
     }
 
     public void Quit()
