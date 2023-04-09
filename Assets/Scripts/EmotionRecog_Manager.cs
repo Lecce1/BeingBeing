@@ -32,8 +32,6 @@ public class EmotionRecog_Manager : MonoBehaviour
     private bool isComing = false;
     private bool isCloud = false;
     private bool isDot = false;
-    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-    GameManager gameManager;
     Anim_Manager anim_Manager;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     private float emotionColor_Fill = 5;
@@ -42,7 +40,6 @@ public class EmotionRecog_Manager : MonoBehaviour
 
     void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         anim_Manager = GameObject.Find("Anim_Manager").GetComponent<Anim_Manager>();
     }
 
@@ -326,7 +323,7 @@ public class EmotionRecog_Manager : MonoBehaviour
             
                 if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= 0)
                 {
-                    tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "튜토리얼은 여기까지~";
+                    tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지~";
                     Invoke("Skip", 3.0f);
                 }
             }

@@ -28,8 +28,27 @@ public class Anim_Manager : MonoBehaviour
     {
         gameManager.logo.SetActive(false);
         gameManager.lobby.SetActive(true);
-        gameManager.buttons.SetActive(true);
+        gameManager.lobby_Logo.GetComponent<Animator>().Play("Lobby_Logo");
+    }
+
+    void Lobby_Logo_Finish()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         gameManager.GetComponent<AudioSource>().Play();
+    }
+
+    public void Lobby_Logo_Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = true;
+        gameManager.lobby_Logo.GetComponent<Animator>().Play("Lobby_Logo_Start");
+    }
+    
+    public void Lobby_Logo_Start_Finish()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = false;
+        Fade_Out();
     }
 
     public void Dot()
@@ -110,6 +129,7 @@ public class Anim_Manager : MonoBehaviour
         {
             gameManager.lobby.SetActive(false);
             gameManager.level.SetActive(true);
+            gameManager.buttons.SetActive(true);
         }
         else if (gameManager.level.activeSelf == true)
         {
@@ -117,7 +137,7 @@ public class Anim_Manager : MonoBehaviour
 
             if (gameManager.level_Stage_Num == 1)
             {
-                    
+                gameManager.breath.SetActive(true);
             }
             else if (gameManager.level_Stage_Num == 2)
             {
@@ -130,6 +150,23 @@ public class Anim_Manager : MonoBehaviour
             else if (gameManager.level_Stage_Num == 4)
             {
                 gameManager.emotionRecog.SetActive(true);
+            }
+        }
+        else if (gameManager.breath.activeSelf == true)
+        {
+            breath_Manager = GameObject.Find("Breath").transform.GetChild(0).GetComponent<Breath_Manager>();
+            
+            if (breath_Manager.isNext == false)
+            {
+                breath_Manager.Reset();
+                gameManager.level.SetActive(true);
+                gameManager.breath.SetActive(false);
+            }
+            else if (breath_Manager.isNext == true)
+            {
+                breath_Manager.Reset();
+                gameManager.breath.SetActive(false);
+                gameManager.smile.SetActive(true);
             }
         }
         else if (gameManager.smile.activeSelf == true)
@@ -155,7 +192,6 @@ public class Anim_Manager : MonoBehaviour
                 gameManager.bodyRecog.SetActive(false);
                 gameManager.emotionRecog.SetActive(true);
             }
-
         }
         else if (gameManager.emotionRecog.activeSelf == true)
         {
@@ -164,7 +200,10 @@ public class Anim_Manager : MonoBehaviour
             gameManager.level.SetActive(true);
             gameManager.emotionRecog.SetActive(false);
         }
-            
+        
+        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
+        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
+        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
         Fade_In();
     }
     

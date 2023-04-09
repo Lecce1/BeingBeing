@@ -1,22 +1,32 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Breath_Manager : MonoBehaviour
 {
-    public GameObject fade;
+    public GameObject tutorial;
+    public GameObject tutorial_Notice;
+    public GameObject tutorial_Finger;
+    public GameObject tutorial_Body;
+    public GameObject game;
     public GameObject body;
     public Image circle;
-    public Text timer;
+    public GameObject shadow;
+    public GameObject success;
     private int count = 0;
     private float time = 0;
     private bool isLimit = false;
-    private bool isUp = false;
-    private bool isDown = false;
-    private bool isBreathe = false;
-    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+    public bool isUp = false;
+    public bool isDown = false;
+    public bool isBreathe = false;
+    public bool isNext = false;
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     Anim_Manager anim_Manager;
+    public bool isTutorial;
+    private bool isTutorial_Check;
+    private bool isTutorial_Check2;
 
     void Awake()
     {
@@ -25,22 +35,46 @@ public class Breath_Manager : MonoBehaviour
 
     void Update()
     {
+        Tutorial();
         Cursor();
         Breathe();
         Gauge();
         Timer();
     }
+    
+    void Tutorial()
+    {
+        if (isTutorial == false && isTutorial_Check == false)
+        {
+            isTutorial_Check = true;
+            tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
+        }
+        if (isTutorial == true && isTutorial_Check2 == false)
+        {
+            isTutorial_Check2 = true;
+            isUp = false;
+            isDown = false;
+            isBreathe = false;
+            tutorial.SetActive(false);
+            game.SetActive(true);
+        }
+    }
+
+    public void Skip()
+    {
+        isTutorial = true;
+    }
 
     void Cursor()
     {
-        if (Input.mousePosition.x > 300 && Input.mousePosition.x < 900 && Input.mousePosition.y > 850 && Input.mousePosition.y < 1650 && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
-        {
-            isUp = true;
-            gameObject.GetComponent<Touch>().result = Result.none;
-        }
-        else if (Input.mousePosition.x > 300 && Input.mousePosition.x < 900 && Input.mousePosition.y > 850 && Input.mousePosition.y < 1650 && gameObject.GetComponent<Touch>().result == Result.down && isLimit == false && isBreathe == true)
+        if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false)
         {
             isDown = true;
+            gameObject.GetComponent<Touch>().result = Result.none;
+        }
+        else if (isBreathe == true && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
+        {
+            isUp = true;
             gameObject.GetComponent<Touch>().result = Result.none;
         }
         else if (isLimit == true)
@@ -48,44 +82,15 @@ public class Breath_Manager : MonoBehaviour
             gameObject.GetComponent<Touch>().result = Result.none;
         }
     }
-
-    void Gauge()
-    {
-        if (isUp == true && isDown == true && isLimit == false)
-        {
-            time = 0;
-            isUp = false;
-            isDown = false;
-            isLimit = true;
-
-            if (count <= 10)
-            {
-                count++;
-            }
-
-            StartCoroutine(Gauge2());
-        }
-    }
-
-    IEnumerator Gauge2()
-    {
-        while (circle.fillAmount < (count * 0.1f))
-        {
-            yield return waitForEndOfFrame;
-            circle.fillAmount += 0.5f * Time.deltaTime;
-        }
-
-        yield return null;
-    }
-
+    
     void Breathe()
     {
-        if (isUp == true && isLimit == false && isBreathe == false)
+        if (isDown == true && isLimit == false && isBreathe == false)
         {
             isBreathe = true;
             StartCoroutine(Breathe2());
         }
-        else if (isDown == true && isLimit == false && isBreathe == true)
+        else if (isUp == true && isLimit == false && isBreathe == true)
         {
             isBreathe = false;
             StartCoroutine(Breathe2());
@@ -94,21 +99,96 @@ public class Breath_Manager : MonoBehaviour
 
     IEnumerator Breathe2()
     {
-        if (isBreathe == true)
+        if (isTutorial == false)
         {
-            while (body.transform.localScale.x < 1.2f)
+            if (isBreathe == true)
             {
-                yield return waitForEndOfFrame;
-                body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요!";
+                tutorial_Finger.SetActive(false);
+                
+                while (tutorial_Body.transform.localScale.x < 1.2f)
+                {
+                    yield return waitForSeconds;
+                    tutorial_Body.transform.localScale += new Vector3(0.3f, 0.3f, 0) * Time.deltaTime;
+                }
+
+                tutorial_Finger.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -180);
+                tutorial_Finger.SetActive(true);
+                tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "숨을 내쉬기 위해 화살표를 따라 위로 드래그 해주세요";
+            }
+            else if (isBreathe == false)
+            {
+                isUp = false;
+                isDown = false;
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
+                tutorial_Finger.SetActive(false);
+                
+                while (tutorial_Body.transform.localScale.x > 1)
+                {
+                    yield return waitForSeconds;
+                    tutorial_Body.transform.localScale -= new Vector3(0.3f, 0.3f, 0) * Time.deltaTime;
+                }
+                
+                Invoke("Skip", 3.0f);
             }
         }
-        else if (isBreathe == false)
+        else if (isTutorial == true)
         {
-            while (body.transform.localScale.x > 1)
+            if (isBreathe == true)
             {
-                yield return waitForEndOfFrame;
-                body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
+                while (body.transform.localScale.x < 1.2f)
+                {
+                    yield return waitForSeconds;
+                    body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
+                }
             }
+            else if (isBreathe == false)
+            {
+                while (body.transform.localScale.x > 1)
+                {
+                    yield return waitForSeconds;
+                    body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
+                }
+            }
+        }
+        
+        yield return null;
+    }
+
+    void Gauge()
+    {
+        if (isTutorial == true)
+        {
+            if (isUp == true && isDown == true && isLimit == false)
+            {
+                time = 0;
+                isUp = false;
+                isDown = false;
+                isLimit = true;
+
+                if (count <= 10)
+                {
+                    count++;
+                }
+
+                StartCoroutine(Gauge2());
+            }
+        }
+    }
+
+    IEnumerator Gauge2()
+    {
+        while (circle.fillAmount < (count * 0.2f))
+        {
+            yield return waitForSeconds;
+            circle.fillAmount += 0.5f * Time.deltaTime;
+        }
+
+        if (circle.fillAmount >= 1f)
+        {
+            shadow.SetActive(true);
+            success.SetActive(true);
         }
 
         yield return null;
@@ -116,23 +196,65 @@ public class Breath_Manager : MonoBehaviour
 
     void Timer()
     {
-        time += Time.deltaTime;
-        timer.text = $"Time : " + time.ToString("0");
-
-        if (time >= 4)
+        if (isTutorial == true)
         {
-            time = 0;
-            isLimit = false;
+            time += Time.deltaTime;
+
+            if (time >= 4)
+            {
+                time = 0;
+                isLimit = false;
+            }
         }
     }
-
-    public void Back()
+    
+    public void List()
     {
+        var animator = success.GetComponent<Animator>();
+        animator.Play("Close");
         anim_Manager.Fade_Out();
+        Invoke("Success_Close", 0.5f);
     }
-
+    public void ReStart()
+    {
+        var animator = success.GetComponent<Animator>();
+        animator.Play("Close");
+        Reset();
+        Invoke("Success_Close", 0.5f);
+    }
+    
     public void Next()
     {
-        SceneManager.LoadScene("Smile");
+        isNext = true;
+        var animator = success.GetComponent<Animator>();
+        animator.Play("Close");
+        anim_Manager.Fade_Out();
+        Invoke("Success_Close", 0.5f);
+    }
+    
+    void Success_Close()
+    {
+        success.SetActive(false);
+    }
+
+    public void Reset()
+    {
+        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "숨을 들이쉬기 위해 화살표를 따라 아래로 드래그 해주세요";
+        tutorial_Finger.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+        isTutorial = false;
+        tutorial.SetActive(true);
+        game.SetActive(false);
+        tutorial_Body.transform.localScale = new Vector3(1, 1, 1);
+        body.transform.localScale = new Vector3(1, 1, 1);
+        count = 0;
+        time = 0;
+        isLimit = false;
+        isUp = false; 
+        isDown = false;
+        isBreathe = false;
+        isNext = false;
+        circle.fillAmount = 0;
+        shadow.SetActive(false);
+        success.SetActive(false);
     }
 }

@@ -23,15 +23,12 @@ public class BodyRecog_Manager : MonoBehaviour
     private int step = 0;
     public bool isStop = false;
     public bool isNext = false;
-    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-    GameManager gameManager;
     Anim_Manager anim_Manager;
     public bool isTutorial;
     private bool isTutorial_Check;
 
     void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         anim_Manager = GameObject.Find("Anim_Manager").GetComponent<Anim_Manager>();
         points.GetComponent<Animator>().Play("Point");
     }
@@ -102,7 +99,7 @@ public class BodyRecog_Manager : MonoBehaviour
         if (isTutorial == false)
         {
             tutorial_Choices.SetActive(false);
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 연습은 여기까지 ~";
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
             Invoke("Skip", 3.0f);
         }
         else if (isTutorial == true)
@@ -124,6 +121,16 @@ public class BodyRecog_Manager : MonoBehaviour
         if (step == 1)
         {
             Result(choices.transform.GetChild(0).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+            choices.transform.GetChild(1).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(-375, 800);
+            choices.transform.GetChild(1).GetChild(1).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(-375, 675);
+            choices.transform.GetChild(1).GetChild(2).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(-375, 550);
+            choices.transform.GetChild(1).GetChild(3).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(-375, 425);
+            choices.transform.GetChild(1).GetChild(4).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(-375, 300);
 
             if (choiceNum == 1)
             {
@@ -156,6 +163,16 @@ public class BodyRecog_Manager : MonoBehaviour
             choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "보통이다";
             choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "조금 그렇지 않다";
             choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "매우 그렇지 않다";
+            choices.transform.GetChild(1).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(375, 800);
+            choices.transform.GetChild(1).GetChild(1).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(375, 675);
+            choices.transform.GetChild(1).GetChild(2).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(375, 550);
+            choices.transform.GetChild(1).GetChild(3).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(375, 425);
+            choices.transform.GetChild(1).GetChild(4).GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(375, 300);
             step = 3;
         }
         else if (step == 3)
