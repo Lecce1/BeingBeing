@@ -1,18 +1,21 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimManager : MonoBehaviour
 {
     Animator splash_Animator;
-    Animator fade_Animator;
     Animator smile_BackGlow_Animator;
     Animator refresh_BackGlow_Animator;
     Animator emotionRecog_Dot_Animator;
     Animator emotionRecog_Fade_Animator;
+    Animator lovely_BackGlow_Animator;
     GameManager gameManager;
     Breath_Manager breath_Manager;
     Smile_Manager smile_Manager;
     BodyRecog_Manager bodyRecog_Manager;
     EmotionRecog_Manager emotionRecog_Manager;
+    Lovely_Manager lovely_Manager;
+    Decent_Manager decent_Manager;
     Refresh_Manager refresh_Manager;
 
     void Awake()
@@ -74,6 +77,7 @@ public class AnimManager : MonoBehaviour
     
     void BackGlow_Finish()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         smile_Manager = GameObject.Find("Smile_Manager").GetComponent<Smile_Manager>();
 
         if (smile_Manager.isTutorial == false)
@@ -84,22 +88,85 @@ public class AnimManager : MonoBehaviour
         else if (smile_Manager.isTutorial == true)
         {
             smile_Manager.backGlow.SetActive(false);
-            
-            if (smile_Manager.num != 3)
+
+            if (gameManager.stage_Select_Level_Num == 1)
             {
-                smile_Manager.time = 0;
-                smile_Manager.isLeftUp = false;
-                smile_Manager.isRightUp = false;
-                smile_Manager.isNum = false;
+                if (smile_Manager.num < 3)
+                {
+                    smile_Manager.time = 0;
+                    smile_Manager.isLeftUp = false;
+                    smile_Manager.isRightUp = false;
+                    smile_Manager.isNum = false;
+                }
+                else if (smile_Manager.num == 3)
+                {
+                    smile_Manager.shadow.SetActive(true);
+                    smile_Manager.success.SetActive(true);
+                }
             }
-            else if (smile_Manager.num == 3)
+            else if (gameManager.stage_Select_Level_Num == 2)
             {
-                smile_Manager.shadow.SetActive(true);
-                smile_Manager.success.SetActive(true);
+                if (smile_Manager.num < 2)
+                {
+                    smile_Manager.time = 0;
+                    smile_Manager.isLeftUp = false;
+                    smile_Manager.isRightUp = false;
+                    smile_Manager.isNum = false;
+                }
+                else if (smile_Manager.num == 2)
+                {
+                    smile_Manager.shadow.SetActive(true);
+                    smile_Manager.success.SetActive(true);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                if (smile_Manager.num == 1)
+                {
+                    smile_Manager.shadow.SetActive(true);
+                    smile_Manager.success.SetActive(true);
+                }
             }
         }
     }
     
+    public void Lovely_BackGlow()
+    {
+        lovely_Manager = GameObject.Find("Lovely_Manager").GetComponent<Lovely_Manager>();
+
+        if (lovely_Manager.isTutorial == false)
+        {
+
+        }
+        else if (lovely_Manager.isTutorial == true)
+        {
+            lovely_Manager.backGlow.SetActive(true);
+            lovely_BackGlow_Animator = lovely_Manager.backGlow.GetComponent<Animator>();
+            lovely_BackGlow_Animator.Play("Lovely_BackGlow");
+        }
+    }
+    
+    void Lovely_BackGlow_Finish()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        lovely_Manager = GameObject.Find("Lovely_Manager").GetComponent<Lovely_Manager>();
+
+        if (lovely_Manager.isTutorial == false)
+        {
+
+        }
+        else if (lovely_Manager.isTutorial == true)
+        {
+            lovely_Manager.backGlow.SetActive(false);
+            
+            if (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount >= 1f)
+            {
+                lovely_Manager.isNext = true;
+                Fade_Out();
+            }
+        }
+    }
+
     public void Refresh_BackGlow()
     {
         Handheld.Vibrate();
@@ -119,12 +186,11 @@ public class AnimManager : MonoBehaviour
 
     public void Fade_Out()
     {
-        gameManager.fade.SetActive(true);
-        fade_Animator = GameObject.Find("Fade").GetComponent<Animator>();
-        fade_Animator.Play("Fade_Out");
+        gameManager.loading.SetActive(true);
+        Invoke("Loading_Finish", 3.0f);
     }
 
-    void Fade_Out_Finish()
+    void Loading_Finish()
     {
         if (gameManager.main.activeSelf == true)
         {
@@ -147,6 +213,10 @@ public class AnimManager : MonoBehaviour
             else if (gameManager.stage_Select_Stage_Num == 3)
             {
                 gameManager.lovely.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Stage_Num == 4)
+            {
+                gameManager.decent.SetActive(true);
             }
         }
         else if (gameManager.breath.activeSelf == true)
@@ -204,7 +274,43 @@ public class AnimManager : MonoBehaviour
             {
                 emotionRecog_Manager.Reset();
                 gameManager.refresh.SetActive(true);
+                refresh_Manager = GameObject.Find("Refresh").transform.GetChild(0).GetComponent<Refresh_Manager>();
+                refresh_Manager.prevStage = "emotionRecog";
                 gameManager.emotionRecog.SetActive(false);
+            }
+        }
+        else if (gameManager.lovely.activeSelf == true)
+        {
+            if (lovely_Manager.isNext == false)
+            {
+                lovely_Manager.Reset();
+                gameManager.stage.SetActive(true);
+                gameManager.lovely.SetActive(false);
+            }
+            else if (lovely_Manager.isNext == true)
+            {
+                lovely_Manager.Reset();
+                gameManager.refresh.SetActive(true);
+                refresh_Manager = GameObject.Find("Refresh").transform.GetChild(0).GetComponent<Refresh_Manager>();
+                refresh_Manager.prevStage = "lovely";
+                gameManager.lovely.SetActive(false);
+            }
+        }
+        else if (gameManager.decent.activeSelf == true)
+        {
+            if (decent_Manager.isNext == false)
+            {
+                decent_Manager.Reset();
+                gameManager.stage.SetActive(true);
+                gameManager.decent.SetActive(false);
+            }
+            else if (lovely_Manager.isNext == true)
+            {
+                decent_Manager.Reset();
+                gameManager.refresh.SetActive(true);
+                refresh_Manager = GameObject.Find("Refresh").transform.GetChild(0).GetComponent<Refresh_Manager>();
+                refresh_Manager.prevStage = "decent";
+                gameManager.decent.SetActive(false);
             }
         }
         else if (gameManager.refresh.activeSelf == true)
@@ -213,24 +319,12 @@ public class AnimManager : MonoBehaviour
             refresh_Manager.Reset();
             gameManager.stage.SetActive(true);
             gameManager.refresh.SetActive(false);
-
         }
         
         gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
         gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
         gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
         gameManager.Set();
-        Fade_In();
-    }
-    
-    void Fade_In()
-    {
-        fade_Animator = GameObject.Find("Fade").GetComponent<Animator>();
-        fade_Animator.Play("Fade_In");
-    }
-
-    void Fade_In_Finish()
-    {
-        gameManager.fade.gameObject.SetActive(false);
+        gameManager.loading.SetActive(false);
     }
 }

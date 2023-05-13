@@ -1,6 +1,4 @@
-using NUnit.Framework.Constraints;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,12 +12,13 @@ public class BodyRecog_Manager : MonoBehaviour
     public GameObject line;
     public GameObject points;
     public GameObject choices;
+    public Sprite[] choices_Color = new Sprite[6];
     public GameObject shadow;
     public GameObject success;
     public TMP_Text result = null;
     public int pointNum = 1;
     private int choiceNum;
-    private int step = 0;
+    public int step = 0;
     public bool isStop = false;
     public bool isNext = false;
     GameManager gameManager;
@@ -46,7 +45,17 @@ public class BodyRecog_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
+            gameManager.Set();
             gameManager.buttons.SetActive(false);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                isTutorial = false;
+            }
+            else
+            {
+                isTutorial = true;
+            }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
@@ -88,13 +97,13 @@ public class BodyRecog_Manager : MonoBehaviour
             tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "자신의 상황에 맞게 버튼을 눌러요";
             tutorial_Choices.SetActive(true);
             tutorial_Choices.transform.GetChild(0).gameObject.SetActive(true);
-            tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
+            tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
             tutorial_Choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
             step = 1;
         }
         else if (isTutorial == true)
         {
-            if (pointNum == 1 || pointNum == 3 || pointNum == 5)
+            if (pointNum == 1 || pointNum == 3 || pointNum == 5 || pointNum == 7 || pointNum == 9 || pointNum == 11 || pointNum == 13)
             {
                 choices.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(375, 550);
@@ -111,7 +120,7 @@ public class BodyRecog_Manager : MonoBehaviour
                 choices.transform.GetChild(1).GetChild(4).GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(375, 300);
             }
-            else if (pointNum == 2 || pointNum == 4 || pointNum == 6)
+            else if (pointNum == 2 || pointNum == 4 || pointNum == 6 || pointNum == 8 || pointNum == 10 || pointNum == 12)
             {
                 choices.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(-375, 550);
@@ -130,7 +139,7 @@ public class BodyRecog_Manager : MonoBehaviour
             }
             choices.SetActive(true);
             choices.transform.GetChild(0).gameObject.SetActive(true);
-            choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
+            choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
             choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
             step = 1;
         }
@@ -173,6 +182,11 @@ public class BodyRecog_Manager : MonoBehaviour
                 choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "시원하다";
                 choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "따뜻하다";
                 choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
+                choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
+                choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
+                choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
+                choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
+                choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
             }
             else if (choiceNum == 2)
             {
@@ -183,6 +197,11 @@ public class BodyRecog_Manager : MonoBehaviour
                 choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "갑갑하다";
                 choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "차갑다";
                 choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
+                choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
+                choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
+                choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
+                choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
+                choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
             }
 
             step = 2;
@@ -191,10 +210,15 @@ public class BodyRecog_Manager : MonoBehaviour
         {
             Result(choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
             choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "매우 그렇다";
-            choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "조금 그렇다";
-            choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "보통이다";
-            choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "조금 그렇지 않다";
-            choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "매우 그렇지 않다";
+            choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "거의 그렇다";
+            choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "그렇다";
+            choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "다소 그렇다";
+            choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "조금 그렇다";
+            choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+            choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+            choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+            choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+            choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
             step = 3;
         }
         else if (step == 3)
@@ -204,35 +228,156 @@ public class BodyRecog_Manager : MonoBehaviour
             choices.transform.GetChild(1).gameObject.SetActive(false);
             isStop = false;
 
-            if (pointNum == 1)
+            if (gameManager.stage_Select_Level_Num == 1)
             {
-                points.transform.GetChild(0).gameObject.SetActive(false);
-                points.transform.GetChild(1).gameObject.SetActive(true);
+                if (pointNum == 1)
+                {
+                    points.transform.GetChild(0).gameObject.SetActive(false);
+                    points.transform.GetChild(5).gameObject.SetActive(true);
+                }
+                else if (pointNum == 2)
+                {
+                    points.transform.GetChild(5).gameObject.SetActive(false);
+                    points.transform.GetChild(6).gameObject.SetActive(true);
+                }
+                else if (pointNum == 3)
+                {
+                    points.transform.GetChild(6).gameObject.SetActive(false);
+                    points.transform.GetChild(7).gameObject.SetActive(true);
+                }
+                else if (pointNum == 4)
+                {
+                    points.transform.GetChild(7).gameObject.SetActive(false);
+                    points.transform.GetChild(11).gameObject.SetActive(true);
+                }
+                else if (pointNum == 5)
+                {
+                    points.transform.GetChild(11).gameObject.SetActive(false);
+                    points.transform.GetChild(12).gameObject.SetActive(true);
+                }
+                else if (pointNum == 6)
+                {
+                    points.transform.GetChild(12).gameObject.SetActive(false);
+                    points.transform.GetChild(13).gameObject.SetActive(true);
+                }
             }
-            else if (pointNum == 2)
+            else if (gameManager.stage_Select_Level_Num == 2)
             {
-                points.transform.GetChild(1).gameObject.SetActive(false);
-                points.transform.GetChild(2).gameObject.SetActive(true);
+                if (pointNum == 1)
+                {
+                    points.transform.GetChild(0).gameObject.SetActive(false);
+                    points.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else if (pointNum == 2)
+                {
+                    points.transform.GetChild(1).gameObject.SetActive(false);
+                    points.transform.GetChild(2).gameObject.SetActive(true);
+                }
+                else if (pointNum == 3)
+                {
+                    points.transform.GetChild(2).gameObject.SetActive(false);
+                    points.transform.GetChild(3).gameObject.SetActive(true);
+                }
+                else if (pointNum == 4)
+                {
+                    points.transform.GetChild(3).gameObject.SetActive(false);
+                    points.transform.GetChild(4).gameObject.SetActive(true);
+                }
+                else if (pointNum == 5)
+                {
+                    points.transform.GetChild(4).gameObject.SetActive(false);
+                    points.transform.GetChild(8).gameObject.SetActive(true);
+                }
+                else if (pointNum == 6)
+                {
+                    points.transform.GetChild(8).gameObject.SetActive(false);
+                    points.transform.GetChild(9).gameObject.SetActive(true);
+                }
+                else if (pointNum == 7)
+                {
+                    points.transform.GetChild(9).gameObject.SetActive(false);
+                    points.transform.GetChild(10).gameObject.SetActive(true);
+                }
+                else if (pointNum == 8)
+                {
+                    points.transform.GetChild(10).gameObject.SetActive(false);
+                    points.transform.GetChild(12).gameObject.SetActive(true);
+                }
+                else if (pointNum == 9)
+                {
+                    points.transform.GetChild(12).gameObject.SetActive(false);
+                    points.transform.GetChild(13).gameObject.SetActive(true);
+                }
             }
-            else if (pointNum == 3)
+            else if (gameManager.stage_Select_Level_Num == 3)
             {
-                points.transform.GetChild(2).gameObject.SetActive(false);
-                points.transform.GetChild(3).gameObject.SetActive(true);
-                points.transform.GetChild(4).gameObject.SetActive(true);
+                if (pointNum == 1)
+                {
+                    points.transform.GetChild(0).gameObject.SetActive(false);
+                    points.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else if (pointNum == 2)
+                {
+                    points.transform.GetChild(1).gameObject.SetActive(false);
+                    points.transform.GetChild(2).gameObject.SetActive(true);
+                }
+                else if (pointNum == 3)
+                {
+                    points.transform.GetChild(2).gameObject.SetActive(false);
+                    points.transform.GetChild(3).gameObject.SetActive(true);
+                }
+                else if (pointNum == 4)
+                {
+                    points.transform.GetChild(3).gameObject.SetActive(false);
+                    points.transform.GetChild(4).gameObject.SetActive(true);
+                }
+                else if (pointNum == 5)
+                {
+                    points.transform.GetChild(4).gameObject.SetActive(false);
+                    points.transform.GetChild(5).gameObject.SetActive(true);
+                }
+                else if (pointNum == 6)
+                {
+                    points.transform.GetChild(5).gameObject.SetActive(false);
+                    points.transform.GetChild(6).gameObject.SetActive(true);
+                }
+                else if (pointNum == 7)
+                {
+                    points.transform.GetChild(6).gameObject.SetActive(false);
+                    points.transform.GetChild(7).gameObject.SetActive(true);
+                }
+                else if (pointNum == 8)
+                {
+                    points.transform.GetChild(7).gameObject.SetActive(false);
+                    points.transform.GetChild(8).gameObject.SetActive(true);
+                }
+                else if (pointNum == 9)
+                {
+                    points.transform.GetChild(8).gameObject.SetActive(false);
+                    points.transform.GetChild(9).gameObject.SetActive(true);
+                }
+                else if (pointNum == 10)
+                {
+                    points.transform.GetChild(9).gameObject.SetActive(false);
+                    points.transform.GetChild(10).gameObject.SetActive(true);
+                }
+                else if (pointNum == 11)
+                {
+                    points.transform.GetChild(10).gameObject.SetActive(false);
+                    points.transform.GetChild(11).gameObject.SetActive(true);
+                }
+                else if (pointNum == 12)
+                {
+                    points.transform.GetChild(11).gameObject.SetActive(false);
+                    points.transform.GetChild(12).gameObject.SetActive(true);
+                }
+                else if (pointNum == 13)
+                {
+                    points.transform.GetChild(12).gameObject.SetActive(false);
+                    points.transform.GetChild(13).gameObject.SetActive(true);
+                }
             }
-            else if (pointNum == 4)
-            {
-                points.transform.GetChild(3).gameObject.SetActive(false);
-                points.transform.GetChild(4).gameObject.SetActive(false);
-                points.transform.GetChild(5).gameObject.SetActive(true);
-                points.transform.GetChild(6).gameObject.SetActive(true);
-            }
-            else if (pointNum == 5)
-            {
-                points.transform.GetChild(5).gameObject.SetActive(false);
-                points.transform.GetChild(6).gameObject.SetActive(false);
-                points.transform.GetChild(7).gameObject.SetActive(true);
-            }
+            
 
             pointNum++;
         }
@@ -248,41 +393,212 @@ public class BodyRecog_Manager : MonoBehaviour
 
     void Result(string data)
     {
-        if (pointNum == 1)
+        if (gameManager.stage_Select_Level_Num == 1)
         {
-            if (step == 1)
+            if (pointNum == 1)
             {
-                result.text += $"머리 : {data}, ";
+                if (step == 1)
+                {
+                    result.text += $"머리 : {data}, ";
+                }
+            }
+            else if (pointNum == 2)
+            {
+                if (step == 1)
+                {
+                    result.text += $"어깨 : {data}, ";
+                }
+            }
+            else if (pointNum == 3)
+            {
+                if (step == 1)
+                {
+                    result.text += $"가슴 : {data}, ";
+                }
+            }
+            else if (pointNum == 4)
+            {
+                if (step == 1)
+                {
+                    result.text += $"배 : {data}, ";
+                }
+            }
+            else if (pointNum == 5)
+            {
+                if (step == 1)
+                {
+                    result.text += $"무릎 : {data}, ";
+                }
+            }
+            else if (pointNum == 6)
+            {
+                if (step == 1)
+                {
+                    result.text += $"발 : {data}, ";
+                }
             }
         }
-        else if (pointNum == 2)
+        else if (gameManager.stage_Select_Level_Num == 2)
         {
-            if (step == 1)
+            if (pointNum == 1)
             {
-                result.text += $"목 : {data}, ";
+                if (step == 1)
+                {
+                    result.text += $"머리 : {data}, ";
+                }
+            }
+            else if (pointNum == 2)
+            {
+                if (step == 1)
+                {
+                    result.text += $"눈 : {data}, ";
+                }
+            }
+            else if (pointNum == 3)
+            {
+                if (step == 1)
+                {
+                    result.text += $"코 : {data}, ";
+                }
+            }
+            else if (pointNum == 4)
+            {
+                if (step == 1)
+                {
+                    result.text += $"입 : {data}, ";
+                }
+            }
+            else if (pointNum == 5)
+            {
+                if (step == 1)
+                {
+                    result.text += $"목 : {data}, ";
+                }
+            }
+            else if (pointNum == 6)
+            {
+                if (step == 1)
+                {
+                    result.text += $"손 : {data}, ";
+                }
+            }
+            else if (pointNum == 7)
+            {
+                if (step == 1)
+                {
+                    result.text += $"엉덩이 : {data}, ";
+                }
+            }
+            else if (pointNum == 8)
+            {
+                if (step == 1)
+                {
+                    result.text += $"허벅지 : {data}, ";
+                }
+            }
+            else if (pointNum == 9)
+            {
+                if (step == 1)
+                {
+                    result.text += $"발 : {data}, ";
+                }
             }
         }
-        else if (pointNum == 3)
+        else if (gameManager.stage_Select_Level_Num == 3)
         {
-            if (step == 1)
+            if (pointNum == 1)
             {
-                result.text += $"배 : {data}, ";
+                if (step == 1)
+                {
+                    result.text += $"머리 : {data}, ";
+                }
+            }
+            else if (pointNum == 2)
+            {
+                if (step == 1)
+                {
+                    result.text += $"눈 : {data}, ";
+                }
+            }
+            else if (pointNum == 3)
+            {
+                if (step == 1)
+                {
+                    result.text += $"코 : {data}, ";
+                }
+            }
+            else if (pointNum == 4)
+            {
+                if (step == 1)
+                {
+                    result.text += $"입 : {data}, ";
+                }
+            }
+            else if (pointNum == 5)
+            {
+                if (step == 1)
+                {
+                    result.text += $"목 : {data}, ";
+                }
+            }
+            else if (pointNum == 6)
+            {
+                if (step == 1)
+                {
+                    result.text += $"어깨 : {data}, ";
+                }
+            }
+            else if (pointNum == 7)
+            {
+                if (step == 1)
+                {
+                    result.text += $"가슴 : {data}, ";
+                }
+            }
+            else if (pointNum == 8)
+            {
+                if (step == 1)
+                {
+                    result.text += $"배 : {data}, ";
+                }
+            }
+            else if (pointNum == 9)
+            {
+                if (step == 1)
+                {
+                    result.text += $"손 : {data}, ";
+                }
+            }
+            else if (pointNum == 10)
+            {
+                if (step == 1)
+                {
+                    result.text += $"엉덩이 : {data}, ";
+                }
+            }
+            else if (pointNum == 11)
+            {
+                if (step == 1)
+                {
+                    result.text += $"허벅지 : {data}, ";
+                }
+            }
+            else if (pointNum == 12)
+            {
+                if (step == 1)
+                {
+                    result.text += $"무릎 : {data}, ";
+                }
+            }
+            else if (pointNum == 13)
+            {
+                if (step == 1)
+                {
+                    result.text += $"발 : {data}, ";
+                }
             }
         }
-        else if (pointNum == 4)
-        {
-            if (step == 1)
-            {
-                result.text += $"손 : {data}, ";
-            }
-        }
-        else if (pointNum == 5)
-        {
-            if (step == 1)
-            {
-                result.text += $"발 : {data}, ";
-            }
-        }
+
         
         if (step == 2)
         {
@@ -331,6 +647,12 @@ public class BodyRecog_Manager : MonoBehaviour
         points.transform.GetChild(5).gameObject.SetActive(false);
         points.transform.GetChild(6).gameObject.SetActive(false);
         points.transform.GetChild(7).gameObject.SetActive(false);
+        points.transform.GetChild(8).gameObject.SetActive(false);
+        points.transform.GetChild(9).gameObject.SetActive(false);
+        points.transform.GetChild(10).gameObject.SetActive(false);
+        points.transform.GetChild(11).gameObject.SetActive(false);
+        points.transform.GetChild(12).gameObject.SetActive(false);
+        points.transform.GetChild(13).gameObject.SetActive(false);
         choices.SetActive(false);
         choices.transform.GetChild(0).gameObject.SetActive(false);
         choices.transform.GetChild(1).gameObject.SetActive(false);

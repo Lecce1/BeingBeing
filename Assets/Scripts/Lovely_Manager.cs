@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class Lovely_Manager : MonoBehaviour
 {
@@ -12,16 +11,19 @@ public class Lovely_Manager : MonoBehaviour
     public GameObject game;
     public GameObject character;
     public GameObject timer;
+    public TMP_Text notice;
     public GameObject emotionBtn;
     public GameObject emotionColor;
     public GameObject dot;
     public GameObject balloon;
+    public GameObject backGlow;
     public GameObject shadow;
     public GameObject success;
     public GameObject fail;
     public GameObject loading;
     public GameObject bar;
     public GameObject heart;
+    public GameObject heart2;
     public int heartNum = 0;
     private string emotionFeel;
     private float emotionStartTime;
@@ -30,6 +32,7 @@ public class Lovely_Manager : MonoBehaviour
     private bool isTimer = false;
     public int stage = 1;
     private bool isDot = false;
+    private bool isHeart = false;
     public bool isNext = false;
     private bool isUp = false;
     private bool isDown = false;
@@ -43,7 +46,10 @@ public class Lovely_Manager : MonoBehaviour
     private Vector2 startPos;
     private Vector2 currentPos;
     public int touch = 0;
+    private List<string> heart_Text = new List<string> {"고마워", "힘이나", "편안해", "기분이 좋아", "사랑해", "잘했어", "최고야", "힘빠져", "기분 나빠", "불편해", "뭘 잘해?", "잘못 했네", "최악이야"};
+    public int heart_Fail = 0;
     private List<RaycastResult> results = new List<RaycastResult>();
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
 
     void Awake()
     {
@@ -60,6 +66,44 @@ public class Lovely_Manager : MonoBehaviour
         Cursor();
         Touch();
         Heart();
+        Heart2();
+    }
+    
+    void Heart2()
+    {
+        if (isTutorial == false)
+        {
+
+        }
+        else if (isTutorial == true && stage == 5)
+        {
+            if (isHeart == false)
+            {
+                isHeart = true;
+                StartCoroutine("HeartGenerator2");
+            }
+        }
+    }
+    
+    IEnumerator HeartGenerator2()
+    {
+        GameObject temp = Instantiate(heart2);
+        temp.transform.SetParent(game.transform.GetChild(1));
+        temp.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-300, 400), 800);
+        temp.transform.localScale = new Vector3(1f, 1f, 1f);
+        int num = Random.Range(0, heart_Text.Count);
+        temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = heart_Text[num];
+        heart_Text.RemoveAt(num);
+
+        float delay = 0;
+
+        while (delay < 1.5f)
+        {
+            delay += Time.deltaTime;
+            yield return waitForSeconds;
+        }
+    
+        isHeart = false;
     }
 
     void Heart()
@@ -70,11 +114,31 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true && stage == 4)
         {
-            if (heartNum >= 20)
+            if (isHeart == false && game.transform.GetChild(1).gameObject.activeSelf == true)
             {
-                Debug.Log("test");
+                isHeart = true;
+                StartCoroutine("HeartGenerator");
             }
         }
+    }
+
+    IEnumerator HeartGenerator()
+    {
+        GameObject temp = Instantiate(heart);
+        temp.transform.SetParent(game.transform.GetChild(1));
+        temp.transform.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(Random.Range(-300, 400), 800);
+        temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        float delay = 0;
+
+        while (delay < 0.5f)
+        {
+            delay += Time.deltaTime;
+            yield return waitForSeconds;
+        }
+    
+        isHeart = false;
     }
 
     void Touch()
@@ -96,8 +160,6 @@ public class Lovely_Manager : MonoBehaviour
                         stage = 4;
                         balloon.SetActive(false);
                         loading.SetActive(true);
-                        game.transform.GetChild(0).gameObject.SetActive(false);
-                        game.transform.GetChild(1).gameObject.SetActive(true);
                         Invoke("Loading", 5.0f);
                     }
                 }
@@ -107,6 +169,8 @@ public class Lovely_Manager : MonoBehaviour
 
     void Loading()
     {
+        game.transform.GetChild(0).gameObject.SetActive(false);
+        game.transform.GetChild(1).gameObject.SetActive(true);
         loading.SetActive(false);
     }
 
@@ -114,6 +178,7 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (isUp == true && isDown == true && isUp2 == true && isDown2 == true)
         {
+            notice.GetComponent<TextMeshProUGUI>().text = "아직 감정과 분리되지 못했어요\n남아있는 감정을 토닥토닥 해주세요";
             stage = 3;
             Balloon();
         }
@@ -143,6 +208,7 @@ public class Lovely_Manager : MonoBehaviour
             balloon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "여전히 내 탓인 것 같아";
         }
         
+        Handheld.Vibrate();
         balloon.SetActive(true);
     }
 
@@ -214,7 +280,17 @@ public class Lovely_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
+            gameManager.Set();
             gameManager.buttons.SetActive(false);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                isTutorial = false;
+            }
+            else
+            {
+                isTutorial = true;
+            }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
@@ -232,7 +308,7 @@ public class Lovely_Manager : MonoBehaviour
     
     void EmotionTimer()
     {
-        if (timer.activeSelf == true && success.activeSelf == false)
+        if (timer.activeSelf == true && success.activeSelf == false && (stage == 1 || stage == 2 || stage == 3))
         {
             emotionTime = 45 - (Time.time - emotionStartTime);
             timer.transform.GetChild(0).GetComponent<Image>().fillAmount = emotionTime * (1f / 45f);
@@ -306,6 +382,7 @@ public class Lovely_Manager : MonoBehaviour
                     stage = 2;
                     isDot = false;
                     dot.SetActive(false);
+                    notice.GetComponent<TextMeshProUGUI>().text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요";
                 }
             }
         }
@@ -352,6 +429,7 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true)
         {
+            notice.GetComponent<TextMeshProUGUI>().text = "움직이는 포인트를 따라 감정을 따라가주세요";
             emotionStartTime = Time.time;
             timer.SetActive(true);
             emotionBtn.SetActive(false);
@@ -384,9 +462,26 @@ public class Lovely_Manager : MonoBehaviour
             var animator = success.GetComponent<Animator>();
             animator.Play("Close");
             
-            if (PlayerPrefs.GetInt("level") <= 3)
+            if (gameManager.stage_Select_Level_Num == 1)
             {
-                PlayerPrefs.SetInt("level", 4);
+                if (PlayerPrefs.GetInt("level") <= 3)
+                {
+                    PlayerPrefs.SetInt("level", 4);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                if (PlayerPrefs.GetInt("level") <= 6)
+                {
+                    PlayerPrefs.SetInt("level", 7);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                if (PlayerPrefs.GetInt("level") <= 9)
+                {
+                    PlayerPrefs.SetInt("level", 9);
+                }
             }
         }
         else if (fail.activeSelf == true)
@@ -424,6 +519,7 @@ public class Lovely_Manager : MonoBehaviour
         timer.SetActive(false);
         timer.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
         timer.transform.GetChild(0).GetComponent<Image>().color = Color.black;
+        notice.GetComponent<TextMeshProUGUI>().text = "";
         emotionBtn.SetActive(true);
         emotionColor.SetActive(false);
         emotionColor.GetComponent<RectTransform>().localScale = new Vector3(5, 0, 5);
@@ -431,18 +527,21 @@ public class Lovely_Manager : MonoBehaviour
         dot.GetComponent<RectTransform>().anchoredPosition = new Vector2(-450, -900);
         balloon.SetActive(false);
         loading.SetActive(false);
-        bar.GetComponent<Image>().fillAmount = 0;
+        bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         heartNum = 0;
         isTimer = false;
         isFill = false;
         stage = 1;
         isDot = false;
+        isHeart = false;
         isNext = false;
         isUp = false;
         isDown = false;
         isUp2 = false;
         isDown2 = false;
         touch = 0;
+        heart_Text = new List<string> {"고마워", "힘이나", "편안해", "기분이 좋아", "사랑해", "잘했어", "최고야", "힘빠져", "기분 나빠", "불편해", "뭘 잘해?", "잘못 했네", "최악이야"};
+        heart_Fail = 0;
         shadow.SetActive(false);
         success.SetActive(false);
         fail.SetActive(false);

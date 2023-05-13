@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,11 +50,40 @@ public class Smile_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
+            gameManager.Set();
             tutorial_Finger.GetComponent<Animator>().Play("Finger");
             gameManager.buttons.SetActive(false);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                isTutorial = false;
+            }
+            else
+            {
+                isTutorial = true;
+            }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                checks.transform.GetChild(0).gameObject.SetActive(true);
+                checks.transform.GetChild(1).gameObject.SetActive(false);
+                checks.transform.GetChild(2).gameObject.SetActive(false);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                checks.transform.GetChild(0).gameObject.SetActive(false);
+                checks.transform.GetChild(1).gameObject.SetActive(true);
+                checks.transform.GetChild(2).gameObject.SetActive(false);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                checks.transform.GetChild(0).gameObject.SetActive(false);
+                checks.transform.GetChild(1).gameObject.SetActive(false);
+                checks.transform.GetChild(2).gameObject.SetActive(true);
+            }
+            
             isLeftUp = false;
             isRightUp = false;
             isDoubleUp = false;
@@ -101,7 +129,7 @@ public class Smile_Manager : MonoBehaviour
                 isTutorial_Cursor = true;
                 isLeftUp = true;
                 isRightUp = true;
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 요튜토리얼은 여기까지 ~";
                 tutorial_Finger.SetActive(false);
                 Invoke("Tutorial_Cursor", 3.0f);
                 gameObject.GetComponent<Touch>().result = Result.none;
@@ -223,17 +251,38 @@ public class Smile_Manager : MonoBehaviour
                 lightEffect.SetActive(true);
                 transform.GetComponent<AudioSource>().Play();
 
-                if (num == 1)
+                if (gameManager.stage_Select_Level_Num == 1)
                 {
-                    checks.transform.GetChild(0).Find("Image").gameObject.SetActive(true);
+                    if (num == 1)
+                    {
+                        checks.transform.GetChild(0).GetChild(0).Find("Image").gameObject.SetActive(true);
+                    }
+                    else if (num == 2)
+                    {
+                        checks.transform.GetChild(0).GetChild(1).Find("Image").gameObject.SetActive(true);
+                    }
+                    else if (num == 3)
+                    {
+                        checks.transform.GetChild(0).GetChild(2).Find("Image").gameObject.SetActive(true);
+                    }
                 }
-                else if (num == 2)
+                else if (gameManager.stage_Select_Level_Num == 2)
                 {
-                    checks.transform.GetChild(1).Find("Image").gameObject.SetActive(true);
+                    if (num == 1)
+                    {
+                        checks.transform.GetChild(1).GetChild(0).Find("Image").gameObject.SetActive(true);
+                    }
+                    else if (num == 2)
+                    {
+                        checks.transform.GetChild(1).GetChild(1).Find("Image").gameObject.SetActive(true);
+                    }
                 }
-                else if (num == 3)
+                else if (gameManager.stage_Select_Level_Num == 3)
                 {
-                    checks.transform.GetChild(2).Find("Image").gameObject.SetActive(true);
+                    if (num == 1)
+                    {
+                        checks.transform.GetChild(3).GetChild(0).Find("Image").gameObject.SetActive(true);
+                    }
                 }
             }
         }
@@ -268,9 +317,26 @@ public class Smile_Manager : MonoBehaviour
     
     public void Next()
     {
-        if (PlayerPrefs.GetInt("level") <= 1)
+        if (gameManager.stage_Select_Level_Num == 1)
         {
-            PlayerPrefs.SetInt("level", 2);
+            if (PlayerPrefs.GetInt("level") <= 1)
+            {
+                PlayerPrefs.SetInt("level", 2);
+            }
+        }
+        else if (gameManager.stage_Select_Level_Num == 2)
+        {
+            if (PlayerPrefs.GetInt("level") <= 5)
+            {
+                PlayerPrefs.SetInt("level", 6);
+            }
+        }
+        else if (gameManager.stage_Select_Level_Num == 3)
+        {
+            if (PlayerPrefs.GetInt("level") <= 9)
+            {
+                PlayerPrefs.SetInt("level", 10);
+            }
         }
         
         gameManager.Set();
@@ -293,9 +359,15 @@ public class Smile_Manager : MonoBehaviour
         tutorial_Finger.SetActive(true);
         tutorial_Finger.transform.GetChild(0).gameObject.SetActive(false);
         game.SetActive(false);
-        checks.transform.GetChild(0).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(1).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(2).Find("Image").gameObject.SetActive(false);
+        checks.transform.GetChild(0).gameObject.SetActive(false);
+        checks.transform.GetChild(1).gameObject.SetActive(false);
+        checks.transform.GetChild(2).gameObject.SetActive(false);
+        checks.transform.GetChild(0).GetChild(0).Find("Image").gameObject.SetActive(false);
+        checks.transform.GetChild(0).GetChild(1).Find("Image").gameObject.SetActive(false);
+        checks.transform.GetChild(0).GetChild(2).Find("Image").gameObject.SetActive(false);
+        checks.transform.GetChild(1).GetChild(0).Find("Image").gameObject.SetActive(false);
+        checks.transform.GetChild(1).GetChild(1).Find("Image").gameObject.SetActive(false);
+        checks.transform.GetChild(2).GetChild(0).Find("Image").gameObject.SetActive(false);
         lightEffect.SetActive(false);
         shadow.SetActive(false);
         time = 0; 

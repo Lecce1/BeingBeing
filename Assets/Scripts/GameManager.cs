@@ -11,10 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject main;
     public GameObject main_Logo;
     public GameObject stage;
-    public GameObject stage_Ground;
-    public GameObject stage_Select;
     public GameObject[] stage_Select_Level;
-    public int stage_Select_Level_Num;
+    public int stage_Select_Level_Num = 1;
     public GameObject[] stage_Select_Buttons;
     public GameObject stage_Select_Stage;
     public TMP_Text stage_Select_Stage_Title;
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject emotionRecog;
     public GameObject refresh;
     public GameObject lovely;
-    public GameObject fade;
+    public GameObject decent;
     public GameObject info;
     public TMP_Text info_Title;
     public TMP_Text info_Content;
@@ -47,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("level", 4);
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
@@ -59,21 +59,87 @@ public class GameManager : MonoBehaviour
 
     public void Set()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            stage_Select_Buttons[i].SetActive(false);
+        }
+        
         if (PlayerPrefs.HasKey("level") == true)
         {
             int index = PlayerPrefs.GetInt("level");
-            
-            for (int i = 0; i < index; i++)
+
+            if (index <= 4)
             {
-                stage_Select_Buttons[i].SetActive(true);
+                stage_Select_Level_Num = 1;
+                stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+            }
+            else if (index >= 5 && index <= 8)
+            {
+                stage_Select_Level_Num = 2;
+                stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+            }
+            else if (index >= 9 && index <= 12)
+            {
+                stage_Select_Level_Num = 3;
+                stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
+            }
+
+            if (stage_Select_Level_Num == 1)
+            {
+                if (index <= 4)
+                {
+                    for (int i = 0; i < index; i++)
+                    {
+                        stage_Select_Buttons[i].SetActive(true);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        stage_Select_Buttons[i].SetActive(true);
+                    }
+                }
+            }
+            else if (stage_Select_Level_Num == 2)
+            {
+                if (index >= 5 && index <= 8)
+                {
+                    for (int i = 0; i < index - 4; i++)
+                    {
+                        stage_Select_Buttons[i].SetActive(true);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        stage_Select_Buttons[i].SetActive(true);
+                    }
+                }
+            }
+            else if (stage_Select_Level_Num == 3)
+            {
+                if (index >= 9)
+                {
+                    for (int i = 0; i < index - 6; i++)
+                    {
+                        stage_Select_Buttons[i].SetActive(true);
+                    }
+                }
             }
         }
         else
         {
             PlayerPrefs.SetInt("level", 1);
-            
             int index = PlayerPrefs.GetInt("level");
-            
+
             for (int i = 0; i < index; i++)
             {
                 stage_Select_Buttons[i].SetActive(true);
@@ -109,7 +175,7 @@ public class GameManager : MonoBehaviour
             set_Vibrate.value = PlayerPrefs.GetInt("Sound");
         }
 
-        if (stage_Select.activeSelf == true)
+        if (stage.activeSelf == true)
         {
             buttons_Info.SetActive(false);
         }
@@ -121,26 +187,70 @@ public class GameManager : MonoBehaviour
 
     public void Stage_Select_Buttons(int num)
     {
+        for (int i = 0; i < 4; i++)
+        {
+            stage_Select_Buttons[i].SetActive(false);
+        }
+        
+        stage_Select_Level_Num = num;
+        int index = PlayerPrefs.GetInt("level");
+
         if (num == 1)
         {
             stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
             stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+
+            if (index <= 4)
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    stage_Select_Buttons[i].SetActive(true);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    stage_Select_Buttons[i].SetActive(true);
+                }
+            }
         }
         else if (num == 2)
         {
             stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
             stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+
+            if (index >= 5 && index <= 8)
+            {
+                for (int i = 0; i < index - 4; i++)
+                {
+                    stage_Select_Buttons[i].SetActive(true);
+                }
+            }
+            else if (index >= 9)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    stage_Select_Buttons[i].SetActive(true);
+                }
+            }
         }
         else if (num == 3)
         {
             stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
+            
+            if (index >= 9)
+            {
+                for (int i = 0; i < index - 6; i++)
+                {
+                    stage_Select_Buttons[i].SetActive(true);
+                }
+            }
         }
-
-        stage_Select_Level_Num = num;
     }
     
     public void InfoBtn()
@@ -221,20 +331,7 @@ public class GameManager : MonoBehaviour
     {
         Application.OpenURL("https://www.youtube.com");
     }
-
-    public void Stage_Ground()
-    {
-        stage_Ground.SetActive(false);
-        loading.SetActive(true);
-        stage_Select.SetActive(true);
-        Invoke("Stage_Ground_Delay", 5.0f);
-    }
-
-    void Stage_Ground_Delay()
-    {
-        loading.SetActive(false);
-    }
-
+    
     public void Stage_Select_Stage(int num)
     {
         stage_Select_Stage.SetActive(true);
@@ -247,7 +344,7 @@ public class GameManager : MonoBehaviour
         }
         else if (stage_Select_Stage_Num == 2)
         {
-            stage_Select_Stage_Title.text = "신체 자각과 감정 자각";
+            stage_Select_Stage_Title.text = "자각";
             stage_Select_Stage_Content.text = "신체자각\n긴장 이완 및 주의 집중 효과와 함께 자신의 현재 상태를 정확하게 이해할 수 있도록 도와줄 것입니다.\n\n감정자각\n현재 겪고 있는 고통과 괴로움에서 잠시 벗어나 좀 더 편안한 상태에서 문제를 해결할 수 있게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 3)

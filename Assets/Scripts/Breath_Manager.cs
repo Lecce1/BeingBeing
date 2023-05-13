@@ -49,8 +49,18 @@ public class Breath_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
+            gameManager.Set();
             tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
             gameManager.buttons.SetActive(false);
+
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                isTutorial = false;
+            }
+            else
+            {
+                isTutorial = true;
+            }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
@@ -213,17 +223,46 @@ public class Breath_Manager : MonoBehaviour
         }
         else if (isTutorial == true)
         {
-            if (count <= 10)
+            if (gameManager.stage_Select_Level_Num == 1)
             {
-                count++;
-            }
+                if (count < 10)
+                {
+                    count++;
+                }
         
-            while (circle.fillAmount < (count * 0.1f))
-            {
-                yield return waitForSeconds;
-                circle.fillAmount += 0.5f * Time.deltaTime;
+                while (circle.fillAmount < (count * 0.1f))
+                {
+                    yield return waitForSeconds;
+                    circle.fillAmount += 0.5f * Time.deltaTime;
+                }
             }
-
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                if (count < 14)
+                {
+                    count++;
+                }
+        
+                while (circle.fillAmount < (count * 0.07142857f))
+                {
+                    yield return waitForSeconds;
+                    circle.fillAmount += 0.5f * Time.deltaTime;
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                if (count < 20)
+                {
+                    count++;
+                }
+        
+                while (circle.fillAmount < (count * 0.05f))
+                {
+                    yield return waitForSeconds;
+                    circle.fillAmount += 0.5f * Time.deltaTime;
+                }
+            }
+            
             if (circle.fillAmount >= 1f)
             {
                 shadow.SetActive(true);

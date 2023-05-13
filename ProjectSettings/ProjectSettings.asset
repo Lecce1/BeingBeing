@@ -250,15 +250,15 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: '{inproject}: BeingBeing.keystore'
+  AndroidKeyaliasName: beingbeing
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
   AndroidEnableTango: 0
   androidEnableBanner: 1
   androidUseLowAccuracyLocation: 0
-  androidUseCustomKeystore: 0
+  androidUseCustomKeystore: 1
   m_AndroidBanners:
   - width: 320
     height: 180
@@ -768,6 +768,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
     Android: USC_UNITY_PIPELINE_LEGACY;USC_EXCLUDE_SHARE
+    Standalone: USC_UNITY_PIPELINE_LEGACY
     WebGL: USC_EXCLUDE_SHARE
     iPhone: USC_EXCLUDE_SHARE;USC_UNITY_PIPELINE_LEGACY
   additionalCompilerArguments: {}

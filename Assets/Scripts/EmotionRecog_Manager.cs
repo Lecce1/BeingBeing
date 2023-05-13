@@ -35,11 +35,12 @@ public class EmotionRecog_Manager : MonoBehaviour
     private bool isComing = false;
     private bool isCloud = false;
     private bool isDot = false;
+    private bool isDot2 = false;
     public bool isNext = false;
     GameManager gameManager;
     AnimManager animManager;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
-    public float emotionColor_Fill;
+    private float emotionColor_Fill;
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
@@ -64,7 +65,17 @@ public class EmotionRecog_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
+            gameManager.Set();
             gameManager.buttons.SetActive(false);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                isTutorial = false;
+            }
+            else
+            {
+                isTutorial = true;
+            }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
@@ -72,7 +83,6 @@ public class EmotionRecog_Manager : MonoBehaviour
             isComing = false;
             isCloud = false;
             isDot = false;
-            emotionColor_Fill = 5;
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
@@ -164,36 +174,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                             }
                             else if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= 0)
                             {
-                                tutorial_EmotionComing.SetActive(false);
-                                isDot = true;
-                                string rand = emotionFeel;
-
-                                while (rand == emotionFeel)
-                                {
-                                    int randNum = Random.Range(0, 4);
-
-                                    if (randNum == 0)
-                                    {
-                                        rand = "Anger";
-                                        tutorial_EmotionColor.GetComponent<Image>().color = Color.red;
-                                    }
-                                    else if (randNum == 1)
-                                    {
-                                        rand = "Unrest";
-                                        tutorial_EmotionColor.GetComponent<Image>().color = Color.black;
-                                    }
-                                    else if (randNum == 2)
-                                    {
-                                        rand = "Remorse";
-                                        tutorial_EmotionColor.GetComponent<Image>().color = Color.gray;
-                                    }
-                                    else if (randNum == 3)
-                                    {
-                                        rand = "Sadness";
-                                        tutorial_EmotionColor.GetComponent<Image>().color = Color.blue;
-                                    }
-                                }
-                                
+                                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "";
                                 StartCoroutine("EmotionColor2");
                             }
                         }
@@ -241,36 +222,6 @@ public class EmotionRecog_Manager : MonoBehaviour
                             }
                             else if (emotionColor.GetComponent<RectTransform>().localScale.y <= 0)
                             {
-                                emotionComing.SetActive(false);
-                                isDot = true;
-                                string rand = emotionFeel;
-
-                                while (rand == emotionFeel)
-                                {
-                                    int randNum = Random.Range(0, 4);
-
-                                    if (randNum == 0)
-                                    {
-                                        rand = "Anger";
-                                        emotionColor.GetComponent<Image>().color = Color.red;
-                                    }
-                                    else if (randNum == 1)
-                                    {
-                                        rand = "Unrest";
-                                        emotionColor.GetComponent<Image>().color = Color.black;
-                                    }
-                                    else if (randNum == 2)
-                                    {
-                                        rand = "Remorse";
-                                        emotionColor.GetComponent<Image>().color = Color.gray;
-                                    }
-                                    else if (randNum == 3)
-                                    {
-                                        rand = "Sadness";
-                                        emotionColor.GetComponent<Image>().color = Color.blue;
-                                    }
-                                }
-                                
                                 StartCoroutine("EmotionColor2");
                             }
                         }
@@ -284,8 +235,6 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "";
-            
             while (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y < 2.5f)
             {
                 tutorial_EmotionColor.GetComponent<RectTransform>().localScale += new Vector3(0, 1f * Time.deltaTime, 0);
@@ -294,6 +243,7 @@ public class EmotionRecog_Manager : MonoBehaviour
             
             tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정의 색을 꾹 누르면 감정이 점점 줄어듭니다." + "\n" + "끝까지 내려주세요";
             tutorial_Notice.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200);
+            isDot = true;
         }
         else if (isTutorial == true)
         {
@@ -302,6 +252,16 @@ public class EmotionRecog_Manager : MonoBehaviour
                 emotionColor.GetComponent<RectTransform>().localScale += new Vector3(0, 1f * Time.deltaTime, 0);
                 yield return waitForSeconds;
             }
+
+            if (isDot == false)
+            {
+                isDot = true;
+            }
+            else
+            {
+                isDot2 = true;
+            }
+
         }
     }
 
@@ -424,9 +384,21 @@ public class EmotionRecog_Manager : MonoBehaviour
             
                 if (emotionColor.GetComponent<RectTransform>().localScale.y <= 0.5f)
                 {
-                    shadow.SetActive(true);
-                    isNext = true;
-                    animManager.Fade_Out();
+                    if (isDot == true && isDot2 == false)
+                    {
+                        emotionComing.SetActive(false);
+                        emotionComing.transform.GetChild(2).gameObject.SetActive(true);
+                        character.SetActive(false);
+                        emotionColor.SetActive(false);
+                        emotionBtn.SetActive(true);
+                    }
+                    else if (isDot == true && isDot2 == true)
+                    {
+                        isDot = false;
+                        isDot2 = false;
+                        isNext = true;
+                        animManager.Fade_Out();
+                    }
                 }
             }
         }
@@ -440,21 +412,34 @@ public class EmotionRecog_Manager : MonoBehaviour
             {
                 emotionFeel = "Anger";
                 tutorial_EmotionColor.GetComponent<Image>().color = Color.red;
+                tutorial_EmotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = false;
+                tutorial_EmotionBtn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
             }
             else if (type == "Unrest")
             {
                 emotionFeel = "Unrest";
                 tutorial_EmotionColor.GetComponent<Image>().color = Color.black;
-            }
-            else if (type == "Remorse")
-            {
-                emotionFeel = "Remorse";
-                tutorial_EmotionColor.GetComponent<Image>().color = Color.gray;
+                tutorial_EmotionBtn.transform.GetChild(1).GetComponent<Button>().interactable = false;
+                tutorial_EmotionBtn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
+                
             }
             else if (type == "Sadness")
             {
                 emotionFeel = "Sadness";
                 tutorial_EmotionColor.GetComponent<Image>().color = Color.blue;
+                tutorial_EmotionBtn.transform.GetChild(2).GetComponent<Button>().interactable = false;
+                tutorial_EmotionBtn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
+            }
+            else if (type == "Remorse")
+            {
+                emotionFeel = "Remorse";
+                tutorial_EmotionColor.GetComponent<Image>().color = Color.gray;
+                tutorial_EmotionBtn.transform.GetChild(3).GetComponent<Button>().interactable = false;
+                tutorial_EmotionBtn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
             }
         }
         else if (isTutorial == true)
@@ -463,21 +448,33 @@ public class EmotionRecog_Manager : MonoBehaviour
             {
                 emotionFeel = "Anger";
                 emotionColor.GetComponent<Image>().color = Color.red;
+                emotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = false;
+                emotionBtn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
             }
             else if (type == "Unrest")
             {
                 emotionFeel = "Unrest";
                 emotionColor.GetComponent<Image>().color = Color.black;
+                emotionBtn.transform.GetChild(1).GetComponent<Button>().interactable = false;
+                emotionBtn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
             }
             else if (type == "Sadness")
             {
                 emotionFeel = "Sadness";
                 emotionColor.GetComponent<Image>().color = Color.blue;
+                emotionBtn.transform.GetChild(2).GetComponent<Button>().interactable = false;
+                emotionBtn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
             }
             else if (type == "Remorse")
             {
                 emotionFeel = "Remorse";
                 emotionColor.GetComponent<Image>().color = Color.gray;
+                emotionBtn.transform.GetChild(3).GetComponent<Button>().interactable = false;
+                emotionBtn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color =
+                    new Color(255, 255, 255, 0.3f);
             }
         }
         
@@ -488,18 +485,47 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정의 색이 목까지 차오르면 그분이 등장합니다";
-            tutorial_EmotionBtn.SetActive(false);
-            tutorial_Character.SetActive(true);
-            tutorial_EmotionColor.SetActive(true);
+            if (isDot == false)
+            {
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정의 색이 목까지 차오르면 그분이 등장합니다";
+                tutorial_EmotionBtn.SetActive(false);
+                tutorial_Character.SetActive(true);
+                tutorial_EmotionColor.SetActive(true);
+            }
+            else if (isDot == true)
+            {
+                tutorial_EmotionBtn.SetActive(false);
+                tutorial_Character.SetActive(true);
+                tutorial_EmotionColor.SetActive(true);
+                StartCoroutine("EmotionColor2");
+            }
         }
         else if (isTutorial == true)
         {
-            emotionStartTime = Time.time;
-            emotionTimer.SetActive(true);
-            emotionBtn.SetActive(false);
-            character.SetActive(true);
-            emotionColor.SetActive(true);
+            if (isDot == false)
+            {
+                emotionStartTime = Time.time;
+                emotionTimer.SetActive(true);
+                emotionBtn.SetActive(false);
+                character.SetActive(true);
+                emotionColor.SetActive(true); 
+            }
+            else if (isDot == true)
+            {
+                emotionStartTime = Time.time;
+                isComing = false;
+                isCloud = false;
+                cloud_Text = new List<string> {"너 때문이야", "다 부숴버릴거야", "잘못되면 끝이야", "다른 사람이 알면 큰일인데", "나 때문이야", "내가 원망스러워", "좋은 사람은 다 가버리네", "내 편은 아무도 없어"};
+
+                for (int i = 0; i < 8; i++)
+                {
+                    emotionCloud.transform.GetChild(i).gameObject.SetActive(true);
+                }
+
+                emotionBtn.SetActive(false);
+                character.SetActive(true);
+                emotionColor.SetActive(true);
+            }
         }
     }
     
@@ -552,13 +578,25 @@ public class EmotionRecog_Manager : MonoBehaviour
     public void Reset()
     {
         tutorial.SetActive(true);
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "자신의 상황에 맞는 감정을 선택해주세요";
+        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "다음의 감정 중 하나를 선택해주세요";
         tutorial_Notice.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -300);
         tutorial_EmotionComing.SetActive(false);
         tutorial_EmotionComingBtn.SetActive(false);
         tutorial_EmotionComing.transform.GetChild(1).gameObject.SetActive(true);
         tutorial_EmotionCloud.SetActive(false);
         tutorial_EmotionBtn.SetActive(true);
+        tutorial_EmotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = true;
+        tutorial_EmotionBtn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
+        tutorial_EmotionBtn.transform.GetChild(1).GetComponent<Button>().interactable = true;
+        tutorial_EmotionBtn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
+        tutorial_EmotionBtn.transform.GetChild(2).GetComponent<Button>().interactable = true;
+        tutorial_EmotionBtn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
+        tutorial_EmotionBtn.transform.GetChild(3).GetComponent<Button>().interactable = true;
+        tutorial_EmotionBtn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
         tutorial_Character.SetActive(false);
         tutorial_EmotionColor.SetActive(false);
         tutorial_EmotionColor.GetComponent<RectTransform>().localScale = new Vector3(5, 0, 5);
@@ -572,6 +610,18 @@ public class EmotionRecog_Manager : MonoBehaviour
         emotionTimer.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
         emotionTimer.transform.GetChild(0).GetComponent<Image>().color = Color.black;
         emotionBtn.SetActive(true);
+        emotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = true;
+        emotionBtn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
+        emotionBtn.transform.GetChild(1).GetComponent<Button>().interactable = true;
+        emotionBtn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
+        emotionBtn.transform.GetChild(2).GetComponent<Button>().interactable = true;
+        emotionBtn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
+        emotionBtn.transform.GetChild(3).GetComponent<Button>().interactable = true;
+        emotionBtn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color =
+            new Color(255, 255, 255, 1);
         emotionColor.SetActive(false);
         emotionColor.GetComponent<RectTransform>().localScale = new Vector3(5, 0, 5);
         emotionComingBtn.SetActive(false);
@@ -593,6 +643,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         isComing = false;
         isCloud = false;
         isDot = false;
+        isDot2 = false;
         isNext = false;
         shadow.SetActive(false);
     }

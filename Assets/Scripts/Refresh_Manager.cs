@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +16,6 @@ public class Refresh_Manager : MonoBehaviour
     public bool isDown = false;
     public bool isBreathe = false;
     private bool isFirst = false;
-
     public GameObject smile;
     public GameObject mouse;
     public GameObject backGlow;
@@ -26,6 +24,7 @@ public class Refresh_Manager : MonoBehaviour
     public bool isRightUp = false;
     public bool isSmile = false;
     public bool isNum = false;
+    public string prevStage;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     GameManager gameManager;
     AnimManager animManager;
@@ -234,11 +233,55 @@ public class Refresh_Manager : MonoBehaviour
     
     public void Next()
     {
-        if (PlayerPrefs.GetInt("level") <= 2)
+        if (prevStage == "emotionRecog")
         {
-            PlayerPrefs.SetInt("level", 3);
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                if (PlayerPrefs.GetInt("level") <= 2)
+                {
+                    PlayerPrefs.SetInt("level", 3);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                if (PlayerPrefs.GetInt("level") <= 6)
+                {
+                    PlayerPrefs.SetInt("level", 7);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                if (PlayerPrefs.GetInt("level") <= 10)
+                {
+                    PlayerPrefs.SetInt("level", 11);
+                }
+            }
         }
-            
+        else if (prevStage == "lovely")
+        {
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                if (PlayerPrefs.GetInt("level") <= 3)
+                {
+                    PlayerPrefs.SetInt("level", 4);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                if (PlayerPrefs.GetInt("level") <= 7)
+                {
+                    PlayerPrefs.SetInt("level", 8);
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                if (PlayerPrefs.GetInt("level") <= 11)
+                {
+                    PlayerPrefs.SetInt("level", 12);
+                }
+            }
+        }
+
         gameManager.Set();
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
