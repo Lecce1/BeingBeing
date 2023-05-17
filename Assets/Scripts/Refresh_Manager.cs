@@ -28,6 +28,7 @@ public class Refresh_Manager : MonoBehaviour
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     GameManager gameManager;
     AnimManager animManager;
+    public Decent_Manager decent_Manager;
 
     void Awake()
     {
@@ -282,7 +283,6 @@ public class Refresh_Manager : MonoBehaviour
             }
         }
 
-        gameManager.Set();
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
         animManager.Fade_Out();

@@ -129,7 +129,7 @@ public class Smile_Manager : MonoBehaviour
                 isTutorial_Cursor = true;
                 isLeftUp = true;
                 isRightUp = true;
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 요튜토리얼은 여기까지 ~";
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
                 tutorial_Finger.SetActive(false);
                 Invoke("Tutorial_Cursor", 3.0f);
                 gameObject.GetComponent<Touch>().result = Result.none;

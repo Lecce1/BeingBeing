@@ -179,9 +179,18 @@ public class AnimManager : MonoBehaviour
     void Refresh_BackGlow_Finish()
     {
         refresh_Manager = GameObject.Find("Refresh_Manager").GetComponent<Refresh_Manager>();
-        refresh_Manager.backGlow.SetActive(false);
-        refresh_Manager.shadow.SetActive(true);
-        refresh_Manager.success.SetActive(true);
+        
+        if (refresh_Manager.prevStage == "decent")
+        {
+            refresh_Manager.backGlow.SetActive(false);
+            Fade_Out();
+        }
+        else
+        {
+            refresh_Manager.backGlow.SetActive(false);
+            refresh_Manager.shadow.SetActive(true);
+            refresh_Manager.success.SetActive(true);
+        }
     }
 
     public void Fade_Out()
@@ -281,6 +290,8 @@ public class AnimManager : MonoBehaviour
         }
         else if (gameManager.lovely.activeSelf == true)
         {
+            lovely_Manager = GameObject.Find("Lovely").transform.GetChild(0).GetComponent<Lovely_Manager>();
+            
             if (lovely_Manager.isNext == false)
             {
                 lovely_Manager.Reset();
@@ -298,13 +309,15 @@ public class AnimManager : MonoBehaviour
         }
         else if (gameManager.decent.activeSelf == true)
         {
+            decent_Manager = GameObject.Find("Decent").transform.GetChild(0).GetComponent<Decent_Manager>();
+            
             if (decent_Manager.isNext == false)
             {
                 decent_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.decent.SetActive(false);
             }
-            else if (lovely_Manager.isNext == true)
+            else if (decent_Manager.isNext == true)
             {
                 decent_Manager.Reset();
                 gameManager.refresh.SetActive(true);
@@ -316,9 +329,24 @@ public class AnimManager : MonoBehaviour
         else if (gameManager.refresh.activeSelf == true)
         {
             refresh_Manager = GameObject.Find("Refresh").transform.GetChild(0).GetComponent<Refresh_Manager>();
-            refresh_Manager.Reset();
-            gameManager.stage.SetActive(true);
-            gameManager.refresh.SetActive(false);
+
+            if (refresh_Manager.prevStage == "decent")
+            {
+                gameManager.decent.SetActive(true);
+                decent_Manager = GameObject.Find("Decent").transform.GetChild(0).GetComponent<Decent_Manager>();
+                refresh_Manager.Reset();
+                gameManager.refresh.SetActive(false);
+                decent_Manager.isTutorial = true;
+                decent_Manager.stage1.SetActive(false);
+                decent_Manager.stage6.SetActive(true);
+                decent_Manager.stage = 6;
+            }
+            else
+            {
+                refresh_Manager.Reset();
+                gameManager.stage.SetActive(true);
+                gameManager.refresh.SetActive(false);
+            }
         }
         
         gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);

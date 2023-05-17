@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         //PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("level", 4);
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
@@ -280,6 +279,11 @@ public class GameManager : MonoBehaviour
             info_Title.text = "러블리어텐션";
             info_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다";
         }
+        else if (decent.activeSelf == true)
+        {
+            info_Title.text = "탈중심화";
+            info_Content.text = "자신의 사고와 감정을 객관적으로 바라보고, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다";
+        }
         
         info.SetActive(true);
     }
@@ -354,13 +358,8 @@ public class GameManager : MonoBehaviour
         }
         else if (stage_Select_Stage_Num == 4)
         {
-            stage_Select_Stage_Title.text = "탈 중심화";
+            stage_Select_Stage_Title.text = "탈중심화";
             stage_Select_Stage_Content.text = "자신의 사고와 감정을 객관적으로 바라보고, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다";
-        }
-        else if (stage_Select_Stage_Num == 5)
-        {
-            stage_Select_Stage_Title.text = "수용";
-            stage_Select_Stage_Content.text = "자신과 자신의 문제를 있는 그대로 받아들이고, 생활 속에서 더욱 긍정적으로 살아가게 될 것입니다";
         }
         
         Invoke("Stage_Select_Stage_StartBtn", 2.0f);
