@@ -32,12 +32,12 @@ public class Decent_Manager : MonoBehaviour
     public int stage = 1;
     GameManager gameManager;
     AnimManager animManager;
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
     private List<string> sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};
-    private List<string> stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정답적인" };
+    private List<string> stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
     private List<string> stage2_Anger = new List<string> { "나는 잘못이 없어", "이 친구는 나쁜 놈이야", "참으면 나를 무시할 거야", "일부러 나를 힘들게 해"};
     private List<string> stage2_Unrest = new List<string> { "앞으로도 계속 괴롭히겠지", "언제 또 당할지 몰라", "모두 나를 바보처럼 보겠지", "이제 학교생활은 끝이야"};
     private List<string> stage2_Sadness = new List<string> {"내 편은 아무도 없어", "언제나 나는 혼자야", "아무런 희망이 안 보여", "아무도 도와주지 않아"};
@@ -57,7 +57,7 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage4;
     public GameObject stage5;
     public GameObject stage6;
-    public int count = 1;
+    public int count = 0;
 
     void Awake()
     {
@@ -78,7 +78,7 @@ public class Decent_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
-            gameManager.Set();
+            gameManager.Set2();
             gameManager.buttons.SetActive(false);
             
             if (gameManager.stage_Select_Level_Num == 1)
@@ -121,7 +121,7 @@ public class Decent_Manager : MonoBehaviour
     
     public void Stage1_Btn(int num)
     {
-        count = 1;
+        count = 0;
         stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
         stage2.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
         stage2.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
@@ -217,7 +217,7 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < 8; i++)
             {
                 GameObject temp = Instantiate(stage2_Button);
-                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0));
+                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
                 temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
@@ -367,7 +367,7 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < 10; i++)
             {
                 GameObject temp = Instantiate(stage2_Button);
-                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0));
+                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
                 temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
@@ -517,7 +517,7 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < 14; i++)
             {
                 GameObject temp = Instantiate(stage2_Button);
-                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0));
+                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
                 temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
@@ -669,10 +669,10 @@ public class Decent_Manager : MonoBehaviour
         
         float delay = 0;
 
-        while (delay < 0.5f)
+        while (delay < 0.6f)
         {
             delay += Time.deltaTime;
-            yield return waitForSeconds;
+            yield return waitForEndOfFrame;
         }
     
         isSentence = false;
@@ -708,10 +708,10 @@ public class Decent_Manager : MonoBehaviour
 
         float delay = 0;
 
-        while (delay < 0.5f)
+        while (delay < 1f)
         {
             delay += Time.deltaTime;
-            yield return waitForSeconds;
+            yield return waitForEndOfFrame;
         }
     
         isSentence = false;
@@ -820,10 +820,10 @@ public class Decent_Manager : MonoBehaviour
         
         float delay = 0;
 
-        while (delay < 0.75f)
+        while (delay < 1.5f)
         {
             delay += Time.deltaTime;
-            yield return waitForSeconds;
+            yield return waitForEndOfFrame;
         }
         
         if (test == false)
@@ -954,6 +954,8 @@ public class Decent_Manager : MonoBehaviour
         stage2.transform.GetChild(1).gameObject.SetActive(false);
         stage2.transform.GetChild(2).gameObject.SetActive(false);
         stage2.transform.GetChild(3).gameObject.SetActive(false);
+        stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(0, 0);
         stage3.SetActive(false);
         stage4.SetActive(false);
         stage4.transform.GetChild(1).gameObject.SetActive(true);
@@ -961,9 +963,9 @@ public class Decent_Manager : MonoBehaviour
         stage4.transform.GetChild(3).gameObject.SetActive(false);
         stage4_Count = 1;
 
-        for (int i = 0; i < stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).childCount; i++)
+        for (int i = 0; i < stage2.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
         {
-            Destroy(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetChild(i).gameObject);
+            Destroy(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).gameObject);
         }
         
         for (int i = 0; i < stage3.transform.GetChild(2).childCount; i++)

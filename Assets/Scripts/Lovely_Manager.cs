@@ -49,7 +49,7 @@ public class Lovely_Manager : MonoBehaviour
     private List<string> heart_Text = new List<string> {"고마워", "힘이나", "편안해", "기분이 좋아", "사랑해", "잘했어", "최고야", "힘빠져", "기분 나빠", "불편해", "뭘 잘해?", "잘못 했네", "최악이야"};
     public int heart_Fail = 0;
     private List<RaycastResult> results = new List<RaycastResult>();
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
 
     void Awake()
     {
@@ -97,10 +97,10 @@ public class Lovely_Manager : MonoBehaviour
 
         float delay = 0;
 
-        while (delay < 1.5f)
+        while (delay < 3f)
         {
             delay += Time.deltaTime;
-            yield return waitForSeconds;
+            yield return waitForEndOfFrame;
         }
     
         isHeart = false;
@@ -132,10 +132,10 @@ public class Lovely_Manager : MonoBehaviour
 
         float delay = 0;
 
-        while (delay < 0.5f)
+        while (delay < 1f)
         {
             delay += Time.deltaTime;
-            yield return waitForSeconds;
+            yield return waitForEndOfFrame;
         }
     
         isHeart = false;
@@ -280,7 +280,7 @@ public class Lovely_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
-            gameManager.Set();
+            gameManager.Set2();
             gameManager.buttons.SetActive(false);
             
             if (gameManager.stage_Select_Level_Num == 1)

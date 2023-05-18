@@ -65,7 +65,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
-            gameManager.Set();
+            gameManager.Set2();
             gameManager.buttons.SetActive(false);
             
             if (gameManager.stage_Select_Level_Num == 1)

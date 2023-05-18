@@ -144,14 +144,19 @@ public class GameManager : MonoBehaviour
                 stage_Select_Buttons[i].SetActive(true);
             }
         }
+        
+        Set2();
+    }
 
-        if (breath.activeSelf == true || smile.activeSelf == true || bodyRecog.activeSelf == true || emotionRecog.activeSelf == true)
+    public void Set2()
+    {
+        if (breath.activeSelf == true || smile.activeSelf == true || bodyRecog.activeSelf == true || emotionRecog.activeSelf == true || refresh.activeSelf == true || lovely.activeSelf == true || decent.activeSelf == true)
         {
-            buttons_Info.transform.GetChild(0).gameObject.SetActive(true);
+            buttons_Info.SetActive(true);
         }
         else
         {
-            buttons_Info.transform.GetChild(0).gameObject.SetActive(false);
+            buttons_Info.SetActive(false);
         }
     }
 

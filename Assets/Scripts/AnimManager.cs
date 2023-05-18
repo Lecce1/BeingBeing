@@ -206,6 +206,7 @@ public class AnimManager : MonoBehaviour
             gameManager.main.SetActive(false);
             gameManager.stage.SetActive(true);
             gameManager.buttons.SetActive(true);
+            gameManager.Set();
         }
         else if (gameManager.stage.activeSelf == true)
         {
@@ -237,6 +238,7 @@ public class AnimManager : MonoBehaviour
                 breath_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.breath.SetActive(false);
+                gameManager.Set();
             }
             else if (breath_Manager.isNext == true)
             {
@@ -251,6 +253,7 @@ public class AnimManager : MonoBehaviour
             smile_Manager.Reset();
             gameManager.stage.SetActive(true);
             gameManager.smile.SetActive(false);
+            gameManager.Set();
         }
         else if (gameManager.bodyRecog.activeSelf == true)
         {
@@ -261,6 +264,7 @@ public class AnimManager : MonoBehaviour
                 bodyRecog_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.bodyRecog.SetActive(false);
+                gameManager.Set();
             }
             else if (bodyRecog_Manager.isNext == true)
             {
@@ -278,6 +282,7 @@ public class AnimManager : MonoBehaviour
                 emotionRecog_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.emotionRecog.SetActive(false);
+                gameManager.Set();
             }
             else if (emotionRecog_Manager.isNext == true)
             {
@@ -297,6 +302,7 @@ public class AnimManager : MonoBehaviour
                 lovely_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.lovely.SetActive(false);
+                gameManager.Set();
             }
             else if (lovely_Manager.isNext == true)
             {
@@ -316,6 +322,7 @@ public class AnimManager : MonoBehaviour
                 decent_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.decent.SetActive(false);
+                gameManager.Set();
             }
             else if (decent_Manager.isNext == true)
             {
@@ -346,13 +353,13 @@ public class AnimManager : MonoBehaviour
                 refresh_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.refresh.SetActive(false);
+                gameManager.Set();
             }
         }
         
         gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
         gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
         gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
-        gameManager.Set();
         gameManager.loading.SetActive(false);
     }
 }

@@ -50,7 +50,7 @@ public class Smile_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
-            gameManager.Set();
+            gameManager.Set2();
             tutorial_Finger.GetComponent<Animator>().Play("Finger");
             gameManager.buttons.SetActive(false);
             

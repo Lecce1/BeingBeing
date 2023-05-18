@@ -49,7 +49,7 @@ public class Breath_Manager : MonoBehaviour
         if (isTutorial == false && isTutorial_Check == false)
         {
             isTutorial_Check = true;
-            gameManager.Set();
+            gameManager.Set2();
             tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
             gameManager.buttons.SetActive(false);
 
