@@ -53,7 +53,18 @@ public class AnimManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         gameManager.camera.GetComponent<CustomPostProcessing>().enabled = false;
-        Fade_Out();
+
+        if (gameManager.isFirst == 0)
+        {
+            PlayerPrefs.SetInt("isFirst", 1);
+            gameManager.main_Logo.SetActive(false);
+            gameManager.main_Text.gameObject.SetActive(true);
+            gameManager.Main_Text();
+        }
+        else
+        {
+            Fade_Out();
+        }
     }
 
     public void BackGlow()
@@ -83,50 +94,14 @@ public class AnimManager : MonoBehaviour
         if (smile_Manager.isTutorial == false)
         {
             smile_Manager.tutorial_BackGlow.SetActive(false);
+            PlayerPrefs.SetInt("Smile_Tutorial", 1);
             smile_Manager.isTutorial = true;
         }
         else if (smile_Manager.isTutorial == true)
         {
             smile_Manager.backGlow.SetActive(false);
-
-            if (gameManager.stage_Select_Level_Num == 1)
-            {
-                if (smile_Manager.num < 3)
-                {
-                    smile_Manager.time = 0;
-                    smile_Manager.isLeftUp = false;
-                    smile_Manager.isRightUp = false;
-                    smile_Manager.isNum = false;
-                }
-                else if (smile_Manager.num == 3)
-                {
-                    smile_Manager.shadow.SetActive(true);
-                    smile_Manager.success.SetActive(true);
-                }
-            }
-            else if (gameManager.stage_Select_Level_Num == 2)
-            {
-                if (smile_Manager.num < 2)
-                {
-                    smile_Manager.time = 0;
-                    smile_Manager.isLeftUp = false;
-                    smile_Manager.isRightUp = false;
-                    smile_Manager.isNum = false;
-                }
-                else if (smile_Manager.num == 2)
-                {
-                    smile_Manager.shadow.SetActive(true);
-                    smile_Manager.success.SetActive(true);
-                }
-            }
-            else if (gameManager.stage_Select_Level_Num == 3)
-            {
-                if (smile_Manager.num == 1)
-                {
-                    smile_Manager.shadow.SetActive(true);
-                    smile_Manager.success.SetActive(true);
-                }
-            }
+            smile_Manager.shadow.SetActive(true);
+            smile_Manager.success.SetActive(true);
         }
     }
     

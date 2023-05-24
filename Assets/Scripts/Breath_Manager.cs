@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class Breath_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public GameObject tutorial_Notice;
+    public TMP_Text tutorial_Notice;
     public GameObject tutorial_Finger;
+    public GameObject tutorial_Character;
     public GameObject tutorial_Body;
     public Image tutorial_Circle;
     public GameObject game;
@@ -28,6 +29,8 @@ public class Breath_Manager : MonoBehaviour
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
+    private int tutorial_Notice_Num = 1;
+    private bool isTouch = false;
 
     void Awake()
     {
@@ -46,20 +49,35 @@ public class Breath_Manager : MonoBehaviour
     
     void Tutorial()
     {
-        if (isTutorial == false && isTutorial_Check == false)
+        if (isTutorial == false)
         {
-            isTutorial_Check = true;
-            gameManager.Set2();
-            tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
-            gameManager.buttons.SetActive(false);
-
-            if (gameManager.stage_Select_Level_Num == 1)
+            if (isTutorial_Check == false)
             {
-                isTutorial = false;
+                isTutorial_Check = true;
+                gameManager.Set2();
+
+                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Breath_Tutorial") == 0)
+                {
+                    gameManager.buttons.SetActive(false);
+                    isTutorial = false;
+                    Tutorial_Notice();
+                }
+                else
+                {
+                    isTutorial = true;
+                }
             }
             else
             {
-                isTutorial = true;
+                if (Input.GetMouseButtonUp(0))
+                {
+                    tutorial_Notice_Num++;
+
+                    if (tutorial_Notice_Num != 6)
+                    {
+                        Tutorial_Notice();
+                    }
+                }
             }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
@@ -70,48 +88,101 @@ public class Breath_Manager : MonoBehaviour
             isUp = false;
             isDown = false;
             isBreathe = false;
+            isTouch = false;
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
         }
     }
 
+    void Tutorial_Notice()
+    {
+        if (tutorial_Notice_Num == 1)
+        {
+            tutorial_Notice.text = "안녕하세요\n호흡 연습을 시작합니다.";
+        }
+        else if (tutorial_Notice_Num == 2)
+        {
+            tutorial_Notice.text = "숨을 들이쉴 때와, 숨을 내쉴 때의 느낌을 알고 계신가요?";
+        }
+        else if (tutorial_Notice_Num == 3)
+        {
+            tutorial_Notice.text = "숨을 들이쉬고, 내쉴 때의 느낌에 주의를 기울이며\n호흡을 함께 해 봅시다.";
+        }
+        else if (tutorial_Notice_Num == 4)
+        {
+            tutorial_Notice.text = "숨을 들이쉬면서 2초, 내쉬면서 2초\n한번 호흡에 총 4초 동안 하게 됩니다.";
+        }
+        else if (tutorial_Notice_Num == 5)
+        {
+            tutorial_Character.SetActive(true);
+            tutorial_Finger.SetActive(true);
+            tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
+            tutorial_Notice.text = "당신도 빙빙이와 함께 숨을 들이쉬면서\n손가락을 터치하여 가슴에서 배로 내립니다.";
+            isDown = false;
+            isUp = false;
+        }
+    }
+
     public void Skip()
     {
         isTutorial = true;
+        PlayerPrefs.SetInt("Breath_Tutorial", 1);
     }
 
     void Cursor()
     {
-        if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false)
+        if (isTutorial == false && isTouch == false)
         {
-            isDown = true;
-            gameObject.GetComponent<Touch>().result = Result.none;
+            if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false)
+            {
+                isDown = true;
+                gameObject.GetComponent<Touch>().result = Result.none;
+            }
+            else if (isBreathe == true && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
+            {
+                isUp = true;
+                gameObject.GetComponent<Touch>().result = Result.none;
+            }
+            else if (isLimit == true)
+            {
+                gameObject.GetComponent<Touch>().result = Result.none;
+            }
         }
-        else if (isBreathe == true && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
+        else if (isTutorial == true && isTouch == false)
         {
-            isUp = true;
-            gameObject.GetComponent<Touch>().result = Result.none;
-        }
-        else if (isLimit == true)
-        {
-            gameObject.GetComponent<Touch>().result = Result.none;
+            if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false)
+            {
+                isDown = true;
+                gameObject.GetComponent<Touch>().result = Result.none;
+            }
+            else if (isBreathe == true && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
+            {
+                isUp = true;
+                gameObject.GetComponent<Touch>().result = Result.none;
+            }
+            else if (isLimit == true)
+            {
+                gameObject.GetComponent<Touch>().result = Result.none;
+            }
         }
     }
     
     void Breathe()
     {
-        if (isTutorial == false)
+        if (isTutorial == false && tutorial_Notice_Num >= 5)
         {
             if (isDown == true && isLimit == false && isBreathe == false)
             {
                 isBreathe = true;
+                isTouch = true;
                 StartCoroutine(Gauge2());
                 StartCoroutine(Breathe2());
             }
             else if (isUp == true && isLimit == false && isBreathe == true)
             {
                 isBreathe = false;
+                isTouch = true;
                 StartCoroutine(Gauge2());
                 StartCoroutine(Breathe2());
             }
@@ -121,12 +192,14 @@ public class Breath_Manager : MonoBehaviour
             if (isDown == true && isLimit == false && isBreathe == false)
             {
                 isBreathe = true;
+                isTouch = true;
                 StartCoroutine(Gauge2());
                 StartCoroutine(Breathe2());
             }
             else if (isUp == true && isLimit == false && isBreathe == true)
             {
                 isBreathe = false;
+                isTouch = true;
                 StartCoroutine(Gauge2());
                 StartCoroutine(Breathe2());
             }
@@ -139,7 +212,7 @@ public class Breath_Manager : MonoBehaviour
         {
             if (isBreathe == true)
             {
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요!";
+                tutorial_Notice.text = "잘했어요!";
                 tutorial_Finger.SetActive(false);
                 
                 while (tutorial_Body.transform.localScale.x < 1.2f)
@@ -151,13 +224,14 @@ public class Breath_Manager : MonoBehaviour
                 tutorial_Finger.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -180);
                 tutorial_Finger.SetActive(true);
                 tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "멘트에 맞춰 숨을 내쉬면서 손가락으로 위로 올리세요";
+                tutorial_Notice.text = "이번에는 함께 숨을 내쉬면서\n손가락을 터치하여 배에서 가슴으로 올립니다.";
+                isTouch = false;
             }
             else if (isBreathe == false)
             {
                 isUp = false;
                 isDown = false;
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
+                tutorial_Notice.text = "잘 하셨습니다. 호흡 연습을 마칩니다.";
                 tutorial_Finger.SetActive(false);
                 
                 while (tutorial_Body.transform.localScale.x > 1)
@@ -165,8 +239,9 @@ public class Breath_Manager : MonoBehaviour
                     yield return waitForSeconds;
                     tutorial_Body.transform.localScale -= new Vector3(0.3f, 0.3f, 0) * Time.deltaTime;
                 }
-                
+
                 Invoke("Skip", 3.0f);
+                isTouch = false;
             }
         }
         else if (isTutorial == true)
@@ -178,6 +253,8 @@ public class Breath_Manager : MonoBehaviour
                     yield return waitForSeconds;
                     body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
                 }
+                
+                isTouch = false;
             }
             else if (isBreathe == false)
             {
@@ -186,6 +263,8 @@ public class Breath_Manager : MonoBehaviour
                     yield return waitForSeconds;
                     body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
                 }
+                
+                isTouch = false;
             }
         }
         
@@ -208,7 +287,7 @@ public class Breath_Manager : MonoBehaviour
 
     IEnumerator Gauge2()
     {
-        if (isTutorial == false)
+        if (isTutorial == false && tutorial_Notice_Num >= 5)
         {
             if (count <= 10)
             {
@@ -265,8 +344,11 @@ public class Breath_Manager : MonoBehaviour
             
             if (circle.fillAmount >= 1f)
             {
-                shadow.SetActive(true);
-                success.SetActive(true);
+                isNext = true;
+                var animator = success.GetComponent<Animator>();
+                animator.Play("Close");
+                animManager.Fade_Out();
+                Invoke("Success_Close", 0.5f);
             }
         }
         
@@ -289,10 +371,20 @@ public class Breath_Manager : MonoBehaviour
     
     public void ReStart()
     {
-        var animator = success.GetComponent<Animator>();
-        animator.Play("Close");
-        Reset();
-        Invoke("Success_Close", 0.5f);
+        if (gameManager.pause.activeSelf == true)
+        {
+            var animator = gameManager.pause.GetComponent<Animator>();
+            animator.Play("Close");
+            Reset();
+            Invoke("Pause_Close", 0.5f);
+        }
+        else
+        {
+            var animator = success.GetComponent<Animator>();
+            animator.Play("Close");
+            Reset();
+            Invoke("Success_Close", 0.5f);
+        }
     }
     
     public void Next()
@@ -303,16 +395,37 @@ public class Breath_Manager : MonoBehaviour
         animManager.Fade_Out();
         Invoke("Success_Close", 0.5f);
     }
+
+    public void Help()
+    {
+        PlayerPrefs.SetInt("Breath_Tutorial", 0);
+        var animator = gameManager.pause.GetComponent<Animator>();
+        animator.Play("Close");
+        Reset();
+        Invoke("Pause_Close", 0.5f);
+    }
     
     void Success_Close()
     {
         success.SetActive(false);
     }
 
+    void Pause_Close()
+    {
+        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
+        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
+        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
+        gameManager.pause.SetActive(false);
+    }
+
     public void Reset()
     {
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "멘트에 맞춰 숨을 들이쉬면서 손가락을 아래로 내리세요";
+        tutorial_Notice.text = "안녕하세요\n호흡 연습을 시작합니다.";
+        tutorial_Character.SetActive(false);
+        tutorial_Finger.SetActive(false);
         tutorial_Finger.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+        tutorial_Notice_Num = 1;
+        isTouch = false;
         isTutorial = false;
         isTutorial_Check = false;
         isTutorial_Check2 = false;

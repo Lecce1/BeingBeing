@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public class Smile_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public GameObject tutorial_Notice;
+    public TMP_Text tutorial_Notice;
     public GameObject tutorial_Finger;
+    public GameObject tutorial_Character;
     public GameObject tutorial_Mouse;
     public GameObject tutorial_BackGlow;
     public GameObject tutorial_LightEffect;
@@ -14,13 +15,9 @@ public class Smile_Manager : MonoBehaviour
     public GameObject mouse;
     public GameObject backGlow;
     public GameObject lightEffect;
-    public GameObject checks;
     public GameObject shadow;
     public GameObject success;
     public float time = 0;
-    public int num = 0;
-    public bool isLeftUp = false;
-    public bool isRightUp = false;
     public bool isDoubleUp;
     public bool isSmile = false;
     public bool isNum = false;
@@ -30,6 +27,7 @@ public class Smile_Manager : MonoBehaviour
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
     private bool isTutorial_Cursor;
+    private int tutorial_Notice_Num = 1;
 
     void Awake()
     {
@@ -47,45 +45,39 @@ public class Smile_Manager : MonoBehaviour
     
     void Tutorial()
     {
-        if (isTutorial == false && isTutorial_Check == false)
+        if (isTutorial == false)
         {
-            isTutorial_Check = true;
-            gameManager.Set2();
-            tutorial_Finger.GetComponent<Animator>().Play("Finger");
-            gameManager.buttons.SetActive(false);
-            
-            if (gameManager.stage_Select_Level_Num == 1)
+            if (isTutorial_Check == false)
             {
-                isTutorial = false;
+                isTutorial_Check = true;
+                gameManager.Set2();
+
+                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Smile_Tutorial") == 0)
+                {
+                    gameManager.buttons.SetActive(false);
+                    isTutorial = false;
+                    Tutorial_Notice();
+                }
+                else
+                {
+                    isTutorial = true;
+                }
             }
             else
             {
-                isTutorial = true;
+                if (Input.GetMouseButtonUp(0))
+                {
+                    tutorial_Notice_Num++;
+
+                    if (tutorial_Notice_Num != 5)
+                    {
+                        Tutorial_Notice();
+                    }
+                }
             }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
-            if (gameManager.stage_Select_Level_Num == 1)
-            {
-                checks.transform.GetChild(0).gameObject.SetActive(true);
-                checks.transform.GetChild(1).gameObject.SetActive(false);
-                checks.transform.GetChild(2).gameObject.SetActive(false);
-            }
-            else if (gameManager.stage_Select_Level_Num == 2)
-            {
-                checks.transform.GetChild(0).gameObject.SetActive(false);
-                checks.transform.GetChild(1).gameObject.SetActive(true);
-                checks.transform.GetChild(2).gameObject.SetActive(false);
-            }
-            else if (gameManager.stage_Select_Level_Num == 3)
-            {
-                checks.transform.GetChild(0).gameObject.SetActive(false);
-                checks.transform.GetChild(1).gameObject.SetActive(false);
-                checks.transform.GetChild(2).gameObject.SetActive(true);
-            }
-            
-            isLeftUp = false;
-            isRightUp = false;
             isDoubleUp = false;
             isSmile = false;
             isNum = false;
@@ -96,95 +88,67 @@ public class Smile_Manager : MonoBehaviour
             gameManager.buttons.SetActive(true);
         }
     }
+    
+    void Tutorial_Notice()
+    {
+        if (tutorial_Notice_Num == 1)
+        {
+            tutorial_Notice.text = "호흡 후에 빙그레 웃음으로 마무리를 합니다.";
+        }
+        else if (tutorial_Notice_Num == 2)
+        {
+            tutorial_Notice.text = "그림과 같이 두 손가락을\n빙빙이의 양 입꼬리에 올려주세요.";
+            tutorial_Character.SetActive(true);
+            tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
+        }
+        else if (tutorial_Notice_Num == 3)
+        {
+            tutorial_Notice.text = "빙빙이의 입꼬리를 위로 올려\n빙그레 미소짓게 만들어주세요.";
+        }
+        else if (tutorial_Notice_Num == 4)
+        {
+            gameObject.GetComponent<Touch>().result = Result.none;
+            tutorial_Notice.text = "빙빙이를 따라 당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
+            tutorial_Finger.SetActive(true);
+            tutorial_Finger.GetComponent<Animator>().Play("Finger3");
+            tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
+        }
+    }
 
     public void Skip()
     {
         isTutorial = true;
+        PlayerPrefs.SetInt("Smile_Tutorial", 1);
     }
 
     void Cursor()
     {
         if (isTutorial == false)
         {
-            if (isTutorial_Cursor == false && isLeftUp == false && isRightUp == false && isDoubleUp == false && Input.mousePosition.x < (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            if (isTutorial_Cursor == false && tutorial_Notice_Num >= 4 && gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
             {
                 isTutorial_Cursor = true;
-                isLeftUp = true;
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요!";
+                isDoubleUp = true;
+                tutorial_Notice.text = "잘했어요!\n호흡과 빙그레 연습을 마치겠습니다.";
                 tutorial_Finger.SetActive(false);
-                Invoke("Tutorial_Cursor", 3.0f);
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
-            else if (isTutorial_Cursor == false && isLeftUp == true && isRightUp == false && isDoubleUp == false && Input.mousePosition.x > (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
-            {
-                isTutorial_Cursor = true;
-                isRightUp = true;
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요!";
-                tutorial_Finger.SetActive(false);
-                Invoke("Tutorial_Cursor", 3.0f);
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
-            else if (isTutorial_Cursor == false && isLeftUp == false && isRightUp == false && isDoubleUp == true && Input.touchCount == 2 && gameObject.GetComponent<Touch>().result == Result.up && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
-            {
-                isTutorial_Cursor = true;
-                isLeftUp = true;
-                isRightUp = true;
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
-                tutorial_Finger.SetActive(false);
-                Invoke("Tutorial_Cursor", 3.0f);
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
         }
         else if (isTutorial == true)
         {
-            if (Input.mousePosition.x < (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            if (gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
             {
                 time = 0;
-                isLeftUp = true;
+                isDoubleUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
-            else if (Input.mousePosition.x > (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            
+            /*if (gameObject.GetComponent<Touch>().result == Result.up)
             {
                 time = 0;
-                isRightUp = true;
+                isDoubleUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
-            }
-            else if (Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
-            {
-                time = 0;
-                isLeftUp = true;
-                isRightUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
-        }
-    }
-
-    void Tutorial_Cursor()
-    {
-        if (isLeftUp == true && isRightUp == false && isDoubleUp == false)
-        {
-            isTutorial_Cursor = false;
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "손가락을 따라 위로 드래그 해주세요";
-            gameObject.GetComponent<Touch>().result = Result.none;
-            tutorial_Finger.SetActive(true);
-            tutorial_Finger.GetComponent<Animator>().Play("Finger2");
-        }
-        else if (isLeftUp == true && isRightUp == true && isDoubleUp == false)
-        {
-            isTutorial_Cursor = false;
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "두 손가락을 따라 위로 드래그 해주세요";
-            gameObject.GetComponent<Touch>().result = Result.none;
-            tutorial_Finger.SetActive(true);
-            tutorial_Finger.transform.GetChild(0).gameObject.SetActive(true);
-            tutorial_Finger.GetComponent<Animator>().Play("Finger3");
-            isLeftUp = false;
-            isRightUp = false;
-            isDoubleUp = true;
-        }
-        else if (isLeftUp == true && isRightUp == true && isDoubleUp == true)
-        {
-            gameObject.GetComponent<Touch>().result = Result.none;
-            tutorial_Finger.SetActive(false);
+            }*/
         }
     }
 
@@ -192,27 +156,7 @@ public class Smile_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            if (isLeftUp == false && isRightUp == false)
-            {
-                tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
-                isSmile = false;
-            }
-            else if (isLeftUp == true && isRightUp == false)
-            {
-                tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse2");
-                isSmile = false;
-            }
-            else if (isLeftUp == false && isRightUp == true)
-            {
-                tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse3");
-                isSmile = false;
-            }
-            else if (isLeftUp == true && isRightUp == true && isNum == false && isDoubleUp == false)
-            {
-                tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
-                isSmile = false;
-            }
-            else if (isLeftUp == true && isRightUp == true && isNum == false && isDoubleUp == true)
+            if (isDoubleUp == true && isNum == false)
             {
                 tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
                 isSmile = true;
@@ -225,65 +169,20 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (isTutorial == true)
         {
-            if (isLeftUp == false && isRightUp == false)
+            if (isDoubleUp == false)
             {
                 mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
                 isSmile = false;
             }
-            else if (isLeftUp == true && isRightUp == false)
-            {
-                mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse2");
-                isSmile = false;
-            }
-            else if (isLeftUp == false && isRightUp == true)
-            {
-                mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse3");
-                isSmile = false;
-            }
-            else if (isLeftUp == true && isRightUp == true && isNum == false)
+            else if (isDoubleUp == true && isNum == false)
             {
                 mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
                 isSmile = true;
                 isNum = true;
-                num++;
                 animManager.BackGlow();
                 lightEffect.SetActive(false);
                 lightEffect.SetActive(true);
                 transform.GetComponent<AudioSource>().Play();
-
-                if (gameManager.stage_Select_Level_Num == 1)
-                {
-                    if (num == 1)
-                    {
-                        checks.transform.GetChild(0).GetChild(0).Find("Image").gameObject.SetActive(true);
-                    }
-                    else if (num == 2)
-                    {
-                        checks.transform.GetChild(0).GetChild(1).Find("Image").gameObject.SetActive(true);
-                    }
-                    else if (num == 3)
-                    {
-                        checks.transform.GetChild(0).GetChild(2).Find("Image").gameObject.SetActive(true);
-                    }
-                }
-                else if (gameManager.stage_Select_Level_Num == 2)
-                {
-                    if (num == 1)
-                    {
-                        checks.transform.GetChild(1).GetChild(0).Find("Image").gameObject.SetActive(true);
-                    }
-                    else if (num == 2)
-                    {
-                        checks.transform.GetChild(1).GetChild(1).Find("Image").gameObject.SetActive(true);
-                    }
-                }
-                else if (gameManager.stage_Select_Level_Num == 3)
-                {
-                    if (num == 1)
-                    {
-                        checks.transform.GetChild(3).GetChild(0).Find("Image").gameObject.SetActive(true);
-                    }
-                }
             }
         }
     }
@@ -300,8 +199,7 @@ public class Smile_Manager : MonoBehaviour
             
                 if (isSmile == false)
                 {
-                    isLeftUp = false;
-                    isRightUp = false;
+                    isDoubleUp = false;
                 }
             }
         }
@@ -309,10 +207,20 @@ public class Smile_Manager : MonoBehaviour
 
     public void ReStart()
     {
-        var animator = success.GetComponent<Animator>();
-        animator.Play("Close");
-        Reset();
-        Invoke("Success_Close", 0.5f);
+        if (gameManager.pause.activeSelf == true)
+        {
+            var animator = gameManager.pause.GetComponent<Animator>();
+            animator.Play("Close");
+            Reset();
+            Invoke("Pause_Close", 0.5f);
+        }
+        else
+        {
+            var animator = success.GetComponent<Animator>();
+            animator.Play("Close");
+            Reset();
+            Invoke("Success_Close", 0.5f);
+        }
     }
     
     public void Next()
@@ -346,34 +254,40 @@ public class Smile_Manager : MonoBehaviour
         Invoke("Success_Close", 0.5f);
     }
     
+    public void Help()
+    {
+        PlayerPrefs.SetInt("Smile_Tutorial", 0);
+        var animator = gameManager.pause.GetComponent<Animator>();
+        animator.Play("Close");
+        Reset();
+        Invoke("Pause_Close", 0.5f);
+    }
+    
     void Success_Close()
     {
         success.SetActive(false);
+    }
+    
+    void Pause_Close()
+    {
+        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
+        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
+        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
+        gameManager.pause.SetActive(false);
     }
 
     public void Reset()
     {
         tutorial.SetActive(true);
         tutorial_LightEffect.SetActive(false);
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "손가락을 따라 위로 드래그 해주세요";
-        tutorial_Finger.SetActive(true);
-        tutorial_Finger.transform.GetChild(0).gameObject.SetActive(false);
+        tutorial_Notice.text = "호흡 후에 빙그레 웃음으로 마무리를 합니다.";
+        tutorial_Character.SetActive(false);
+        tutorial_Finger.SetActive(false);
+        tutorial_BackGlow.SetActive(false);
         game.SetActive(false);
-        checks.transform.GetChild(0).gameObject.SetActive(false);
-        checks.transform.GetChild(1).gameObject.SetActive(false);
-        checks.transform.GetChild(2).gameObject.SetActive(false);
-        checks.transform.GetChild(0).GetChild(0).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(0).GetChild(1).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(0).GetChild(2).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(1).GetChild(0).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(1).GetChild(1).Find("Image").gameObject.SetActive(false);
-        checks.transform.GetChild(2).GetChild(0).Find("Image").gameObject.SetActive(false);
         lightEffect.SetActive(false);
         shadow.SetActive(false);
-        time = 0; 
-        num = 0;
-        isLeftUp = false;
-        isRightUp = false;
+        time = 0;
         isDoubleUp = false;
         isSmile = false;
         isNum = false;
@@ -381,6 +295,7 @@ public class Smile_Manager : MonoBehaviour
         isTutorial_Check = false;
         isTutorial_Check2 = false;
         isTutorial_Cursor = false;
+        tutorial_Notice_Num = 1;
         gameManager.buttons.SetActive(true);
     }
 }

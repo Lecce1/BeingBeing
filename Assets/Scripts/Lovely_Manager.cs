@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class Lovely_Manager : MonoBehaviour
 {
     public GameObject tutorial;
+    public TMP_Text tutorial_Notice;
     public GameObject game;
     public GameObject character;
     public GameObject timer;
@@ -50,6 +51,7 @@ public class Lovely_Manager : MonoBehaviour
     public int heart_Fail = 0;
     private List<RaycastResult> results = new List<RaycastResult>();
     WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+    private int tutorial_Notice_Num = 1;
 
     void Awake()
     {
@@ -67,6 +69,77 @@ public class Lovely_Manager : MonoBehaviour
         Touch();
         Heart();
         Heart2();
+    }
+    
+    void Tutorial()
+    {
+        if (isTutorial == false && isTutorial_Check == false)
+        {
+            if (isTutorial_Check == false)
+            {
+                isTutorial_Check = true;
+                gameManager.Set2();
+                
+                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Lovely_Tutorial") == 0)
+                {
+                    gameManager.buttons.SetActive(false);
+                    isTutorial = false;
+                }
+                else
+                {
+                    isTutorial = true;
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButtonUp(0))
+                {
+                    tutorial_Notice_Num++;
+
+                    if (tutorial_Notice_Num != 6)
+                    {
+                        Tutorial_Notice();
+                    }
+                }
+            }
+        }
+        else if (isTutorial == true && isTutorial_Check2 == false)
+        {
+            isTutorial_Check2 = true;
+            tutorial.SetActive(false);
+            game.SetActive(true);
+            gameManager.buttons.SetActive(true);
+        }
+    }
+    
+    void Tutorial_Notice()
+    {
+        if (tutorial_Notice_Num == 1)
+        {
+            tutorial_Notice.text = "지금부터 러블리어테션 연습을 시작합니다.";
+        }
+        else if (tutorial_Notice_Num == 2)
+        {
+            tutorial_Notice.text = "러블리어텐션은 자기 자신의 마음을 사랑스러운 눈으로 바라봐주는 것입니다.";
+        }
+        else if (tutorial_Notice_Num == 3)
+        {
+            tutorial_Notice.text = "자신의 마음을 사랑스럽게 지켜보듯이 자신의 마음의 윤곽을 따라 손가락으로 천천히 그려보세요.";
+        }
+        else if (tutorial_Notice_Num == 4)
+        {
+            tutorial_Notice.text = "불편한 마음이 줄어들면, 손가락으로 가슴에서 배로 쓰다듬어 주세요.(드래그)";
+        }
+        else if (tutorial_Notice_Num == 5)
+        {
+            tutorial_Notice.text = "“그래도 화가 나＂라고 말을 하면 그 말풍선에 손가락으로 토닥토닥 두드려주세요(터치터치)";
+        }
+    }
+
+    public void Skip()
+    {
+        isTutorial = true;
+        PlayerPrefs.SetInt("Lovely_Tutorial", 1);
     }
     
     void Heart2()
@@ -274,38 +347,7 @@ public class Lovely_Manager : MonoBehaviour
             }
         }
     }
-    
-    void Tutorial()
-    {
-        if (isTutorial == false && isTutorial_Check == false)
-        {
-            isTutorial_Check = true;
-            gameManager.Set2();
-            gameManager.buttons.SetActive(false);
-            
-            if (gameManager.stage_Select_Level_Num == 1)
-            {
-                isTutorial = false;
-            }
-            else
-            {
-                isTutorial = true;
-            }
-        }
-        else if (isTutorial == true && isTutorial_Check2 == false)
-        {
-            isTutorial_Check2 = true;
-            tutorial.SetActive(false);
-            game.SetActive(true);
-            gameManager.buttons.SetActive(true);
-        }
-    }
 
-    public void Skip()
-    {
-        isTutorial = true;
-    }
-    
     void EmotionTimer()
     {
         if (timer.activeSelf == true && success.activeSelf == false && (stage == 1 || stage == 2 || stage == 3))
@@ -440,19 +482,28 @@ public class Lovely_Manager : MonoBehaviour
     
     public void ReStart()
     {
-        if (success.activeSelf == true)
+        if (gameManager.pause.activeSelf == true)
         {
-            var animator = success.GetComponent<Animator>();
+            var animator = gameManager.pause.GetComponent<Animator>();
             animator.Play("Close");
+            Invoke("Pause_Close", 0.5f);
         }
-        else if (fail.activeSelf == true)
+        else
         {
-            var animator = fail.GetComponent<Animator>();
-            animator.Play("Close");
-        }
+            if (success.activeSelf == true)
+            {
+                var animator = success.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+            else if (fail.activeSelf == true)
+            {
+                var animator = fail.GetComponent<Animator>();
+                animator.Play("Close");
+            }
 
-        Reset();
-        Invoke("Success_Fail_Close", 0.5f);
+            Reset();
+            Invoke("Success_Fail_Close", 0.5f);
+        }
     }
     
     public void Next()
@@ -494,6 +545,15 @@ public class Lovely_Manager : MonoBehaviour
         Invoke("Success_Fail_Close", 0.5f);
     }
     
+    public void Help()
+    {
+        PlayerPrefs.SetInt("Lovely_Tutorial", 0);
+        var animator = gameManager.pause.GetComponent<Animator>();
+        animator.Play("Close");
+        Reset();
+        Invoke("Pause_Close", 0.5f);
+    }
+    
     void Success_Fail_Close()
     {
         if (success.activeSelf == true)
@@ -505,10 +565,19 @@ public class Lovely_Manager : MonoBehaviour
             fail.SetActive(false);
         }
     }
+    
+    void Pause_Close()
+    {
+        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
+        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
+        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
+        gameManager.pause.SetActive(false);
+    }
 
     public void Reset()
     {
         tutorial.SetActive(true);
+        tutorial_Notice_Num = 1;
         isTutorial = true;
         isTutorial_Check = false;
         isTutorial_Check2 = false;

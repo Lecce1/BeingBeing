@@ -20,8 +20,7 @@ public class Refresh_Manager : MonoBehaviour
     public GameObject mouse;
     public GameObject backGlow;
     public GameObject lightEffect;
-    public bool isLeftUp = false;
-    public bool isRightUp = false;
+    public bool isDoubleUp = false;
     public bool isSmile = false;
     public bool isNum = false;
     public string prevStage;
@@ -66,25 +65,19 @@ public class Refresh_Manager : MonoBehaviour
         }
         else if (isFirst == true)
         {
-            if (Input.mousePosition.x < (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            if (gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
             {
                 time = 0;
-                isLeftUp = true;
+                isDoubleUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
-            else if (Input.mousePosition.x > (gameManager.screen_Width / 2) && gameObject.GetComponent<Touch>().result == Result.up)
+            
+            /*if (gameObject.GetComponent<Touch>().result == Result.up)
             {
                 time = 0;
-                isRightUp = true;
+                isDoubleUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
-            }
-            else if (Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
-            {
-                time = 0;
-                isLeftUp = true;
-                isRightUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
+            }*/
         }
     }
     
@@ -188,8 +181,7 @@ public class Refresh_Manager : MonoBehaviour
             
                 if (isSmile == false)
                 {
-                    isLeftUp = false;
-                    isRightUp = false;
+                    isDoubleUp = false;
                 }
             }
         }
@@ -197,22 +189,7 @@ public class Refresh_Manager : MonoBehaviour
     
     void Mouse()
     {
-        if (isLeftUp == false && isRightUp == false)
-        {
-            mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
-            isSmile = false;
-        }
-        else if (isLeftUp == true && isRightUp == false)
-        {
-            mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse2");
-            isSmile = false;
-        }
-        else if (isLeftUp == false && isRightUp == true)
-        {
-            mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse3");
-            isSmile = false;
-        }
-        else if (isLeftUp == true && isRightUp == true && isNum == false)
+        if (isDoubleUp == true && isNum == false)
         {
             mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
             isSmile = true;
@@ -301,6 +278,7 @@ public class Refresh_Manager : MonoBehaviour
         circle.fillAmount = 0;
         count = 0;
         time = 0;
+        isDoubleUp = false;
         isLimit = false;
         isUp = false; 
         isDown = false;
@@ -308,13 +286,13 @@ public class Refresh_Manager : MonoBehaviour
         smile.SetActive(false);
         backGlow.SetActive(false);
         lightEffect.SetActive(false);
-        isLeftUp = false;
-        isRightUp = false;
+        isDoubleUp = false;
         isSmile = false;
         isNum = false;
         isFirst = false;
         shadow.SetActive(false);
         success.SetActive(false);
         gameManager.buttons.SetActive(true);
+        mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
     }
 }

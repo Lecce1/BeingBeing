@@ -9,17 +9,34 @@ using Random = UnityEngine.Random;
 public class Decent_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public GameObject tutorial_Notice;
+    public TMP_Text tutorial_Notice;
     public GameObject tutorial_True;
     public GameObject tutorial_Interpret;
     public GameObject tutorial_Sentence;
     public GameObject sentence;
     public GameObject game;
+    public GameObject stage1;
+    public GameObject stage1_Button;
     public GameObject[] stage1_Buttons;
+    public TMP_Text stage1_Notice;
+    public int stage1_Notice_Num = 1;
+    public GameObject stage2;
+    public TMP_Text stage2_Notice;
     private string stage2_Emotion;
     public GameObject stage2_Button;
     private int stage2_Answer = 0;
+    public GameObject stage3;
+    public GameObject stage4;
     private int stage4_Count = 1;
+    public GameObject stage5;
+    public GameObject stage5_Tutorial;
+    public bool stage5_isTutorial = false;
+    private bool stage5_isTutorial_Check;
+    private bool stage5_isTutorial_Check2;
+    public GameObject stage5_Tutorial_Bar;
+    public TMP_Text stage5_Notice;
+    public int stage5_Notice_Num = 1;
+    public GameObject stage5_Game;
     public GameObject stage5_Bar;
     public GameObject stage5_Car;
     public GameObject fuel;
@@ -36,6 +53,7 @@ public class Decent_Manager : MonoBehaviour
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
+    private int tutorial_Notice_Num = 1;
     private List<string> sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};
     private List<string> stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
     private List<string> stage2_Anger = new List<string> { "나는 잘못이 없어", "이 친구는 나쁜 놈이야", "참으면 나를 무시할 거야", "일부러 나를 힘들게 해"};
@@ -51,11 +69,6 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     private List<string> stage5_Text = new List<string> { };
     private List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
-    public GameObject stage1;
-    public GameObject stage2;
-    public GameObject stage3;
-    public GameObject stage4;
-    public GameObject stage5;
     public GameObject stage6;
     public int count = 0;
 
@@ -70,24 +83,41 @@ public class Decent_Manager : MonoBehaviour
         Tutorial();
         Sentence();
         Fuel();
+        Stage1();
+        Stage5_Tutorial();
         Stage6();
     }
     
     void Tutorial()
     {
-        if (isTutorial == false && isTutorial_Check == false)
+        if (isTutorial == false)
         {
-            isTutorial_Check = true;
-            gameManager.Set2();
-            gameManager.buttons.SetActive(false);
-            
-            if (gameManager.stage_Select_Level_Num == 1)
+            if (isTutorial_Check == false)
             {
-                isTutorial = false;
+                isTutorial_Check = true;
+                gameManager.Set2();
+                
+                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Decent_Tutorial") == 0)
+                {
+                    gameManager.buttons.SetActive(false);
+                    isTutorial = false;
+                }
+                else
+                {
+                    isTutorial = true;
+                }
             }
             else
             {
-                isTutorial = true;
+                if (Input.GetMouseButtonUp(0))
+                {
+                    tutorial_Notice_Num++;
+
+                    if (tutorial_Notice_Num != 5)
+                    {
+                        Tutorial_Notice();
+                    }
+                }
             }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
@@ -116,6 +146,57 @@ public class Decent_Manager : MonoBehaviour
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
+        }
+    }
+    
+    void Tutorial_Notice()
+    {
+        if (tutorial_Notice_Num == 1)
+        {
+            tutorial_Notice.text = "탈중심화 연습을 시작합니다.";
+        }
+        else if (tutorial_Notice_Num == 2)
+        {
+            tutorial_Notice.text = "다음에 제시된 문장을 사실과 해석으로 구분하여\n바구니로 드래그해주세요.";
+        }
+        else if (tutorial_Notice_Num == 3)
+        {
+            tutorial_Notice.text = "사실이란, 있는 그대로 설명한 것이며\n해석이란, 자신의 생각을 거쳐 나온 이야기입니다.";
+        }
+        else if (tutorial_Notice_Num == 4)
+        {
+            tutorial_Notice.text = "";
+            tutorial_True.SetActive(true);
+            tutorial_Interpret.SetActive(true);
+        }
+    }
+
+    void Stage1()
+    {
+        if (isTutorial == true && stage == 1)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                stage1_Notice_Num++;
+
+                if (stage1_Notice_Num != 6)
+                {
+                    Stage1_Notice();
+                }
+            }
+        }
+    }
+
+    void Stage1_Notice()
+    {
+        if (stage1_Notice_Num == 1)
+        {
+            stage1_Notice.text = "다음 그림을 자세히 살펴봐주세요.";
+        }
+        else if (stage1_Notice_Num == 2)
+        {
+            stage1_Button.SetActive(true);
+            stage1_Notice.text = "아래 9가지 보기 중에서 그림에서 나타나는 감정을 4가지만 선택해보세요.";
         }
     }
     
@@ -167,21 +248,25 @@ public class Decent_Manager : MonoBehaviour
         {
             stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
             stage2.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Notice.text = "분노가 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Unrest")
         {
             stage2.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
             stage2.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Notice.text = "불안이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Sadness")
         {
             stage2.transform.GetChild(0).GetChild(2).GetComponent<Button>().interactable = false;
             stage2.transform.GetChild(0).GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Notice.text = "슬픔이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Remorse")
         {
             stage2.transform.GetChild(0).GetChild(3).GetComponent<Button>().interactable = false;
             stage2.transform.GetChild(0).GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Notice.text = "자책이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
 
         if (gameManager.stage_Select_Level_Num == 1)
@@ -543,7 +628,6 @@ public class Decent_Manager : MonoBehaviour
         }
         
         stage2.transform.GetChild(0).gameObject.SetActive(false);
-        stage2.transform.GetChild(1).gameObject.SetActive(true);
         stage2.transform.GetChild(2).gameObject.SetActive(true);
         stage2.transform.GetChild(3).gameObject.SetActive(true);
     }
@@ -553,6 +637,7 @@ public class Decent_Manager : MonoBehaviour
         if (stage2_Emotion == type)
         {
             stage3_Text.Add(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
+            EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "<bounce>" + EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text + "</bounce>";
             EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = Color.green;
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
             stage2_Answer++;
@@ -568,9 +653,7 @@ public class Decent_Manager : MonoBehaviour
                         stage3_True.RemoveAt(num);
                     }
                     
-                    stage2.SetActive(false);
-                    stage3.SetActive(true);
-                    stage = 3;
+                    Invoke("Stage2_Delay", 3.0f);
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 2 || gameManager.stage_Select_Level_Num == 3)
@@ -584,9 +667,7 @@ public class Decent_Manager : MonoBehaviour
                         stage3_True.RemoveAt(num);
                     }
                     
-                    stage2.SetActive(false);
-                    stage3.SetActive(true);
-                    stage = 3;
+                    Invoke("Stage2_Delay", 3.0f);
                 }
             }
         }
@@ -595,6 +676,13 @@ public class Decent_Manager : MonoBehaviour
             EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = Color.black;
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
         }
+    }
+
+    void Stage2_Delay()
+    {
+        stage2.SetActive(false);
+        stage3.SetActive(true);
+        stage = 3;
     }
 
     public void Stage4_Btn()
@@ -619,9 +707,104 @@ public class Decent_Manager : MonoBehaviour
         stage4_Count++;
     }
     
+     void Stage5_Tutorial()
+    {
+        if (isTutorial == true && stage == 5 && stage5_isTutorial == false)
+        {
+            if (stage5_isTutorial_Check == false)
+            {
+                stage5_isTutorial_Check = true;
+
+                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Decent_Stage5_Tutorial") == 0)
+                {
+                    stage5_isTutorial = false;
+                }
+                else
+                {
+                    stage5_isTutorial = true;
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButtonUp(0))
+                {
+                    stage5_Notice_Num++;
+
+                    if (stage5_Notice_Num != 7)
+                    {
+                        Stage5_Tutorial_Notice();
+                    }
+                }
+            }
+        }
+        else if (isTutorial == true && stage5_isTutorial == true && stage5_isTutorial_Check2 == false)
+        {
+            stage5_isTutorial_Check2 = true;
+            stage5_Tutorial.SetActive(false);
+            stage5_Game.SetActive(true);
+        }
+    }
+    
+    void Stage5_Tutorial_Notice()
+    {
+        if (stage5_Notice_Num == 1)
+        {
+            stage5_Notice.text = "수용 연습을 시작합니다.";
+        }
+        else if (stage5_Notice_Num == 2)
+        {
+            stage5_Notice.text = "현재 자신이 경험을 받아들임으로써\n자기이해, 자기사랑, 자기수용의 단계를 마무리합시다.";
+        }
+        else if (stage5_Notice_Num == 3)
+        {
+            stage5_Notice.text = "자동차는 나 자신이고\n연료는 자신의 현재 경험입니다.";
+        }
+        else if (stage5_Notice_Num == 4)
+        {
+            stage5_Notice.text = "자동차를 좌우로 드래그하여\n분노 경험과 관련된 연료를 채우세요.";
+        }
+        else if (stage5_Notice_Num == 5)
+        {
+            stage5_Notice.text = "만약 관련이 없는 연료를 채우게 되면, 에너지가 줄어듭니다.";
+        }
+        else if (stage5_Notice_Num == 6)
+        {
+            stage5_Notice.text = "";
+            stage5_Tutorial.transform.GetChild(3).gameObject.SetActive(true);
+            stage5_Tutorial.transform.GetChild(4).gameObject.SetActive(true);
+            stage5_Tutorial.transform.GetChild(5).gameObject.SetActive(true);
+            stage5_Tutorial.transform.GetChild(6).gameObject.SetActive(true);
+        }
+    }
+
+    void Stage5_Check()
+    {
+        stage5_isTutorial = true;
+        isSentence = false;
+        PlayerPrefs.SetInt("Decent_Stage5_Tutorial", 1);
+    }
+    
     void Fuel()
     {
-        if (isTutorial == true && stage == 5 && isSentence == false)
+        if (isTutorial == true && stage == 5 && isSentence == false && stage5_isTutorial == false && stage5_Notice_Num >= 6)
+        {
+            isSentence = true;
+            
+            if (stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount != 1)
+            {
+                StartCoroutine("FuelGenerator");
+            }
+            else if (stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+            {
+                stage5_Notice.text = "잘 하셨습니다. 수용 연습을 마칩니다.";
+                stage5_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
+                stage5_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
+                stage5_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
+                stage5_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
+                Invoke("Stage5_Check", 3f);
+            }
+        }
+        else if (isTutorial == true && stage == 5 && isSentence == false && stage5_isTutorial == true)
         {
             isSentence = true;
             
@@ -638,44 +821,66 @@ public class Decent_Manager : MonoBehaviour
     
     IEnumerator FuelGenerator()
     {
-        GameObject temp = Instantiate(fuel);
-        temp.transform.SetParent(stage5.transform.GetChild(3));
-        temp.transform.GetComponent<RectTransform>().anchoredPosition =
-            new Vector2(Random.Range(-300, 400), -200);
-        temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        int num = Random.Range(0, stage5_Text.Count);
-        temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage5_Text[num];
-        stage5_Text.RemoveAt(num);
-
-        if (stage5_Text.Count == 0)
+        if (stage5_isTutorial == false)
         {
-            if (stage2_Emotion == "Anger")
-            {
-                stage5_Text.AddRange(stage5_Anger);
-            }
-            else if (stage2_Emotion == "Unrest")
-            {
-                stage5_Text.AddRange(stage5_Unrest);
-            }
-            else if (stage2_Emotion == "Sadness")
-            {
-                stage5_Text.AddRange(stage5_Sadness);
-            }
-            else if (stage2_Emotion == "Remorse")
-            {
-                stage5_Text.AddRange(stage5_Remorse);
-            }
-        }
-        
-        float delay = 0;
+            GameObject temp = Instantiate(fuel);
+            temp.transform.SetParent(stage5_Tutorial.transform.GetChild(6));
+            temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(Random.Range(-300, 400), -200);
+            temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "테스트";
+            
+            float delay = 0;
 
-        while (delay < 0.6f)
-        {
-            delay += Time.deltaTime;
-            yield return waitForEndOfFrame;
-        }
+            while (delay < 0.6f)
+            {
+                delay += Time.deltaTime;
+                yield return waitForEndOfFrame;
+            }
     
-        isSentence = false;
+            isSentence = false;
+        }
+        else if (stage5_isTutorial == true)
+        {
+            GameObject temp = Instantiate(fuel);
+            temp.transform.SetParent(stage5_Game.transform.GetChild(3));
+            temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(Random.Range(-300, 400), -200);
+            temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            int num = Random.Range(0, stage5_Text.Count);
+            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage5_Text[num];
+            stage5_Text.RemoveAt(num);
+
+            if (stage5_Text.Count == 0)
+            {
+                if (stage2_Emotion == "Anger")
+                {
+                    stage5_Text.AddRange(stage5_Anger);
+                }
+                else if (stage2_Emotion == "Unrest")
+                {
+                    stage5_Text.AddRange(stage5_Unrest);
+                }
+                else if (stage2_Emotion == "Sadness")
+                {
+                    stage5_Text.AddRange(stage5_Sadness);
+                }
+                else if (stage2_Emotion == "Remorse")
+                {
+                    stage5_Text.AddRange(stage5_Remorse);
+                }
+            }
+        
+            float delay = 0;
+
+            while (delay < 0.6f)
+            {
+                delay += Time.deltaTime;
+                yield return waitForEndOfFrame;
+            }
+    
+            isSentence = false;
+        }
     }
     
     void Stage6()
@@ -684,14 +889,16 @@ public class Decent_Manager : MonoBehaviour
         {
             isSentence = true;
             
-            if (stage6_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount != 1 && stage6_Text.Count != 0)
+            Invoke("Check", 3f);
+            
+            /*if (stage6_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount != 1 && stage6_Text.Count != 0)
             {
                 //StartCoroutine("MentGenerator");
             }
             else if (stage6_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
             {
                 Invoke("Check", 0.5f);
-            }
+            }*/
         }
     }
     
@@ -722,6 +929,7 @@ public class Decent_Manager : MonoBehaviour
         if (isTutorial == false)
         {
             isTutorial = true;
+            PlayerPrefs.SetInt("Decent_Tutorial", 1);
         }
         else if (isTutorial == true)
         {
@@ -750,23 +958,31 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (stage == 5)
             {
-                stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
-                stage5_Car.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 150);
-                count++;
-                stage5.SetActive(false);
-
-                if (count != 4)
+                if (stage5_isTutorial == false)
                 {
-                    Reset();
-                    isTutorial = true;
-                    stage1.SetActive(false);
-                    stage2.SetActive(true);
-                    stage = 2;
+                    Stage5_Check();
                 }
-                else if (count == 4)
+                else
                 {
-                    isNext = true;
-                    animManager.Fade_Out();
+                    stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+                    stage5_Car.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 150);
+                    count++;
+                    stage5.SetActive(false);
+
+                    if (count != 4)
+                    {
+                        Reset();
+                        isTutorial = true;
+                        stage1.SetActive(false);
+                        stage2.SetActive(true);
+                        stage = 2;
+                        stage2_Notice.text = "아래의 앞서 선택한 4가지 감정이 있습니다.\n아래 남아있는 감정 중 한가지를 선택해주세요.";
+                    }
+                    else if (count == 4)
+                    {
+                        isNext = true;
+                        animManager.Fade_Out();
+                    }
                 }
             }
             else if (stage == 6)
@@ -779,7 +995,7 @@ public class Decent_Manager : MonoBehaviour
 
     void Sentence()
     {
-        if (isTutorial == false && isSentence == false)
+        if (isTutorial == false && isSentence == false && tutorial_Notice_Num >= 5)
         {
             if (sentence_Text.Count != 0)
             {
@@ -790,10 +1006,10 @@ public class Decent_Manager : MonoBehaviour
             {
                 if (tutorial.transform.GetChild(5).childCount == 0)
                 {
-                    tutorial_Notice.SetActive(true);
+                    tutorial_Notice.text = "사실과 해석에 대한 구분이 잘 되시나요?\n이제부터 본격적으로 시작해봅시다.";
                     tutorial_True.SetActive(false);
                     tutorial_Interpret.SetActive(false);
-                    Check();
+                    Invoke("Check", 3.0f);
                 }
             }
         }
@@ -806,7 +1022,7 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (stage3_Text.Count == 0)
             {
-                if (stage3.transform.GetChild(2).childCount == 0)
+                if (stage3.transform.GetChild(3).childCount == 0)
                 {
                     Check();
                 }
@@ -840,9 +1056,9 @@ public class Decent_Manager : MonoBehaviour
         else if (test == true)
         {
             GameObject temp = Instantiate(sentence);
-            temp.transform.SetParent(stage3.transform.GetChild(2));
+            temp.transform.SetParent(stage3.transform.GetChild(3));
             temp.transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(0, -200);
+                new Vector2(0, -400);
             temp.transform.localScale = new Vector3(1, 1, 1);
             int num = Random.Range(0, stage3_Text.Count);
             temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage3_Text[num];
@@ -859,19 +1075,28 @@ public class Decent_Manager : MonoBehaviour
 
     public void ReStart()
     {
-        if (success.activeSelf == true)
+        if (gameManager.pause.activeSelf == true)
         {
-            var animator = success.GetComponent<Animator>();
+            var animator = gameManager.pause.GetComponent<Animator>();
             animator.Play("Close");
+            Invoke("Pause_Close", 0.5f);
         }
-        else if (fail.activeSelf == true)
+        else
         {
-            var animator = fail.GetComponent<Animator>();
-            animator.Play("Close");
-        }
+            if (success.activeSelf == true)
+            {
+                var animator = success.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+            else if (fail.activeSelf == true)
+            {
+                var animator = fail.GetComponent<Animator>();
+                animator.Play("Close");
+            }
 
-        Reset();
-        Invoke("Success_Fail_Close", 0.5f);
+            Reset();
+            Invoke("Success_Fail_Close", 0.5f);
+        }
     }
     
     public void Next()
@@ -913,6 +1138,15 @@ public class Decent_Manager : MonoBehaviour
         Invoke("Success_Fail_Close", 0.5f);
     }
     
+    public void Help()
+    {
+        PlayerPrefs.SetInt("Decent_Tutorial", 0);
+        var animator = gameManager.pause.GetComponent<Animator>();
+        animator.Play("Close");
+        Reset();
+        Invoke("Pause_Close", 0.5f);
+    }
+    
     void Success_Fail_Close()
     {
         if (success.activeSelf == true)
@@ -924,6 +1158,14 @@ public class Decent_Manager : MonoBehaviour
             fail.SetActive(false);
         }
     }
+    
+    void Pause_Close()
+    {
+        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
+        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
+        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
+        gameManager.pause.SetActive(false);
+    }
 
     public void Reset()
     {
@@ -931,9 +1173,10 @@ public class Decent_Manager : MonoBehaviour
         isTutorial = false;
         isTutorial_Check = false;
         isTutorial_Check2 = false;
-        tutorial_Notice.SetActive(false);
-        tutorial_True.SetActive(true);
-        tutorial_Interpret.SetActive(true);
+        tutorial_Notice_Num = 1;
+        tutorial_True.SetActive(false);
+        tutorial_Interpret.SetActive(false);
+        tutorial_Notice.text = "탈중심화 연습을 시작합니다.";
 
         for (int i = 0; i < tutorial_Sentence.transform.childCount; i++)
         {
@@ -949,9 +1192,13 @@ public class Decent_Manager : MonoBehaviour
         stage = 1;
         game.SetActive(false);
         stage1.SetActive(true);
+        stage1_Button.SetActive(false);
+        stage1_Notice_Num = 1;
+        stage1_Notice.text = "다음 그림을 자세히 살펴봐주세요.";
         stage2.SetActive(false);
+        stage2_Answer = 0;
+        stage2_Notice.text = "아래의 앞서 선택한 4가지 감정이 있습니다.\n이 중 한 가지를 선택해주세요.";
         stage2.transform.GetChild(0).gameObject.SetActive(true);
-        stage2.transform.GetChild(1).gameObject.SetActive(false);
         stage2.transform.GetChild(2).gameObject.SetActive(false);
         stage2.transform.GetChild(3).gameObject.SetActive(false);
         stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
@@ -968,22 +1215,40 @@ public class Decent_Manager : MonoBehaviour
             Destroy(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).gameObject);
         }
         
-        for (int i = 0; i < stage3.transform.GetChild(2).childCount; i++)
+        for (int i = 0; i < stage3.transform.GetChild(3).childCount; i++)
         {
-            Destroy(stage3.transform.GetChild(2).GetChild(i).gameObject);
+            Destroy(stage3.transform.GetChild(3).GetChild(i).gameObject);
         }
         
-        for (int i = 0; i < stage5.transform.GetChild(3).childCount; i++)
+        for (int i = 0; i < stage5_Tutorial.transform.GetChild(6).childCount; i++)
         {
-            Destroy(stage5.transform.GetChild(3).GetChild(i).gameObject);
+            Destroy(stage5_Tutorial.transform.GetChild(6).GetChild(i).gameObject);
+        }
+        
+        for (int i = 0; i < stage5_Game.transform.GetChild(3).childCount; i++)
+        {
+            Destroy(stage5_Game.transform.GetChild(3).GetChild(i).gameObject);
         }
         
         stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         stage5_Car.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 150);
         stage5.SetActive(false);
+        stage5_Tutorial.SetActive(true);
+        stage5_isTutorial = false;
+        stage5_isTutorial_Check = false;
+        stage5_isTutorial_Check2 = false;
+        stage5_Notice.text = "수용 연습을 시작합니다.";
+        stage5_Notice_Num = 1;
+        stage5_Game.SetActive(false);
+        stage5_isTutorial = false;
+        stage5_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
+        stage5_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
+        stage5_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
+        stage5_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
+        stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+        stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         stage6.SetActive(false);
         stage6_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
-        stage2_Answer = 0;
         isSentence = false;
         sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘요 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};
         stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };

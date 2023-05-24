@@ -16,34 +16,70 @@ public class Decent_Fuel : MonoBehaviour
     {
         transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, transform.GetComponent<RectTransform>().anchoredPosition.y - (700f * Time.deltaTime));
 
-        if (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+        if (decent_Manager.stage5_isTutorial == false)
         {
-            Destroy(gameObject);
+            if (decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if (decent_Manager.stage5_isTutorial == true)
+        {
+            if (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
     IEnumerator Bar()
     {
-        float fill = decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
+        if (decent_Manager.stage5_isTutorial == false)
+        {
+            float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
 
-        if (fill + 0.1f <= 1)
-        {
-            while (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.1f)
+            if (fill + 0.2f <= 1)
             {
-                decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
-                yield return waitForSeconds;
+                while (decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.2f)
+                {
+                    decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    yield return waitForSeconds;
+                }
             }
-        }
-        else if (fill + 0.1f > 1)
-        {
-            while (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+            else if (fill + 0.2f > 1)
             {
-                decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
-                yield return waitForSeconds;
+                while (decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+                {
+                    decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    yield return waitForSeconds;
+                }
             }
-        }
         
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
+        else if (decent_Manager.stage5_isTutorial == true)
+        {
+            float fill = decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
+
+            if (fill + 0.1f <= 1)
+            {
+                while (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.1f)
+                {
+                    decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    yield return waitForSeconds;
+                }
+            }
+            else if (fill + 0.1f > 1)
+            {
+                while (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+                {
+                    decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    yield return waitForSeconds;
+                }
+            }
+        
+            Destroy(gameObject);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)

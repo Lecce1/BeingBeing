@@ -19,15 +19,10 @@ public class Decent_Car : MonoBehaviour, IBeginDragHandler, IDragHandler
                 new Vector2(460, transform.GetComponent<RectTransform>().anchoredPosition.y);
         }
         
-        if (transform.GetComponent<RectTransform>().anchoredPosition.y < 0)
+        if (transform.GetComponent<RectTransform>().anchoredPosition.y != 150)
         {
             transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, 0);
-        }
-        else if (transform.GetComponent<RectTransform>().anchoredPosition.y > 250)
-        {
-            transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, 250);
+                new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, 150);
         }
     }
     

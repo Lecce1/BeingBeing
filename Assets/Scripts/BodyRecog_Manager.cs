@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class BodyRecog_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public GameObject tutorial_Notice;
+    public GameObject tutorial_Character;
+    public GameObject tutorial_Points;
+    public TMP_Text tutorial_Notice;
     public GameObject tutorial_Line;
     public GameObject tutorial_Choices;
     public GameObject game;
@@ -23,9 +25,10 @@ public class BodyRecog_Manager : MonoBehaviour
     public bool isNext = false;
     GameManager gameManager;
     AnimManager animManager;
-    public bool isTutorial = true;
-    private bool isTutorial_Check = true;
-    private bool isTutorial_Check2;
+    public bool isTutorial = false;
+    private bool isTutorial_Check = false;
+    private bool isTutorial_Check2 = false;
+    private int tutorial_Notice_Num = 1;
 
     void Awake()
     {
@@ -42,34 +45,77 @@ public class BodyRecog_Manager : MonoBehaviour
     
     void Tutorial()
     {
-        if (isTutorial == false && isTutorial_Check == false)
+        if (isTutorial == false)
         {
-            isTutorial_Check = true;
-            gameManager.Set2();
-            gameManager.buttons.SetActive(false);
-            
-            if (gameManager.stage_Select_Level_Num == 1)
+            if (isTutorial_Check == false)
             {
-                isTutorial = false;
+                isTutorial_Check = true;
+                gameManager.Set2();
+
+                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("BodyRecog_Tutorial") == 0)
+                {
+                    gameManager.buttons.SetActive(false);
+                    isStop = true;
+                    isTutorial = false;
+                    Tutorial_Notice();
+                }
+                else
+                {
+                    isTutorial = true;
+                }
             }
             else
             {
-                isTutorial = true;
+                if (Input.GetMouseButtonUp(0))
+                {
+                    tutorial_Notice_Num++;
+
+                    if (tutorial_Notice_Num != 5)
+                    {
+                        Tutorial_Notice();
+                    }
+                }
             }
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
             isTutorial_Check2 = true;
             isStop = false;
+            result.text = "";
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
         }
     }
 
+    void Tutorial_Notice()
+    {
+        if (tutorial_Notice_Num == 1)
+        {
+            tutorial_Notice.text = "신체자각과 감정자각을 시작합니다.";
+        }
+        else if (tutorial_Notice_Num == 2)
+        {
+            tutorial_Notice.text = "신체자각은 현재 자신의 몸 상태에 대해\n알아차리는 것입니다.";
+        }
+        else if (tutorial_Notice_Num == 3)
+        {
+            tutorial_Notice.text = "머리부터 시작하여 어깨, 가슴, 배, 무릎, 발의 순서로\n알아차림을 하면 됩니다.";
+        }
+        else if (tutorial_Notice_Num == 4)
+        {
+            tutorial_Notice.text = "이제부터 시작해볼까요?";
+            tutorial_Character.SetActive(true);
+            tutorial_Points.SetActive(true);
+            tutorial_Line.SetActive(true);
+            isStop = false;
+        }
+    }
+    
     public void Skip()
     {
         isTutorial = true;
+        PlayerPrefs.SetInt("BodyRecog_Tutorial", 1);
     }
     
     void Line()
@@ -94,7 +140,7 @@ public class BodyRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "자신의 상황에 맞게 버튼을 눌러요";
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "현재 당신의 머리는 편한가요, 불편한가요?";
             tutorial_Choices.SetActive(true);
             tutorial_Choices.transform.GetChild(0).gameObject.SetActive(true);
             tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
@@ -137,6 +183,7 @@ public class BodyRecog_Manager : MonoBehaviour
                 choices.transform.GetChild(1).GetChild(4).GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(-375, 300);
             }
+            
             choices.SetActive(true);
             choices.transform.GetChild(0).gameObject.SetActive(true);
             choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
@@ -149,9 +196,15 @@ public class BodyRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Choices.SetActive(false);
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지 ~";
-            Invoke("Skip", 3.0f);
+            choiceNum = num;
+            tutorial_Choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
+            tutorial_Choices.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
+            tutorial_Choices.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = false;
+            tutorial_Choices.transform.GetChild(1).GetChild(1).GetComponent<Button>().interactable = false;
+            tutorial_Choices.transform.GetChild(1).GetChild(2).GetComponent<Button>().interactable = false;
+            tutorial_Choices.transform.GetChild(1).GetChild(3).GetComponent<Button>().interactable = false;
+            tutorial_Choices.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = false;
+            Invoke("Choice2", 0.5f); 
         }
         else if (isTutorial == true)
         {
@@ -169,226 +222,302 @@ public class BodyRecog_Manager : MonoBehaviour
     
     public void Choice2()
     {
-        if (step == 1)
+        if (isTutorial == false)
         {
-            Result(choices.transform.GetChild(0).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+            if (step == 1)
+            {
+                Result(tutorial_Choices.transform.GetChild(0).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
 
-            if (choiceNum == 1)
-            {
-                choices.transform.GetChild(0).gameObject.SetActive(false);
-                choices.transform.GetChild(1).gameObject.SetActive(true);
-                choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "상쾌하다";
-                choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "가볍다";
-                choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "시원하다";
-                choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "따뜻하다";
-                choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
-                choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
-                choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
-                choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
-                choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
-                choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
-            }
-            else if (choiceNum == 2)
-            {
-                choices.transform.GetChild(0).gameObject.SetActive(false);
-                choices.transform.GetChild(1).gameObject.SetActive(true);
-                choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불쾌하다";
-                choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "무겁다";
-                choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "갑갑하다";
-                choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "차갑다";
-                choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
-                choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
-                choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
-                choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
-                choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
-                choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
-            }
+                if (choiceNum == 1)
+                {
+                    tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
+                    tutorial_Choices.transform.GetChild(1).gameObject.SetActive(true);
+                    tutorial_Choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "상쾌하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "가볍다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "시원하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "따뜻하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
+                    tutorial_Choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
+                    tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
+                    tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
+                    tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
+                }
+                else if (choiceNum == 2)
+                {
+                    tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
+                    tutorial_Choices.transform.GetChild(1).gameObject.SetActive(true);
+                    tutorial_Choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불쾌하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "무겁다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "갑갑하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "차갑다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
+                    tutorial_Choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
+                    tutorial_Choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
+                    tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
+                    tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
+                    tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
+                }
 
-            step = 2;
-        }
-        else if (step == 2)
-        {
-            Result(choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
-            choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "매우 그렇다";
-            choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "거의 그렇다";
-            choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "그렇다";
-            choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "다소 그렇다";
-            choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "조금 그렇다";
-            choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-            choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-            choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-            choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-            choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-            step = 3;
-        }
-        else if (step == 3)
-        {
-            Result(choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
-            choices.SetActive(false);
-            choices.transform.GetChild(1).gameObject.SetActive(false);
-            isStop = false;
-
-            if (gameManager.stage_Select_Level_Num == 1)
-            {
-                if (pointNum == 1)
-                {
-                    points.transform.GetChild(0).gameObject.SetActive(false);
-                    points.transform.GetChild(5).gameObject.SetActive(true);
-                }
-                else if (pointNum == 2)
-                {
-                    points.transform.GetChild(5).gameObject.SetActive(false);
-                    points.transform.GetChild(6).gameObject.SetActive(true);
-                }
-                else if (pointNum == 3)
-                {
-                    points.transform.GetChild(6).gameObject.SetActive(false);
-                    points.transform.GetChild(7).gameObject.SetActive(true);
-                }
-                else if (pointNum == 4)
-                {
-                    points.transform.GetChild(7).gameObject.SetActive(false);
-                    points.transform.GetChild(11).gameObject.SetActive(true);
-                }
-                else if (pointNum == 5)
-                {
-                    points.transform.GetChild(11).gameObject.SetActive(false);
-                    points.transform.GetChild(12).gameObject.SetActive(true);
-                }
-                else if (pointNum == 6)
-                {
-                    points.transform.GetChild(12).gameObject.SetActive(false);
-                    points.transform.GetChild(13).gameObject.SetActive(true);
-                }
+                tutorial_Notice.text = "다음의 5가지 감각 중에 지금 머리에서 느껴지는 감각과 가장 유사한 것을 한 가지 선택하세요.";
+                step = 2;
             }
-            else if (gameManager.stage_Select_Level_Num == 2)
+            else if (step == 2)
             {
-                if (pointNum == 1)
-                {
-                    points.transform.GetChild(0).gameObject.SetActive(false);
-                    points.transform.GetChild(1).gameObject.SetActive(true);
-                }
-                else if (pointNum == 2)
-                {
-                    points.transform.GetChild(1).gameObject.SetActive(false);
-                    points.transform.GetChild(2).gameObject.SetActive(true);
-                }
-                else if (pointNum == 3)
-                {
-                    points.transform.GetChild(2).gameObject.SetActive(false);
-                    points.transform.GetChild(3).gameObject.SetActive(true);
-                }
-                else if (pointNum == 4)
-                {
-                    points.transform.GetChild(3).gameObject.SetActive(false);
-                    points.transform.GetChild(4).gameObject.SetActive(true);
-                }
-                else if (pointNum == 5)
-                {
-                    points.transform.GetChild(4).gameObject.SetActive(false);
-                    points.transform.GetChild(8).gameObject.SetActive(true);
-                }
-                else if (pointNum == 6)
-                {
-                    points.transform.GetChild(8).gameObject.SetActive(false);
-                    points.transform.GetChild(9).gameObject.SetActive(true);
-                }
-                else if (pointNum == 7)
-                {
-                    points.transform.GetChild(9).gameObject.SetActive(false);
-                    points.transform.GetChild(10).gameObject.SetActive(true);
-                }
-                else if (pointNum == 8)
-                {
-                    points.transform.GetChild(10).gameObject.SetActive(false);
-                    points.transform.GetChild(12).gameObject.SetActive(true);
-                }
-                else if (pointNum == 9)
-                {
-                    points.transform.GetChild(12).gameObject.SetActive(false);
-                    points.transform.GetChild(13).gameObject.SetActive(true);
-                }
+                Result(tutorial_Choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+                tutorial_Choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "5";
+                tutorial_Choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "4";
+                tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "3";
+                tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "2";
+                tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "1";
+                tutorial_Choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                tutorial_Choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                tutorial_Notice.text = "선택한 감정이 느껴지는 정도를 확인해주세요.\n가장 많이 느껴지면 5점, 아주 적게 느껴지면 1점입니다.";
+                step = 3;
             }
-            else if (gameManager.stage_Select_Level_Num == 3)
+            else if (step == 3)
             {
-                if (pointNum == 1)
-                {
-                    points.transform.GetChild(0).gameObject.SetActive(false);
-                    points.transform.GetChild(1).gameObject.SetActive(true);
-                }
-                else if (pointNum == 2)
-                {
-                    points.transform.GetChild(1).gameObject.SetActive(false);
-                    points.transform.GetChild(2).gameObject.SetActive(true);
-                }
-                else if (pointNum == 3)
-                {
-                    points.transform.GetChild(2).gameObject.SetActive(false);
-                    points.transform.GetChild(3).gameObject.SetActive(true);
-                }
-                else if (pointNum == 4)
-                {
-                    points.transform.GetChild(3).gameObject.SetActive(false);
-                    points.transform.GetChild(4).gameObject.SetActive(true);
-                }
-                else if (pointNum == 5)
-                {
-                    points.transform.GetChild(4).gameObject.SetActive(false);
-                    points.transform.GetChild(5).gameObject.SetActive(true);
-                }
-                else if (pointNum == 6)
-                {
-                    points.transform.GetChild(5).gameObject.SetActive(false);
-                    points.transform.GetChild(6).gameObject.SetActive(true);
-                }
-                else if (pointNum == 7)
-                {
-                    points.transform.GetChild(6).gameObject.SetActive(false);
-                    points.transform.GetChild(7).gameObject.SetActive(true);
-                }
-                else if (pointNum == 8)
-                {
-                    points.transform.GetChild(7).gameObject.SetActive(false);
-                    points.transform.GetChild(8).gameObject.SetActive(true);
-                }
-                else if (pointNum == 9)
-                {
-                    points.transform.GetChild(8).gameObject.SetActive(false);
-                    points.transform.GetChild(9).gameObject.SetActive(true);
-                }
-                else if (pointNum == 10)
-                {
-                    points.transform.GetChild(9).gameObject.SetActive(false);
-                    points.transform.GetChild(10).gameObject.SetActive(true);
-                }
-                else if (pointNum == 11)
-                {
-                    points.transform.GetChild(10).gameObject.SetActive(false);
-                    points.transform.GetChild(11).gameObject.SetActive(true);
-                }
-                else if (pointNum == 12)
-                {
-                    points.transform.GetChild(11).gameObject.SetActive(false);
-                    points.transform.GetChild(12).gameObject.SetActive(true);
-                }
-                else if (pointNum == 13)
-                {
-                    points.transform.GetChild(12).gameObject.SetActive(false);
-                    points.transform.GetChild(13).gameObject.SetActive(true);
-                }
+                Result(tutorial_Choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+                tutorial_Notice.text = "잘 하셨습니다. 당신의 전체 몸 상태는 다음과 같습니다.\n SKIP 버튼을 누르면 튜토리얼은 마무리 됩니다.";
+                tutorial_Choices.SetActive(false);
+                tutorial_Choices.transform.GetChild(1).gameObject.SetActive(false);
+                tutorial_Points.SetActive(false);
+                tutorial_Line.SetActive(false);
             }
             
-
-            pointNum++;
+            tutorial_Choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
+            tutorial_Choices.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
+            tutorial_Choices.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = true;
+            tutorial_Choices.transform.GetChild(1).GetChild(1).GetComponent<Button>().interactable = true;
+            tutorial_Choices.transform.GetChild(1).GetChild(2).GetComponent<Button>().interactable = true;
+            tutorial_Choices.transform.GetChild(1).GetChild(3).GetComponent<Button>().interactable = true;
+            tutorial_Choices.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = true;
         }
-        
-        choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
-        choices.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
-        choices.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = true;
-        choices.transform.GetChild(1).GetChild(1).GetComponent<Button>().interactable = true;
-        choices.transform.GetChild(1).GetChild(2).GetComponent<Button>().interactable = true;
-        choices.transform.GetChild(1).GetChild(3).GetComponent<Button>().interactable = true;
-        choices.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = true;
+        else if (isTutorial == true)
+        {
+            if (step == 1)
+            {
+                Result(choices.transform.GetChild(0).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+
+                if (choiceNum == 1)
+                {
+                    choices.transform.GetChild(0).gameObject.SetActive(false);
+                    choices.transform.GetChild(1).gameObject.SetActive(true);
+                    choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "상쾌하다";
+                    choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "가볍다";
+                    choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "시원하다";
+                    choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "따뜻하다";
+                    choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
+                    choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
+                    choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
+                    choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
+                    choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
+                    choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
+                }
+                else if (choiceNum == 2)
+                {
+                    choices.transform.GetChild(0).gameObject.SetActive(false);
+                    choices.transform.GetChild(1).gameObject.SetActive(true);
+                    choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불쾌하다";
+                    choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "무겁다";
+                    choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "갑갑하다";
+                    choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "차갑다";
+                    choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
+                    choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[0];
+                    choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[1];
+                    choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[2];
+                    choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[3];
+                    choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
+                }
+
+                step = 2;
+            }
+            else if (step == 2)
+            {
+                Result(choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+                choices.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "5";
+                choices.transform.GetChild(1).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "4";
+                choices.transform.GetChild(1).GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = "3";
+                choices.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = "2";
+                choices.transform.GetChild(1).GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = "1";
+                choices.transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                choices.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
+                step = 3;
+            }
+            else if (step == 3)
+            {
+                Result(choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
+                choices.SetActive(false);
+                choices.transform.GetChild(1).gameObject.SetActive(false);
+                isStop = false;
+
+                if (gameManager.stage_Select_Level_Num == 1)
+                {
+                    if (pointNum == 1)
+                    {
+                        points.transform.GetChild(0).gameObject.SetActive(false);
+                        points.transform.GetChild(5).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 2)
+                    {
+                        points.transform.GetChild(5).gameObject.SetActive(false);
+                        points.transform.GetChild(6).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 3)
+                    {
+                        points.transform.GetChild(6).gameObject.SetActive(false);
+                        points.transform.GetChild(7).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 4)
+                    {
+                        points.transform.GetChild(7).gameObject.SetActive(false);
+                        points.transform.GetChild(11).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 5)
+                    {
+                        points.transform.GetChild(11).gameObject.SetActive(false);
+                        points.transform.GetChild(12).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 6)
+                    {
+                        points.transform.GetChild(12).gameObject.SetActive(false);
+                        points.transform.GetChild(13).gameObject.SetActive(true);
+                    }
+                }
+                else if (gameManager.stage_Select_Level_Num == 2)
+                {
+                    if (pointNum == 1)
+                    {
+                        points.transform.GetChild(0).gameObject.SetActive(false);
+                        points.transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 2)
+                    {
+                        points.transform.GetChild(1).gameObject.SetActive(false);
+                        points.transform.GetChild(2).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 3)
+                    {
+                        points.transform.GetChild(2).gameObject.SetActive(false);
+                        points.transform.GetChild(3).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 4)
+                    {
+                        points.transform.GetChild(3).gameObject.SetActive(false);
+                        points.transform.GetChild(4).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 5)
+                    {
+                        points.transform.GetChild(4).gameObject.SetActive(false);
+                        points.transform.GetChild(8).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 6)
+                    {
+                        points.transform.GetChild(8).gameObject.SetActive(false);
+                        points.transform.GetChild(9).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 7)
+                    {
+                        points.transform.GetChild(9).gameObject.SetActive(false);
+                        points.transform.GetChild(10).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 8)
+                    {
+                        points.transform.GetChild(10).gameObject.SetActive(false);
+                        points.transform.GetChild(12).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 9)
+                    {
+                        points.transform.GetChild(12).gameObject.SetActive(false);
+                        points.transform.GetChild(13).gameObject.SetActive(true);
+                    }
+                }
+                else if (gameManager.stage_Select_Level_Num == 3)
+                {
+                    if (pointNum == 1)
+                    {
+                        points.transform.GetChild(0).gameObject.SetActive(false);
+                        points.transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 2)
+                    {
+                        points.transform.GetChild(1).gameObject.SetActive(false);
+                        points.transform.GetChild(2).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 3)
+                    {
+                        points.transform.GetChild(2).gameObject.SetActive(false);
+                        points.transform.GetChild(3).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 4)
+                    {
+                        points.transform.GetChild(3).gameObject.SetActive(false);
+                        points.transform.GetChild(4).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 5)
+                    {
+                        points.transform.GetChild(4).gameObject.SetActive(false);
+                        points.transform.GetChild(5).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 6)
+                    {
+                        points.transform.GetChild(5).gameObject.SetActive(false);
+                        points.transform.GetChild(6).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 7)
+                    {
+                        points.transform.GetChild(6).gameObject.SetActive(false);
+                        points.transform.GetChild(7).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 8)
+                    {
+                        points.transform.GetChild(7).gameObject.SetActive(false);
+                        points.transform.GetChild(8).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 9)
+                    {
+                        points.transform.GetChild(8).gameObject.SetActive(false);
+                        points.transform.GetChild(9).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 10)
+                    {
+                        points.transform.GetChild(9).gameObject.SetActive(false);
+                        points.transform.GetChild(10).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 11)
+                    {
+                        points.transform.GetChild(10).gameObject.SetActive(false);
+                        points.transform.GetChild(11).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 12)
+                    {
+                        points.transform.GetChild(11).gameObject.SetActive(false);
+                        points.transform.GetChild(12).gameObject.SetActive(true);
+                    }
+                    else if (pointNum == 13)
+                    {
+                        points.transform.GetChild(12).gameObject.SetActive(false);
+                        points.transform.GetChild(13).gameObject.SetActive(true);
+                    }
+                }
+                
+                pointNum++;
+            }
+            
+            choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
+            choices.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
+            choices.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = true;
+            choices.transform.GetChild(1).GetChild(1).GetComponent<Button>().interactable = true;
+            choices.transform.GetChild(1).GetChild(2).GetComponent<Button>().interactable = true;
+            choices.transform.GetChild(1).GetChild(3).GetComponent<Button>().interactable = true;
+            choices.transform.GetChild(1).GetChild(4).GetComponent<Button>().interactable = true;
+        }
     }
 
     void Result(string data)
@@ -612,10 +741,20 @@ public class BodyRecog_Manager : MonoBehaviour
 
     public void ReStart()
     {
-        var animator = success.GetComponent<Animator>();
-        animator.Play("Close");
-        Reset();
-        Invoke("Success_Close", 0.5f);
+        if (gameManager.pause.activeSelf == true)
+        {
+            var animator = gameManager.pause.GetComponent<Animator>();
+            animator.Play("Close");
+            Reset();
+            Invoke("Pause_Close", 0.5f);
+        }
+        else
+        {
+            var animator = success.GetComponent<Animator>();
+            animator.Play("Close");
+            Reset();
+            Invoke("Success_Close", 0.5f);
+        }
     }
     
     public void Next()
@@ -627,14 +766,34 @@ public class BodyRecog_Manager : MonoBehaviour
         Invoke("Success_Close", 0.5f);
     }
     
+    public void Help()
+    {
+        PlayerPrefs.SetInt("BodyRecog_Tutorial", 0);
+        var animator = gameManager.pause.GetComponent<Animator>();
+        animator.Play("Close");
+        Reset();
+        Invoke("Pause_Close", 0.5f);
+    }
+    
     void Success_Close()
     {
         success.SetActive(false);
     }
 
+    void Pause_Close()
+    {
+        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
+        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
+        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
+        gameManager.pause.SetActive(false);
+    }
+    
     public void Reset()
     {
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "선이 포인트에 도착할때까지 기다려요";
+        tutorial_Character.SetActive(false);
+        tutorial_Points.SetActive(false);
+        tutorial_Line.SetActive(false);
+        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "신체자각과 감정자각을 시작합니다.";
         tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -100);
         tutorial_Choices.SetActive(false);
         tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
@@ -666,6 +825,7 @@ public class BodyRecog_Manager : MonoBehaviour
         isTutorial = true;
         isTutorial_Check = true;
         isTutorial_Check2 = false;
+        tutorial_Notice_Num = 1;
         gameManager.buttons.SetActive(true);
     }
 }

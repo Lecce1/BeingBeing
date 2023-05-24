@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject buttons_Info;
     public GameObject main;
     public GameObject main_Logo;
+    public TMP_Text main_Text;
     public GameObject stage;
     public GameObject[] stage_Select_Level;
     public int stage_Select_Level_Num = 1;
@@ -42,10 +44,11 @@ public class GameManager : MonoBehaviour
     public GameObject loading;
     public AnimManager animManager;
     public int screen_Width;
+    public int isFirst = 0;
 
     void Awake()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
@@ -58,6 +61,8 @@ public class GameManager : MonoBehaviour
 
     public void Set()
     {
+        isFirst = PlayerPrefs.GetInt("isFirst");
+
         for (int i = 0; i < 4; i++)
         {
             stage_Select_Buttons[i].SetActive(false);
@@ -187,6 +192,106 @@ public class GameManager : MonoBehaviour
         {
             buttons_Info.SetActive(true);
         }
+    }
+
+    public void Main_Text()
+    {
+        StartCoroutine("Main_Text_Anim");
+    }
+
+    IEnumerator Main_Text_Anim()
+    {
+        main_Text.text = "반갑습니다!";
+        
+        float delay = 0;
+        
+        while (main_Text.color.a < 1)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (main_Text.color.a > 0)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+
+        main_Text.text = "빙빙을 찾아주셔서\n감사합니다.";
+        
+        while (main_Text.color.a < 1)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (main_Text.color.a > 0)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+        
+        main_Text.text = "BeingBeing은\n자기이해, 자기수용, 자기사랑의\n실현하는 삶을 말합니다.";
+        
+        while (main_Text.color.a < 1)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+        
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (main_Text.color.a > 0)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a - (Time.deltaTime * 0.5f));
+            yield return null;
+        }
+        
+        main_Text.text = "빙빙과 함께 자신감과 행복을\n찾아가는 여행을 시작해봅시다.";
+        
+        while (main_Text.color.a < 1)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a + (Time.deltaTime * 0.5f));
+            yield return null;
+        }
+        
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (main_Text.color.a > 0)
+        {
+            main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a - (Time.deltaTime * 0.5f));
+            yield return null;
+        }
+        
+        animManager.Fade_Out();
     }
 
     public void Stage_Select_Buttons(int num)
@@ -349,12 +454,12 @@ public class GameManager : MonoBehaviour
         if (stage_Select_Stage_Num == 1)
         {
             stage_Select_Stage_Title.text = "호흡과 빙그레";
-            stage_Select_Stage_Content.text = "호흡\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n빙그레\n빙그레 웃음 한 번으로 마음의 여우를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55>호흡</size></b>\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n<b><size=55>빙그레</size></b>\n빙그레 웃음 한 번으로 마음의 여우를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 2)
         {
             stage_Select_Stage_Title.text = "자각";
-            stage_Select_Stage_Content.text = "신체자각\n긴장 이완 및 주의 집중 효과와 함께 자신의 현재 상태를 정확하게 이해할 수 있도록 도와줄 것입니다.\n\n감정자각\n현재 겪고 있는 고통과 괴로움에서 잠시 벗어나 좀 더 편안한 상태에서 문제를 해결할 수 있게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55>신체자각</size></b>\n긴장 이완 및 주의 집중 효과와 함께 자신의 현재 상태를 정확하게 이해할 수 있도록 도와줄 것입니다.\n\n<b><size=55>감정자각</size></b>\n현재 겪고 있는 고통과 괴로움에서 잠시 벗어나 좀 더 편안한 상태에서 문제를 해결할 수 있게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 3)
         {
@@ -364,7 +469,7 @@ public class GameManager : MonoBehaviour
         else if (stage_Select_Stage_Num == 4)
         {
             stage_Select_Stage_Title.text = "탈중심화";
-            stage_Select_Stage_Content.text = "자신의 사고와 감정을 객관적으로 바라보고, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다";
+            stage_Select_Stage_Content.text = "자신의 사고와 감정을 객관적으로 바라봄으로써, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다";
         }
         
         Invoke("Stage_Select_Stage_StartBtn", 2.0f);
@@ -461,10 +566,65 @@ public class GameManager : MonoBehaviour
         {
             stage_Select_Stage.SetActive(false);
         }
+        
+        buttons.transform.GetChild(0).gameObject.SetActive(false);
+        buttons.transform.GetChild(1).gameObject.SetActive(true);
+        buttons.transform.GetChild(2).gameObject.SetActive(false);
     }
 
-    public void Quit()
+    public void Restart()
     {
-        Application.Quit();
+        if (breath.activeSelf == true)
+        {
+            breath.transform.GetChild(0).GetComponent<Breath_Manager>().ReStart();
+        }
+        else if (smile.activeSelf == true)
+        {
+            smile.transform.GetChild(0).GetComponent<Smile_Manager>().ReStart();
+        }
+        else if (bodyRecog.activeSelf == true)
+        {
+            bodyRecog.transform.GetChild(0).GetComponent<BodyRecog_Manager>().ReStart();
+        }
+        else if (emotionRecog.activeSelf == true)
+        {
+            emotionRecog.transform.GetChild(0).GetComponent<EmotionRecog_Manager>().ReStart();
+        }
+        else if (lovely.activeSelf == true)
+        {
+            lovely.transform.GetChild(0).GetComponent<Lovely_Manager>().ReStart();
+        }
+        else if (decent.activeSelf == true)
+        {
+            decent.transform.GetChild(0).GetComponent<Decent_Manager>().ReStart();
+        }
+    }
+
+    public void Help()
+    {
+        if (breath.activeSelf == true)
+        {
+            breath.transform.GetChild(0).GetComponent<Breath_Manager>().Help();
+        }
+        else if (smile.activeSelf == true)
+        {
+            smile.transform.GetChild(0).GetComponent<Smile_Manager>().Help();
+        }
+        else if (bodyRecog.activeSelf == true)
+        {
+            bodyRecog.transform.GetChild(0).GetComponent<BodyRecog_Manager>().Help();
+        }
+        else if (emotionRecog.activeSelf == true)
+        {
+            emotionRecog.transform.GetChild(0).GetComponent<EmotionRecog_Manager>().Help();
+        }
+        else if (lovely.activeSelf == true)
+        {
+            lovely.transform.GetChild(0).GetComponent<Lovely_Manager>().Help();
+        }
+        else if (decent.activeSelf == true)
+        {
+            decent.transform.GetChild(0).GetComponent<Decent_Manager>().Help();
+        }
     }
 }
