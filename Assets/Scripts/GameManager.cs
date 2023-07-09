@@ -34,13 +34,9 @@ public class GameManager : MonoBehaviour
     public GameObject pause;
     public GameObject set;
     public Slider set_Music;
-    public Image set_Music_Handle;
-    public Image set_Music_Border;
+    public Image set_Music_Switch;
     public Slider set_Vibrate;
-    public Image set_Vibrate_Handle;
     public Image set_Vibrate_Border;
-    public Sprite set_Handle_Green;
-    public Sprite set_Handle_Gray;
     public GameObject loading;
     public AnimManager animManager;
     public int screen_Width;
@@ -48,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
@@ -78,6 +74,9 @@ public class GameManager : MonoBehaviour
                 stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
                 stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                stage_Select_Level[1].GetComponent<Button>().interactable = false;
+                stage_Select_Level[2].GetComponent<Button>().interactable = false;
             }
             else if (index >= 5 && index <= 8)
             {
@@ -85,6 +84,9 @@ public class GameManager : MonoBehaviour
                 stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
                 stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                stage_Select_Level[2].GetComponent<Button>().interactable = false;
             }
             else if (index >= 9 && index <= 12)
             {
@@ -92,6 +94,9 @@ public class GameManager : MonoBehaviour
                 stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                stage_Select_Level[2].GetComponent<Button>().interactable = true;
             }
 
             if (stage_Select_Level_Num == 1)
@@ -132,7 +137,7 @@ public class GameManager : MonoBehaviour
             {
                 if (index >= 9)
                 {
-                    for (int i = 0; i < index - 6; i++)
+                    for (int i = 0; i < index - 8; i++)
                     {
                         stage_Select_Buttons[i].SetActive(true);
                     }
@@ -148,6 +153,10 @@ public class GameManager : MonoBehaviour
             {
                 stage_Select_Buttons[i].SetActive(true);
             }
+            
+            stage_Select_Level[0].GetComponent<Button>().interactable = true;
+            stage_Select_Level[1].GetComponent<Button>().interactable = false;
+            stage_Select_Level[2].GetComponent<Button>().interactable = false;
         }
         
         Set2();
@@ -340,7 +349,7 @@ public class GameManager : MonoBehaviour
             }
             else if (index >= 9)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     stage_Select_Buttons[i].SetActive(true);
                 }
@@ -354,7 +363,7 @@ public class GameManager : MonoBehaviour
             
             if (index >= 9)
             {
-                for (int i = 0; i < index - 6; i++)
+                for (int i = 0; i < index - 8; i++)
                 {
                     stage_Select_Buttons[i].SetActive(true);
                 }
@@ -367,7 +376,7 @@ public class GameManager : MonoBehaviour
         if (breath.activeSelf == true)
         {
             info_Title.text = "호흡";
-            info_Content.text = "호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다";
+            info_Content.text = "호흡에 집중하게 되면\n주의집중과 심신의 안정이\n자연스럽게 이뤄질 뿐 아니라\n있는 그대로 알아차리는 힘을\n키우게 됩니다";
         }
         else if (smile.activeSelf == true)
         {
@@ -377,7 +386,7 @@ public class GameManager : MonoBehaviour
         else if (bodyRecog.activeSelf == true)
         {
             info_Title.text = "신체자각";
-            info_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다.";
+            info_Content.text = "자신의 심신 상태를\n사랑스러운 마음으로 지켜봄으로써\n자기 돌봄의 힘과 여유를 갖게 됩니다.";
         }
         else if (emotionRecog.activeSelf == true)
         {
@@ -415,13 +424,11 @@ public class GameManager : MonoBehaviour
 
         if (set_Music.value == 0)
         {
-            set_Music_Handle.sprite = set_Handle_Gray;
-            set_Music_Border.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
+            set_Music_Switch.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
         }
         else if (set_Music.value == 1)
         {
-            set_Music_Handle.sprite = set_Handle_Green;
-            set_Music_Border.color = new Color(60 / 255f, 129 / 255f, 11 / 255f, 255 / 255f);
+            set_Music_Switch.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
         }
     }
     
@@ -431,12 +438,10 @@ public class GameManager : MonoBehaviour
         
         if (set_Vibrate.value == 0)
         {
-            set_Vibrate_Handle.sprite = set_Handle_Gray;
             set_Vibrate_Border.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
         }
         else if (set_Vibrate.value == 1)
         {
-            set_Vibrate_Handle.sprite = set_Handle_Green;
             set_Vibrate_Border.color = new Color(60 / 255f, 129 / 255f, 11 / 255f, 255 / 255f);
         }
     }
@@ -454,12 +459,12 @@ public class GameManager : MonoBehaviour
         if (stage_Select_Stage_Num == 1)
         {
             stage_Select_Stage_Title.text = "호흡과 빙그레";
-            stage_Select_Stage_Content.text = "<b><size=55>호흡</size></b>\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n<b><size=55>빙그레</size></b>\n빙그레 웃음 한 번으로 마음의 여우를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>호흡</color></size></b>\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n<b><size=55><color=#43536C>빙그레</color></size></b>\n빙그레 웃음 한 번으로 마음의 여우를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 2)
         {
             stage_Select_Stage_Title.text = "자각";
-            stage_Select_Stage_Content.text = "<b><size=55>신체자각</size></b>\n긴장 이완 및 주의 집중 효과와 함께 자신의 현재 상태를 정확하게 이해할 수 있도록 도와줄 것입니다.\n\n<b><size=55>감정자각</size></b>\n현재 겪고 있는 고통과 괴로움에서 잠시 벗어나 좀 더 편안한 상태에서 문제를 해결할 수 있게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>신체자각</color></size></b>\n긴장 이완 및 주의 집중 효과와 함께\n자신의 현재 상태를\n정확하게 이해할 수 있게 됩니다.\n\n<b><size=55><color=#43536C>감정자각</color></size></b>\n현재 겪고 있는 고통과 괴로움에서\n잠시 벗어나 보다 편안한 상태에서\n문제를 해결할 수 있게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 3)
         {

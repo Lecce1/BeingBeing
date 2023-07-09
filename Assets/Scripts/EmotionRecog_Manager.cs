@@ -10,7 +10,6 @@ public class EmotionRecog_Manager : MonoBehaviour
     public GameObject tutorial;
     public TMP_Text tutorial_Notice;
     public GameObject tutorial_EmotionComingBtn;
-    public GameObject tutorial_EmotionComing;
     public GameObject tutorial_EmotionBtn;
     public GameObject tutorial_Character;
     public GameObject tutorial_EmotionColor;
@@ -22,7 +21,6 @@ public class EmotionRecog_Manager : MonoBehaviour
     public GameObject emotionBtn;
     public GameObject emotionColor;
     public GameObject emotionComingBtn;
-    public GameObject emotionComing;
     public GameObject emotionCloud;
     public GameObject emotionDot;
     public GameObject shadow;
@@ -37,6 +35,7 @@ public class EmotionRecog_Manager : MonoBehaviour
     private bool isFirstFill = false;
     private bool isDot = false;
     private bool isDot2 = false;
+    private bool isClick = false;
     public bool isNext = false;
     GameManager gameManager;
     AnimManager animManager;
@@ -45,6 +44,7 @@ public class EmotionRecog_Manager : MonoBehaviour
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
+    [SerializeField]
     private int tutorial_Notice_Num = 1;
     private List<string> cloud_Text = new List<string> {"너 때문이야", "다 부숴버릴거야", "잘못되면 끝이야", "다른 사람이 알면 큰일인데", "나 때문이야", "내가 원망스러워", "좋은 사람은 다 가버리네", "내 편은 아무도 없어"};
 
@@ -111,15 +111,15 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (tutorial_Notice_Num == 1)
         {
-            tutorial_Notice.text = "이제는 감정자각 연습을 시작합니다.";
+            tutorial_Notice.text = "이번에는 감정자각 연습을 시작합니다";
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "사람이 경험하는 대표적인 감정은\n분노, 불안, 슬픔, 자책의 4가지입니다.";
+            tutorial_Notice.text = "사람이 경험하는 대표적인 감정은\n분노, 불안, 슬픔, 자책 4가지입니다";
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "이 4가지 감정 중 하나를 선택해보세요.";
+            tutorial_Notice.text = "아래 4가지 감정 중 하나를 선택해봅시다";
             tutorial_EmotionBtn.SetActive(true);
         }
     }
@@ -157,14 +157,12 @@ public class EmotionRecog_Manager : MonoBehaviour
         {
             tutorial_Notice.text = "";
             tutorial_EmotionComingBtn.SetActive(false);
-            tutorial_EmotionComing.SetActive(true);
             isComing = true;
             Invoke("EmotionComing", 3.0f);
         }
         else if (isTutorial == true)
         {
             emotionComingBtn.SetActive(false);
-            emotionComing.SetActive(true);
             isComing = true;
             Invoke("EmotionComing", 3.0f);
         }
@@ -184,7 +182,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                     {
                         tutorial_EmotionComingBtn.SetActive(true);
                         tutorial_EmotionComingBtn.GetComponent<Animator>().Play("Emotion_Tutorial_Coming");
-                        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정이 다 차오르기 전에 “그분이 오셨네＂를 터치해주세요.";
+                        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정이 다 차오르기 전에\n“그분이 오셨네＂를 터치해주세요";
                     }
 
                     if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y >= 5f)
@@ -217,7 +215,6 @@ public class EmotionRecog_Manager : MonoBehaviour
                             else if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= emotionColor_Fill)
                             {
                                 tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "";
-                                tutorial_EmotionComing.SetActive(false);
                                 EmotionColor2();
                             }
                         }
@@ -270,7 +267,6 @@ public class EmotionRecog_Manager : MonoBehaviour
                             }
                             else if (emotionColor.GetComponent<RectTransform>().localScale.y <= emotionColor_Fill)
                             {
-                                emotionComing.SetActive(false);
                                 EmotionColor2();
                             }
                         }
@@ -284,8 +280,7 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "정확하게 2개를 찾아서 누르면\n감정이 줄어들고, 가슴부위정도에 머무르게 됩니다.\n그 부위(가슴)에 손가락을 대고 가만히 그 느낌을 느껴주세요.";
-            tutorial_Notice.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200);
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정과 만들어내는 생각을 누르면\n감정이 줄어들고 가슴 부위에 머무르게 됩니다\n아래 부위에 손가락을 대고\n가만히 감정의 느낌을 느껴주세요";
             isDot = true;
         }
         else if (isTutorial == true)
@@ -293,10 +288,12 @@ public class EmotionRecog_Manager : MonoBehaviour
             if (isDot == false)
             {
                 isDot = true;
+                isClick = true;
             }
             else if(isDot == true)
             {
                 isDot2 = true;
+                isClick = true;
             }
         }
     }
@@ -307,8 +304,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         {
             emotionColor_Fill = tutorial_EmotionColor.transform.localScale.y * (3f / 4f);
             tutorial_EmotionCloud.SetActive(true);
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "여러 생각 중에 분노를 만들어내는\n생각 2개를 찾아서 눌러주세요.";
-            tutorial_Notice.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200);
+            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "아래 보기의 여러 생각 중에\n분노를 만들어내는 생각 2개를 찾아서 눌러주세요";
         }
         else if (isTutorial == true)
         {
@@ -317,25 +313,71 @@ public class EmotionRecog_Manager : MonoBehaviour
             for (int i = 0; i < 8; i++)
             {
                 int num = Random.Range(0, cloud_Text.Count);
-                emotionCloud.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
 
-                if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
+                if (i <= 2)
                 {
-                    emotionCloud.transform.GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Anger"));
+                    emotionCloud.transform.GetChild(0).GetChild(i).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
+                    
+                    if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
+                    {
+                        emotionCloud.transform.GetChild(0).GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Anger"));
+                    }
+                    else if (cloud_Text[num] == "잘못되면 끝이야" || cloud_Text[num] == "다른 사람이 알면 큰일인데")
+                    {
+                        emotionCloud.transform.GetChild(0).GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Unrest"));
+                    }
+                    else if (cloud_Text[num] == "나 때문이야" || cloud_Text[num] == "내가 원망스러워")
+                    {
+                        emotionCloud.transform.GetChild(0).GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Remorse"));
+                    }
+                    else if (cloud_Text[num] == "좋은 사람은 다 가버리네" || cloud_Text[num] == "내 편은 아무도 없어")
+                    {
+                        emotionCloud.transform.GetChild(0).GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Sadness"));
+                    }
                 }
-                else if (cloud_Text[num] == "잘못되면 끝이야" || cloud_Text[num] == "다른 사람이 알면 큰일인데")
+                else if (i >= 3 && i <=4)
                 {
-                    emotionCloud.transform.GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Unrest"));
+                    emotionCloud.transform.GetChild(1).GetChild(i-3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
+                    
+                    if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
+                    {
+                        emotionCloud.transform.GetChild(1).GetChild(i-3).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Anger"));
+                    }
+                    else if (cloud_Text[num] == "잘못되면 끝이야" || cloud_Text[num] == "다른 사람이 알면 큰일인데")
+                    {
+                        emotionCloud.transform.GetChild(1).GetChild(i-3).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Unrest"));
+                    }
+                    else if (cloud_Text[num] == "나 때문이야" || cloud_Text[num] == "내가 원망스러워")
+                    {
+                        emotionCloud.transform.GetChild(1).GetChild(i-3).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Remorse"));
+                    }
+                    else if (cloud_Text[num] == "좋은 사람은 다 가버리네" || cloud_Text[num] == "내 편은 아무도 없어")
+                    {
+                        emotionCloud.transform.GetChild(1).GetChild(i-3).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Sadness"));
+                    }
                 }
-                else if (cloud_Text[num] == "나 때문이야" || cloud_Text[num] == "내가 원망스러워")
+                else if (i >= 5)
                 {
-                    emotionCloud.transform.GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Remorse"));
+                    emotionCloud.transform.GetChild(2).GetChild(i-5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
+                    
+                    if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
+                    {
+                        emotionCloud.transform.GetChild(2).GetChild(i-5).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Anger"));
+                    }
+                    else if (cloud_Text[num] == "잘못되면 끝이야" || cloud_Text[num] == "다른 사람이 알면 큰일인데")
+                    {
+                        emotionCloud.transform.GetChild(2).GetChild(i-5).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Unrest"));
+                    }
+                    else if (cloud_Text[num] == "나 때문이야" || cloud_Text[num] == "내가 원망스러워")
+                    {
+                        emotionCloud.transform.GetChild(2).GetChild(i-5).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Remorse"));
+                    }
+                    else if (cloud_Text[num] == "좋은 사람은 다 가버리네" || cloud_Text[num] == "내 편은 아무도 없어")
+                    {
+                        emotionCloud.transform.GetChild(2).GetChild(i-5).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Sadness"));
+                    }
                 }
-                else if (cloud_Text[num] == "좋은 사람은 다 가버리네" || cloud_Text[num] == "내 편은 아무도 없어")
-                {
-                    emotionCloud.transform.GetChild(i).GetComponent<Button>().onClick.AddListener(() => EmotionCloud("Sadness"));
-                }
-                
+
                 cloud_Text.RemoveAt(num);
             }
             
@@ -375,14 +417,14 @@ public class EmotionRecog_Manager : MonoBehaviour
             
                 if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= 0f)
                 {
-                    tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘했어요! 튜토리얼은 여기까지~";
+                    tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘 하셨습니다.\n감정자각 연습을 마칩니다";
                     Invoke("Skip", 3.0f);
                 }
             }
         }
         else if (isTutorial == true)
         {
-            if (isDot == true && Input.GetMouseButton(0))
+            if (isClick == true && isDot == true && Input.GetMouseButton(0))
             {
                 emotionColor.GetComponent<RectTransform>().localScale += new Vector3(0, -0.5f * Time.deltaTime, 0);
             
@@ -390,8 +432,8 @@ public class EmotionRecog_Manager : MonoBehaviour
                 {
                     if (isDot == true && isDot2 == false)
                     {
+                        isClick = false;
                         isFirstFill = false;
-                        emotionComing.SetActive(false);
                         character.SetActive(false);
                         emotionColor.SetActive(false);
                         emotionBtn.SetActive(true);
@@ -491,7 +533,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         {
             if (isDot == false)
             {
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "빙빙이에게 감정이 점점 차오르고 있어요.";
+                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "빙빙이에게 감정이 점점 차오르고 있어요";
                 tutorial_EmotionBtn.SetActive(false);
                 tutorial_Character.SetActive(true);
                 tutorial_EmotionColor.SetActive(true);
@@ -521,10 +563,14 @@ public class EmotionRecog_Manager : MonoBehaviour
                 isCloud = false;
                 cloud_Text = new List<string> {"너 때문이야", "다 부숴버릴거야", "잘못되면 끝이야", "다른 사람이 알면 큰일인데", "나 때문이야", "내가 원망스러워", "좋은 사람은 다 가버리네", "내 편은 아무도 없어"};
 
-                for (int i = 0; i < 8; i++)
-                {
-                    emotionCloud.transform.GetChild(i).gameObject.SetActive(true);
-                }
+                emotionCloud.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(2).GetChild(1).gameObject.SetActive(true);
+                emotionCloud.transform.GetChild(2).GetChild(2).gameObject.SetActive(true);
 
                 emotionBtn.SetActive(false);
                 character.SetActive(true);
@@ -610,12 +656,9 @@ public class EmotionRecog_Manager : MonoBehaviour
         tutorial_Notice_Num = 1;
         tutorial_EmotionBtn.SetActive(false);
         tutorial.SetActive(true);
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "이제는 감정자각 연습을 시작합니다.";
-        tutorial_Notice.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -300);
-        tutorial_EmotionComing.SetActive(false);
+        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "이번에는 감정자각 연습을 시작합니다";
         tutorial_EmotionComingBtn.SetActive(false);
         tutorial_EmotionCloud.SetActive(false);
-        tutorial_EmotionBtn.SetActive(true);
         tutorial_EmotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = true;
         tutorial_EmotionBtn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color =
             new Color(255, 255, 255, 1);
@@ -656,17 +699,16 @@ public class EmotionRecog_Manager : MonoBehaviour
         emotionColor.SetActive(false);
         emotionColor.GetComponent<RectTransform>().localScale = new Vector3(5, 0, 5);
         emotionComingBtn.SetActive(false);
-        emotionComing.SetActive(false);
         cloud_Text = new List<string> {"너 때문이야", "다 부숴버릴거야", "잘못되면 끝이야", "다른 사람이 알면 큰일인데", "나 때문이야", "내가 원망스러워", "좋은 사람은 다 가버리네", "내 편은 아무도 없어"};
         emotionCloud.SetActive(false);
-        emotionCloud.transform.GetChild(0).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(1).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(2).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(3).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(4).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(5).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(6).gameObject.SetActive(true);
-        emotionCloud.transform.GetChild(7).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(2).GetChild(1).gameObject.SetActive(true);
+        emotionCloud.transform.GetChild(2).GetChild(2).gameObject.SetActive(true);
         emotionDot.SetActive(false);
         emotionDot.GetComponent<RectTransform>().anchoredPosition = new Vector2(-450, -900);
         isTimer = false;
@@ -675,6 +717,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         isFirstFill = false;
         isDot = false;
         isDot2 = false;
+        isClick = false;
         isNext = false;
         shadow.SetActive(false);
     }

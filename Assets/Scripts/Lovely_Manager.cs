@@ -311,13 +311,13 @@ public class Lovely_Manager : MonoBehaviour
                     {
                         if (isUp == false || isDown == false)
                         {
-                            if (Input.mousePosition.y <= startPos.y - 50)
+                            if (Input.mousePosition.y <= startPos.y)
                             {
                                 isDown = true;
                                 currentPos = Input.mousePosition;
                             }
 
-                            if (Input.mousePosition.y > currentPos.y + 50 && isDown == true)
+                            if (Input.mousePosition.y > currentPos.y && isDown == true)
                             {
                                 isUp = true;
                                 startPos = Input.mousePosition;
@@ -325,13 +325,13 @@ public class Lovely_Manager : MonoBehaviour
                         }
                         else
                         {
-                            if (Input.mousePosition.y <= startPos.y - 50)
+                            if (Input.mousePosition.y <= startPos.y)
                             {
                                 isDown2 = true;
                                 currentPos = Input.mousePosition;
                             }
 
-                            if (Input.mousePosition.y > currentPos.y + 50 && isDown2 == true)
+                            if (Input.mousePosition.y > currentPos.y && isDown2 == true)
                             {
                                 isUp2 = true;
                             }

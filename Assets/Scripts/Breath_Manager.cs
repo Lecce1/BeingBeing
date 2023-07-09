@@ -8,14 +8,14 @@ public class Breath_Manager : MonoBehaviour
     public GameObject tutorial;
     public TMP_Text tutorial_Notice;
     public GameObject tutorial_Finger;
-    public GameObject tutorial_Character;
+    public GameObject tutorial_Character_Panel;
     public GameObject tutorial_Body;
     public Image tutorial_Circle;
     public GameObject game;
+    public GameObject game_Notice;
     public GameObject body;
     public Image circle;
     public GameObject shadow;
-    public GameObject success;
     private int count = 0;
     private float time = 0;
     private bool isLimit = false;
@@ -92,7 +92,21 @@ public class Breath_Manager : MonoBehaviour
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
+            StartCoroutine("Game_Notice");
         }
+    }
+
+    IEnumerator Game_Notice()
+    {
+        float delay = 0;
+
+        while (delay < 10)
+        {
+            delay += 5 * Time.deltaTime;
+            yield return waitForSeconds;
+        }
+        
+        game_Notice.SetActive(false);
     }
 
     void Tutorial_Notice()
@@ -103,22 +117,22 @@ public class Breath_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "숨을 들이쉴 때와, 숨을 내쉴 때의 느낌을 알고 계신가요?";
+            tutorial_Notice.text = "숨을 들이쉴 때와\n숨을 내쉴 때의 느낌을\n알고 계신가요?";
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "숨을 들이쉬고, 내쉴 때의 느낌에 주의를 기울이며\n호흡을 함께 해 봅시다.";
+            tutorial_Notice.text = "숨을 들이쉬고 내쉴 때의 느낌에\n주의를 기울이며\n호흡을 함께 진행봅시다.";
         }
         else if (tutorial_Notice_Num == 4)
         {
-            tutorial_Notice.text = "숨을 들이쉬면서 2초, 내쉬면서 2초\n한번 호흡에 총 4초 동안 하게 됩니다.";
+            tutorial_Notice.text = "숨을 들이쉬면서 2초\n내쉬면서 2초\n한 호흡은 4초 동안 진행됩니다.";
         }
         else if (tutorial_Notice_Num == 5)
         {
-            tutorial_Character.SetActive(true);
+            tutorial_Character_Panel.SetActive(true);
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
-            tutorial_Notice.text = "당신도 빙빙이와 함께 숨을 들이쉬면서\n손가락을 터치하여 가슴에서 배로 내립니다.";
+            tutorial_Notice.text = "당신도 빙빙이와 함께\n숨을 들이쉬면서 가슴에서 배로\n손가락을 드래그 합니다.";
             isDown = false;
             isUp = false;
         }
@@ -220,11 +234,10 @@ public class Breath_Manager : MonoBehaviour
                     yield return waitForSeconds;
                     tutorial_Body.transform.localScale += new Vector3(0.2f, 0.2f, 0) * Time.deltaTime;
                 }
-
-                tutorial_Finger.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -180);
+                
                 tutorial_Finger.SetActive(true);
                 tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
-                tutorial_Notice.text = "이번에는 함께 숨을 내쉬면서\n손가락을 터치하여 배에서 가슴으로 올립니다.";
+                tutorial_Notice.text = "이번에는 빙빙이와 함께\n숨을 내쉬면서 배에서 가슴으로\n드래그 합니다.";
                 isTouch = false;
             }
             else if (isBreathe == false)
@@ -345,10 +358,7 @@ public class Breath_Manager : MonoBehaviour
             if (circle.fillAmount >= 1f)
             {
                 isNext = true;
-                var animator = success.GetComponent<Animator>();
-                animator.Play("Close");
                 animManager.Fade_Out();
-                Invoke("Success_Close", 0.5f);
             }
         }
         
@@ -380,20 +390,8 @@ public class Breath_Manager : MonoBehaviour
         }
         else
         {
-            var animator = success.GetComponent<Animator>();
-            animator.Play("Close");
             Reset();
-            Invoke("Success_Close", 0.5f);
         }
-    }
-    
-    public void Next()
-    {
-        isNext = true;
-        var animator = success.GetComponent<Animator>();
-        animator.Play("Close");
-        animManager.Fade_Out();
-        Invoke("Success_Close", 0.5f);
     }
 
     public void Help()
@@ -403,11 +401,6 @@ public class Breath_Manager : MonoBehaviour
         animator.Play("Close");
         Reset();
         Invoke("Pause_Close", 0.5f);
-    }
-    
-    void Success_Close()
-    {
-        success.SetActive(false);
     }
 
     void Pause_Close()
@@ -421,9 +414,8 @@ public class Breath_Manager : MonoBehaviour
     public void Reset()
     {
         tutorial_Notice.text = "안녕하세요\n호흡 연습을 시작합니다.";
-        tutorial_Character.SetActive(false);
+        tutorial_Character_Panel.SetActive(false);
         tutorial_Finger.SetActive(false);
-        tutorial_Finger.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
         tutorial_Notice_Num = 1;
         isTouch = false;
         isTutorial = false;
@@ -431,6 +423,7 @@ public class Breath_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         tutorial.SetActive(true);
         game.SetActive(false);
+        game_Notice.SetActive(true);
         tutorial_Body.transform.localScale = new Vector3(1, 1, 1);
         body.transform.localScale = new Vector3(1, 1, 1);
         count = 0;
@@ -442,7 +435,6 @@ public class Breath_Manager : MonoBehaviour
         isNext = false;
         circle.fillAmount = 0;
         shadow.SetActive(false);
-        success.SetActive(false);
         gameManager.buttons.SetActive(true);
     }
 }

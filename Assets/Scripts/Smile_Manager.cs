@@ -12,6 +12,7 @@ public class Smile_Manager : MonoBehaviour
     public GameObject tutorial_BackGlow;
     public GameObject tutorial_LightEffect;
     public GameObject game;
+	public GameObject check;
     public GameObject mouse;
     public GameObject backGlow;
     public GameObject lightEffect;
@@ -78,6 +79,7 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
+            check.transform.GetChild(0).gameObject.SetActive(false);
             isDoubleUp = false;
             isSmile = false;
             isNum = false;
@@ -97,7 +99,7 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "그림과 같이 두 손가락을\n빙빙이의 양 입꼬리에 올려주세요.";
+            tutorial_Notice.text = "그림과 같이 두 손가락을\n빙빙이의 양 입꼬리를 터치하여\n위로 올려 빙그레 미소를 만들어주세요.";
             tutorial_Character.SetActive(true);
             tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
         }
@@ -108,7 +110,7 @@ public class Smile_Manager : MonoBehaviour
         else if (tutorial_Notice_Num == 4)
         {
             gameObject.GetComponent<Touch>().result = Result.none;
-            tutorial_Notice.text = "빙빙이를 따라 당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
+            tutorial_Notice.text = "빙빙이를 따라\n당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Finger3");
             tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
@@ -129,7 +131,7 @@ public class Smile_Manager : MonoBehaviour
             {
                 isTutorial_Cursor = true;
                 isDoubleUp = true;
-                tutorial_Notice.text = "잘했어요!\n호흡과 빙그레 연습을 마치겠습니다.";
+                tutorial_Notice.text = "잘했어요!\n호흡과 빙그레 연습을 마칩니다.";
                 tutorial_Finger.SetActive(false);
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
@@ -176,6 +178,7 @@ public class Smile_Manager : MonoBehaviour
             }
             else if (isDoubleUp == true && isNum == false)
             {
+                check.transform.GetChild(0).gameObject.SetActive(true);
                 mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
                 isSmile = true;
                 isNum = true;
@@ -211,15 +214,15 @@ public class Smile_Manager : MonoBehaviour
         {
             var animator = gameManager.pause.GetComponent<Animator>();
             animator.Play("Close");
-            Reset();
             Invoke("Pause_Close", 0.5f);
+            Reset();
         }
         else
         {
             var animator = success.GetComponent<Animator>();
             animator.Play("Close");
-            Reset();
             Invoke("Success_Close", 0.5f);
+            Reset();
         }
     }
     
@@ -296,6 +299,7 @@ public class Smile_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         isTutorial_Cursor = false;
         tutorial_Notice_Num = 1;
+        check.transform.GetChild(0).gameObject.SetActive(false);
         gameManager.buttons.SetActive(true);
     }
 }

@@ -180,7 +180,6 @@ public class AnimManager : MonoBehaviour
         {
             gameManager.main.SetActive(false);
             gameManager.stage.SetActive(true);
-            gameManager.buttons.SetActive(true);
             gameManager.Set();
         }
         else if (gameManager.stage.activeSelf == true)

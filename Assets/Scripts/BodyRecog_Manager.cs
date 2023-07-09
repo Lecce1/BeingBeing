@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 public class BodyRecog_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public GameObject tutorial_Character;
+    public GameObject tutorial_Character_Panel;
     public GameObject tutorial_Points;
     public TMP_Text tutorial_Notice;
     public GameObject tutorial_Line;
@@ -29,6 +30,7 @@ public class BodyRecog_Manager : MonoBehaviour
     private bool isTutorial_Check = false;
     private bool isTutorial_Check2 = false;
     private int tutorial_Notice_Num = 1;
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
 
     void Awake()
     {
@@ -96,20 +98,34 @@ public class BodyRecog_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "신체자각은 현재 자신의 몸 상태에 대해\n알아차리는 것입니다.";
+            tutorial_Notice.text = "신체자각은\n현재 자신의 몸 상태에 대해\n알아차리는 것입니다.";
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "머리부터 시작하여 어깨, 가슴, 배, 무릎, 발의 순서로\n알아차림을 하면 됩니다.";
+            tutorial_Notice.text = "머리부터 시작하여 발까지\n신체자각을 통하여 상태를 알아차려 봅시다.";
         }
         else if (tutorial_Notice_Num == 4)
         {
             tutorial_Notice.text = "이제부터 시작해볼까요?";
-            tutorial_Character.SetActive(true);
-            tutorial_Points.SetActive(true);
-            tutorial_Line.SetActive(true);
-            isStop = false;
+            StartCoroutine("Start_Delay");
         }
+    }
+
+    IEnumerator Start_Delay()
+    {
+        float delay = 0;
+
+        while (delay < 5)
+        {
+            delay += 5 * Time.deltaTime;
+            yield return waitForSeconds;
+        }
+        
+        tutorial_Notice.text = "";
+        tutorial_Character_Panel.SetActive(true);
+        tutorial_Points.SetActive(true);
+        tutorial_Line.SetActive(true);
+        isStop = false;
     }
     
     public void Skip()
@@ -143,7 +159,7 @@ public class BodyRecog_Manager : MonoBehaviour
             tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "현재 당신의 머리는 편한가요, 불편한가요?";
             tutorial_Choices.SetActive(true);
             tutorial_Choices.transform.GetChild(0).gameObject.SetActive(true);
-            tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
+            tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
             tutorial_Choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
             step = 1;
         }
@@ -186,7 +202,7 @@ public class BodyRecog_Manager : MonoBehaviour
             
             choices.SetActive(true);
             choices.transform.GetChild(0).gameObject.SetActive(true);
-            choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편안하다";
+            choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
             choices.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = "불편하다";
             step = 1;
         }
@@ -259,7 +275,7 @@ public class BodyRecog_Manager : MonoBehaviour
                     tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[4];
                 }
 
-                tutorial_Notice.text = "다음의 5가지 감각 중에 지금 머리에서 느껴지는 감각과 가장 유사한 것을 한 가지 선택하세요.";
+                tutorial_Notice.text = "다음의 5가지 감각 중에\n지금 머리에서 느껴지는 감각과\n가장 유사한 것을 한 가지 선택하세요.";
                 step = 2;
             }
             else if (step == 2)
@@ -275,13 +291,13 @@ public class BodyRecog_Manager : MonoBehaviour
                 tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
                 tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
                 tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-                tutorial_Notice.text = "선택한 감정이 느껴지는 정도를 확인해주세요.\n가장 많이 느껴지면 5점, 아주 적게 느껴지면 1점입니다.";
+                tutorial_Notice.text = "선택한 감정이 느껴지는 정도를 확인해주세요\n가장 많이 느껴지면 5점\n아주 적게 느껴지면 1점입니다";
                 step = 3;
             }
             else if (step == 3)
             {
                 Result(tutorial_Choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
-                tutorial_Notice.text = "잘 하셨습니다. 당신의 전체 몸 상태는 다음과 같습니다.\n SKIP 버튼을 누르면 튜토리얼은 마무리 됩니다.";
+                tutorial_Notice.text = "잘 하셨습니다\n당신의 전체 몸 상태는 다음과 같습니다\n SKIP 버튼을 누르면 튜토리얼은 마무리 됩니다";
                 tutorial_Choices.SetActive(false);
                 tutorial_Choices.transform.GetChild(1).gameObject.SetActive(false);
                 tutorial_Points.SetActive(false);
@@ -790,14 +806,14 @@ public class BodyRecog_Manager : MonoBehaviour
     
     public void Reset()
     {
-        tutorial_Character.SetActive(false);
+        tutorial_Character_Panel.SetActive(false);
         tutorial_Points.SetActive(false);
         tutorial_Line.SetActive(false);
         tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "신체자각과 감정자각을 시작합니다.";
-        tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -100);
+        tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         tutorial_Choices.SetActive(false);
         tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
-        line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -100);
+        line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 200);
         points.transform.GetChild(0).gameObject.SetActive(true);
         points.transform.GetChild(1).gameObject.SetActive(false);
         points.transform.GetChild(2).gameObject.SetActive(false);
