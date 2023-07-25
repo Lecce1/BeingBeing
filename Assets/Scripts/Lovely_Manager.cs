@@ -150,7 +150,7 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true && stage == 5)
         {
-            if (isHeart == false)
+            if (isHeart == false && (success.activeSelf == false || fail.activeSelf == false))
             {
                 isHeart = true;
                 StartCoroutine("HeartGenerator2");
@@ -187,7 +187,7 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true && stage == 4)
         {
-            if (isHeart == false && game.transform.GetChild(1).gameObject.activeSelf == true)
+            if (isHeart == false && game.transform.GetChild(1).gameObject.activeSelf == true && (success.activeSelf == false || fail.activeSelf == false))
             {
                 isHeart = true;
                 StartCoroutine("HeartGenerator");
@@ -596,7 +596,7 @@ public class Lovely_Manager : MonoBehaviour
         dot.GetComponent<RectTransform>().anchoredPosition = new Vector2(-450, -900);
         balloon.SetActive(false);
         loading.SetActive(false);
-        bar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+        bar.GetComponent<Slider>().value = 0;
         heartNum = 0;
         isTimer = false;
         isFill = false;

@@ -103,13 +103,13 @@ public class Heart : MonoBehaviour
     {
         if (lovely_Manager.stage == 4)
         {
-            while (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount < lovely_Manager.heartNum * 0.03f)
+            while (lovely_Manager.bar.GetComponent<Slider>().value < lovely_Manager.heartNum * 0.03f)
             {
-                lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                lovely_Manager.bar.GetComponent<Slider>().value += 0.01f;
                 yield return waitForSeconds;
             }
 
-            if (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount >= 0.7f)
+            if (lovely_Manager.bar.GetComponent<Slider>().value >= 0.7f)
             {
                 lovely_Manager.stage = 5;
             }
@@ -120,48 +120,48 @@ public class Heart : MonoBehaviour
             {
                 if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
                 {
-                    float fill = lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
+                    float fill = lovely_Manager.bar.GetComponent<Slider>().value;
 
                     if (fill + 0.1f <= 1)
                     {
-                        while (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.1f)
+                        while (lovely_Manager.bar.GetComponent<Slider>().value < fill + 0.1f)
                         {
-                            lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                            lovely_Manager.bar.GetComponent<Slider>().value += 0.01f;
                             yield return waitForSeconds;
                         }
                     }
                     else if (fill + 0.1f > 1)
                     {
-                        while (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+                        while (lovely_Manager.bar.GetComponent<Slider>().value < 1)
                         {
-                            lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                            lovely_Manager.bar.GetComponent<Slider>().value += 0.01f;
                             yield return waitForSeconds;
                         }
                     }
                 }
                 else if (gameManager.stage_Select_Level_Num == 3)
                 {
-                    float fill = lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
+                    float fill = lovely_Manager.bar.GetComponent<Slider>().value;
 
                     if (fill + 0.05f <= 1)
                     {
-                        while (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.05f)
+                        while (lovely_Manager.bar.GetComponent<Slider>().value < fill + 0.05f)
                         {
-                            lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                            lovely_Manager.bar.GetComponent<Slider>().value += 0.01f;
                             yield return waitForSeconds;
                         }
                     }
                     else if (fill + 0.05f > 1)
                     {
-                        while (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+                        while (lovely_Manager.bar.GetComponent<Slider>().value < 1)
                         {
-                            lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                            lovely_Manager.bar.GetComponent<Slider>().value += 0.01f;
                             yield return waitForSeconds;
                         }
                     }
                 }
                 
-                if (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount >= 1f)
+                if (lovely_Manager.bar.GetComponent<Slider>().value >= 1f)
                 {
                     lovely_Manager.stage = 6;
                 }

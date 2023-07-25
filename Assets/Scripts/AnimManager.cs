@@ -134,7 +134,7 @@ public class AnimManager : MonoBehaviour
         {
             lovely_Manager.backGlow.SetActive(false);
             
-            if (lovely_Manager.bar.transform.GetChild(0).GetComponent<Image>().fillAmount >= 1f)
+            if (lovely_Manager.bar.GetComponent<Slider>().value >= 1f)
             {
                 lovely_Manager.isNext = true;
                 Fade_Out();

@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public GameObject splash;
     public GameObject buttons;
-    public GameObject buttons_Info;
     public GameObject main;
     public GameObject main_Logo;
     public TMP_Text main_Text;
@@ -57,6 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void Set()
     {
+        camera.GetComponent<CustomPostProcessing>().enabled = false;
         isFirst = PlayerPrefs.GetInt("isFirst");
 
         for (int i = 0; i < 4; i++)
@@ -166,11 +166,11 @@ public class GameManager : MonoBehaviour
     {
         if (breath.activeSelf == true || smile.activeSelf == true || bodyRecog.activeSelf == true || emotionRecog.activeSelf == true || refresh.activeSelf == true || lovely.activeSelf == true || decent.activeSelf == true)
         {
-            buttons_Info.SetActive(true);
+            buttons.SetActive(true);
         }
         else
         {
-            buttons_Info.SetActive(false);
+            buttons.SetActive(false);
         }
     }
 
@@ -193,14 +193,7 @@ public class GameManager : MonoBehaviour
             set_Vibrate.value = PlayerPrefs.GetInt("Sound");
         }
 
-        if (stage.activeSelf == true)
-        {
-            buttons_Info.SetActive(false);
-        }
-        else
-        {
-            buttons_Info.SetActive(true);
-        }
+        buttons.SetActive(false);
     }
 
     public void Main_Text()

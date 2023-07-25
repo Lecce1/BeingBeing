@@ -250,11 +250,11 @@ public class Smile_Manager : MonoBehaviour
             }
         }
         
-        gameManager.Set();
         var animator = success.GetComponent<Animator>();
         animator.Play("Close");
         animManager.Fade_Out();
         Invoke("Success_Close", 0.5f);
+        gameManager.Set();
     }
     
     public void Help()
