@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Breath_Manager : MonoBehaviour
@@ -15,7 +16,9 @@ public class Breath_Manager : MonoBehaviour
     public GameObject game_Notice;
     public GameObject body;
     public Image circle;
+    public Image circle_Timer;
     public GameObject shadow;
+    [SerializeField]
     private int count = 0;
     private float time = 0;
     private bool isLimit = false;
@@ -23,6 +26,7 @@ public class Breath_Manager : MonoBehaviour
     public bool isDown = false;
     public bool isBreathe = false;
     public bool isNext = false;
+    public bool isCheck = false;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     GameManager gameManager;
     AnimManager animManager;
@@ -92,7 +96,7 @@ public class Breath_Manager : MonoBehaviour
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
-            StartCoroutine("Game_Notice");
+            //StartCoroutine("Game_Notice");
         }
     }
 
@@ -261,16 +265,21 @@ public class Breath_Manager : MonoBehaviour
         {
             if (isBreathe == true)
             {
+                game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+                
                 while (body.transform.localScale.x < 1.2f)
                 {
                     yield return waitForSeconds;
                     body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
                 }
                 
+                game_Notice.GetComponent<TMP_Text>().text = "내쉬고";
                 isTouch = false;
             }
             else if (isBreathe == false)
             {
+                game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+                
                 while (body.transform.localScale.x > 1)
                 {
                     yield return waitForSeconds;
@@ -300,6 +309,8 @@ public class Breath_Manager : MonoBehaviour
 
     IEnumerator Gauge2()
     {
+        isCheck = false;
+        
         if (isTutorial == false && tutorial_Notice_Num >= 5)
         {
             if (count <= 10)
@@ -326,6 +337,11 @@ public class Breath_Manager : MonoBehaviour
                 {
                     yield return waitForSeconds;
                     circle.fillAmount += 0.5f * Time.deltaTime;
+
+                    if (circle.fillAmount == 1)
+                    {
+                        break;
+                    }
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 2)
@@ -339,6 +355,11 @@ public class Breath_Manager : MonoBehaviour
                 {
                     yield return waitForSeconds;
                     circle.fillAmount += 0.5f * Time.deltaTime;
+                    
+                    if (circle.fillAmount == 1)
+                    {
+                        break;
+                    }
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 3)
@@ -352,15 +373,23 @@ public class Breath_Manager : MonoBehaviour
                 {
                     yield return waitForSeconds;
                     circle.fillAmount += 0.5f * Time.deltaTime;
+                    
+                    if (circle.fillAmount == 1)
+                    {
+                        break;
+                    }
                 }
             }
-            
-            if (circle.fillAmount >= 1f)
+
+            if (circle.fillAmount == 1)
             {
                 isNext = true;
+                game_Notice.GetComponent<TMP_Text>().text = string.Empty;
                 animManager.Fade_Out();
             }
         }
+
+        isCheck = true;
         
         yield return null;
     }
@@ -369,10 +398,16 @@ public class Breath_Manager : MonoBehaviour
     {
         if (isTutorial == true)
         {
-            time += Time.deltaTime;
-
+            if (isLimit == true && isCheck == true)
+            {
+                time += Time.deltaTime;
+                circle_Timer.fillAmount = time / 4;
+            }
+            
             if (time >= 4)
             {
+                game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+                circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
             }
@@ -423,7 +458,7 @@ public class Breath_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         tutorial.SetActive(true);
         game.SetActive(false);
-        game_Notice.SetActive(true);
+        game_Notice.GetComponent<TMP_Text>().text = "<incr>소리를 켜서 안내말을 따라해 주세요.</incr>";
         tutorial_Body.transform.localScale = new Vector3(1, 1, 1);
         body.transform.localScale = new Vector3(1, 1, 1);
         count = 0;
@@ -433,7 +468,9 @@ public class Breath_Manager : MonoBehaviour
         isDown = false;
         isBreathe = false;
         isNext = false;
+        isCheck = false;
         circle.fillAmount = 0;
+        circle_Timer.fillAmount = 0;
         shadow.SetActive(false);
         gameManager.buttons.SetActive(true);
     }

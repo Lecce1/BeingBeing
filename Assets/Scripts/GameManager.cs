@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
