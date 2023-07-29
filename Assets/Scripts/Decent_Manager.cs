@@ -157,11 +157,11 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "다음에 제시된 문장을 사실과 해석으로 구분하여\n바구니로 드래그해주세요.";
+            tutorial_Notice.text = "잠시 후 나타나는 문장을 보고\n사실과 해석으로 구분하여\n드래그 해주세요.";
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "사실이란, 있는 그대로 설명한 것이며\n해석이란, 자신의 생각을 거쳐 나온 이야기입니다.";
+            tutorial_Notice.text = "사실이란 있는 그대로 설명한 것이며\n해석이란 자신의 생각을 거쳐 나온 이야기입니다.";
         }
         else if (tutorial_Notice_Num == 4)
         {
@@ -196,7 +196,7 @@ public class Decent_Manager : MonoBehaviour
         else if (stage1_Notice_Num == 2)
         {
             stage1_Button.SetActive(true);
-            stage1_Notice.text = "아래 9가지 보기 중에서 그림에서 나타나는 감정을 4가지만 선택해보세요.";
+            stage1_Notice.text = "아래 제시된 9가지 감정 중\n그림에서 경험할 수 있는 감정을\n4가지 선택해보세요.";
         }
     }
     
@@ -248,7 +248,7 @@ public class Decent_Manager : MonoBehaviour
         {
             stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
             stage2.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
-            stage2_Notice.text = "분노가 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
+            stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Unrest")
         {
@@ -765,7 +765,7 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (stage5_Notice_Num == 5)
         {
-            stage5_Notice.text = "만약 관련이 없는 연료를 채우게 되면, 에너지가 줄어듭니다.";
+            stage5_Notice.text = "만약 관련이 없는 연료를 채우게 되면\n에너지가 줄어듭니다.";
         }
         else if (stage5_Notice_Num == 6)
         {
@@ -976,7 +976,7 @@ public class Decent_Manager : MonoBehaviour
                         stage1.SetActive(false);
                         stage2.SetActive(true);
                         stage = 2;
-                        stage2_Notice.text = "아래의 앞서 선택한 4가지 감정이 있습니다.\n아래 남아있는 감정 중 한가지를 선택해주세요.";
+                        stage2_Notice.text = "앞서 선택한 4가지 감정 중 한 가지를 선택해주세요.";
                     }
                     else if (count == 4)
                     {
@@ -1194,7 +1194,7 @@ public class Decent_Manager : MonoBehaviour
         stage1.SetActive(true);
         stage1_Button.SetActive(false);
         stage1_Notice_Num = 1;
-        stage1_Notice.text = "다음 그림을 자세히 살펴봐주세요.";
+        stage1_Notice.text = "아래 그림을 자세히 살펴봐주세요.";
         stage2.SetActive(false);
         stage2_Answer = 0;
         stage2_Notice.text = "아래의 앞서 선택한 4가지 감정이 있습니다.\n이 중 한 가지를 선택해주세요.";

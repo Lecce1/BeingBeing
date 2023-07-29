@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,14 @@ public class Refresh_Manager : MonoBehaviour
     public GameObject breath;
     public GameObject body;
     public Image circle;
+    public Image circle_Timer;
+    public GameObject game_Notice;
     public GameObject shadow;
     public GameObject success;
     private int count = 0;
     private float time = 0;
     private bool isLimit = false;
+    public bool isCheck = false;
     public bool isUp = false;
     public bool isDown = false;
     public bool isBreathe = false;
@@ -33,6 +37,7 @@ public class Refresh_Manager : MonoBehaviour
     {
         animManager = GameObject.Find("AnimManager").GetComponent<AnimManager>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        Invoke(nameof(First_Text), 5f);
     }
 
     void Update()
@@ -42,6 +47,11 @@ public class Refresh_Manager : MonoBehaviour
         Gauge();
         Timer();
         Mouse();
+    }
+    
+    private void First_Text()
+    {
+        game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
     }
 
     void Cursor()
@@ -71,13 +81,6 @@ public class Refresh_Manager : MonoBehaviour
                 isDoubleUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
-            
-            /*if (gameObject.GetComponent<Touch>().result == Result.up)
-            {
-                time = 0;
-                isDoubleUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }*/
         }
     }
     
@@ -104,14 +107,20 @@ public class Refresh_Manager : MonoBehaviour
     {
         if (isBreathe == true)
         {
+            game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+            
             while (body.transform.localScale.x < 1.2f)
             {
                 yield return waitForSeconds;
                 body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
             }
+            
+            game_Notice.GetComponent<TMP_Text>().text = "내쉬고";
         }
         else if (isBreathe == false)
         {
+            game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+            
             while (body.transform.localScale.x > 1)
             {
                 yield return waitForSeconds;
@@ -138,6 +147,8 @@ public class Refresh_Manager : MonoBehaviour
 
     IEnumerator Gauge2()
     {
+        isCheck = false;
+        
         if (count < 6)
         {
             count++;
@@ -155,6 +166,8 @@ public class Refresh_Manager : MonoBehaviour
             breath.SetActive(false);
             smile.SetActive(true);
         }
+        
+        isCheck = true;
 
         yield return null;
     }
@@ -163,10 +176,16 @@ public class Refresh_Manager : MonoBehaviour
     {
         if (isFirst == false)
         {
-            time += Time.deltaTime;
+            if (isLimit == true && isCheck == true)
+            {
+                time += Time.deltaTime;
+                circle_Timer.fillAmount = time / 4;
+            }
 
             if (time >= 4)
             {
+                game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+                circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
             }
@@ -174,7 +193,7 @@ public class Refresh_Manager : MonoBehaviour
         else if (isFirst == true)
         {
             time += Time.deltaTime;
-        
+
             if (time >= 2)
             {
                 time = 0;
@@ -276,10 +295,13 @@ public class Refresh_Manager : MonoBehaviour
         breath.SetActive(true);
         body.transform.localScale = new Vector3(1, 1, 1);
         circle.fillAmount = 0;
+        circle_Timer.fillAmount = 0;
         count = 0;
         time = 0;
+        game_Notice.GetComponent<TMP_Text>().text = "<incr>소리를 켜서 안내말을 따라해 주세요.</incr>";
         isDoubleUp = false;
         isLimit = false;
+        isCheck = false;
         isUp = false; 
         isDown = false;
         isBreathe = false;

@@ -33,7 +33,8 @@ public class AnimManager : MonoBehaviour
     {
         gameManager.splash.SetActive(false);
         gameManager.main.SetActive(true);
-        gameManager.main_Logo.GetComponent<Animator>().Play("Main");
+        //gameManager.main_Logo.GetComponent<Animator>().Play("Main");
+        gameManager.GetComponent<AudioSource>().Play();
     }
 
     void Main_Finish()
@@ -45,15 +46,21 @@ public class AnimManager : MonoBehaviour
     public void Main_Start_Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = true;
-        gameManager.main_Logo.GetComponent<Animator>().Play("Main_Start");
+        gameManager.main_Logo.GetComponent<Animator>().Play("Main_Start2");
     }
     
     public void Main_Start_Finish()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = false;
+        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = true;
+        gameManager.main_Background.GetComponent<Animator>().Play("Main_Background");
+    }
 
+    public void Main_Background_Finish()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = false;
+        
         if (gameManager.isFirst == 0)
         {
             PlayerPrefs.SetInt("isFirst", 1);

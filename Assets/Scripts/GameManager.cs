@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject splash;
     public GameObject buttons;
     public GameObject main;
+    public GameObject main_Background;
     public GameObject main_Logo;
     public TMP_Text main_Text;
     public GameObject stage;
@@ -467,7 +468,7 @@ public class GameManager : MonoBehaviour
         else if (stage_Select_Stage_Num == 4)
         {
             stage_Select_Stage_Title.text = "탈중심화";
-            stage_Select_Stage_Content.text = "자신의 사고와 감정을 객관적으로 바라봄으로써, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을\n객관적으로 바라봄으로써\n현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를 있는 그대로 받아들이고\n생활 속에서 더욱 긍정적으로\n살아가게 될 것입니다.";
         }
         
         Invoke("Stage_Select_Stage_StartBtn", 2.0f);

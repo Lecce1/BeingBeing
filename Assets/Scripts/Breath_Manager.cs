@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Breath_Manager : MonoBehaviour
@@ -96,21 +95,13 @@ public class Breath_Manager : MonoBehaviour
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
-            //StartCoroutine("Game_Notice");
+            Invoke(nameof(First_Text), 5f);
         }
     }
 
-    IEnumerator Game_Notice()
+    private void First_Text()
     {
-        float delay = 0;
-
-        while (delay < 10)
-        {
-            delay += 5 * Time.deltaTime;
-            yield return waitForSeconds;
-        }
-        
-        game_Notice.SetActive(false);
+        game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
     }
 
     void Tutorial_Notice()

@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +33,9 @@ public class BodyRecog_Manager : MonoBehaviour
     private bool isTutorial_Check2 = false;
     private int tutorial_Notice_Num = 1;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    public List<GameObject> slider;
+    public Sprite noReach;
+    public Sprite reach;
 
     void Awake()
     {
@@ -87,6 +92,28 @@ public class BodyRecog_Manager : MonoBehaviour
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
+
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                slider[0].SetActive(true);
+                slider[1].SetActive(false);
+                slider[2].SetActive(false);
+                slider[3].SetActive(false);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                slider[0].SetActive(false);
+                slider[1].SetActive(false);
+                slider[2].SetActive(true);
+                slider[3].SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                slider[0].SetActive(true);
+                slider[1].SetActive(true);
+                slider[2].SetActive(false);
+                slider[3].SetActive(false);
+            }
         }
     }
 
@@ -165,6 +192,128 @@ public class BodyRecog_Manager : MonoBehaviour
         }
         else if (isTutorial == true)
         {
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                if (pointNum == 1)
+                {
+                    slider[0].transform.GetChild(0).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 2)
+                {
+                    slider[0].transform.GetChild(1).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 3)
+                {
+                    slider[0].transform.GetChild(2).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 4)
+                {
+                    slider[0].transform.GetChild(3).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 5)
+                {
+                    slider[0].transform.GetChild(4).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 6)
+                {
+                    slider[0].transform.GetChild(5).GetComponent<Image>().sprite = reach;
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                if (pointNum == 1)
+                {
+                    slider[2].transform.GetChild(0).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 2)
+                {
+                    slider[2].transform.GetChild(1).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 3)
+                {
+                    slider[2].transform.GetChild(2).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 4)
+                {
+                    slider[2].transform.GetChild(3).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 5)
+                {
+                    slider[3].transform.GetChild(0).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 6)
+                {
+                    slider[3].transform.GetChild(1).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 7)
+                {
+                    slider[3].transform.GetChild(2).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 8)
+                {
+                    slider[3].transform.GetChild(3).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 9)
+                {
+                    slider[3].transform.GetChild(4).GetComponent<Image>().sprite = reach;
+                }
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                if (pointNum == 1)
+                {
+                    slider[0].transform.GetChild(0).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 2)
+                {
+                    slider[0].transform.GetChild(1).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 3)
+                {
+                    slider[0].transform.GetChild(2).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 4)
+                {
+                    slider[0].transform.GetChild(3).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 5)
+                {
+                    slider[0].transform.GetChild(4).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 6)
+                {
+                    slider[0].transform.GetChild(5).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 7)
+                {
+                    slider[1].transform.GetChild(0).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 8)
+                {
+                    slider[1].transform.GetChild(1).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 9)
+                {
+                    slider[1].transform.GetChild(2).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 10)
+                {
+                    slider[1].transform.GetChild(3).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 11)
+                {
+                    slider[1].transform.GetChild(4).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 12)
+                {
+                    slider[1].transform.GetChild(5).GetComponent<Image>().sprite = reach;
+                }
+                else if (pointNum == 13)
+                {
+                    slider[1].transform.GetChild(6).GetComponent<Image>().sprite = reach;
+                }
+            }
+
             if (pointNum == 1 || pointNum == 3 || pointNum == 5 || pointNum == 7 || pointNum == 9 || pointNum == 11 || pointNum == 13)
             {
                 choices.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
@@ -843,5 +992,27 @@ public class BodyRecog_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         tutorial_Notice_Num = 1;
         gameManager.buttons.SetActive(true);
+        slider[0].transform.GetChild(0).GetComponent<Image>().sprite = noReach;
+        slider[0].transform.GetChild(1).GetComponent<Image>().sprite = noReach;
+        slider[0].transform.GetChild(2).GetComponent<Image>().sprite = noReach;
+        slider[0].transform.GetChild(3).GetComponent<Image>().sprite = noReach;
+        slider[0].transform.GetChild(4).GetComponent<Image>().sprite = noReach;
+        slider[0].transform.GetChild(5).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(0).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(1).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(2).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(3).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(4).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(5).GetComponent<Image>().sprite = noReach;
+        slider[1].transform.GetChild(6).GetComponent<Image>().sprite = noReach;
+        slider[2].transform.GetChild(0).GetComponent<Image>().sprite = noReach;
+        slider[2].transform.GetChild(1).GetComponent<Image>().sprite = noReach;
+        slider[2].transform.GetChild(2).GetComponent<Image>().sprite = noReach;
+        slider[2].transform.GetChild(3).GetComponent<Image>().sprite = noReach;
+        slider[3].transform.GetChild(0).GetComponent<Image>().sprite = noReach;
+        slider[3].transform.GetChild(1).GetComponent<Image>().sprite = noReach;
+        slider[3].transform.GetChild(2).GetComponent<Image>().sprite = noReach;
+        slider[3].transform.GetChild(3).GetComponent<Image>().sprite = noReach;
+        slider[3].transform.GetChild(4).GetComponent<Image>().sprite = noReach;
     }
 }
