@@ -24,6 +24,7 @@ public class Refresh_Manager : MonoBehaviour
     public GameObject mouse;
     public GameObject backGlow;
     public GameObject lightEffect;
+    public GameObject check;
     public bool isDoubleUp = false;
     public bool isSmile = false;
     public bool isNum = false;
@@ -217,6 +218,7 @@ public class Refresh_Manager : MonoBehaviour
             lightEffect.SetActive(false);
             lightEffect.SetActive(true);
             transform.GetComponent<AudioSource>().Play();
+            check.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
     
@@ -316,5 +318,6 @@ public class Refresh_Manager : MonoBehaviour
         success.SetActive(false);
         gameManager.buttons.SetActive(true);
         mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
+        check.transform.GetChild(0).gameObject.SetActive(false);
     }
 }
