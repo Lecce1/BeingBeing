@@ -848,7 +848,7 @@ public class Decent_Manager : MonoBehaviour
                 new Vector2(Random.Range(-300, 400), -200);
             temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             int num = Random.Range(0, stage5_Text.Count);
-            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage5_Text[num];
+            temp.transform.GetChild(0).GetComponent<TMP_Text>().text = stage5_Text[num];
             stage5_Text.RemoveAt(num);
 
             if (stage5_Text.Count == 0)

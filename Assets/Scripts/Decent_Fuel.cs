@@ -18,14 +18,14 @@ public class Decent_Fuel : MonoBehaviour
 
         if (decent_Manager.stage5_isTutorial == false)
         {
-            if (decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+            if (decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value == 1)
             {
                 Destroy(gameObject);
             }
         }
         else if (decent_Manager.stage5_isTutorial == true)
         {
-            if (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+            if (decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value == 1)
             {
                 Destroy(gameObject);
             }
@@ -36,21 +36,21 @@ public class Decent_Fuel : MonoBehaviour
     {
         if (decent_Manager.stage5_isTutorial == false)
         {
-            float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
+            float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value;
 
             if (fill + 0.2f <= 1)
             {
-                while (decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.2f)
+                while (decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value < fill + 0.2f)
                 {
-                    decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value += 0.01f;
                     yield return waitForSeconds;
                 }
             }
             else if (fill + 0.2f > 1)
             {
-                while (decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+                while (decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value < 1)
                 {
-                    decent_Manager.stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value += 0.01f;
                     yield return waitForSeconds;
                 }
             }
@@ -59,21 +59,21 @@ public class Decent_Fuel : MonoBehaviour
         }
         else if (decent_Manager.stage5_isTutorial == true)
         {
-            float fill = decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount;
+            float fill = decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value;
 
             if (fill + 0.1f <= 1)
             {
-                while (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < fill + 0.1f)
+                while (decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value < fill + 0.1f)
                 {
-                    decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value += 0.01f;
                     yield return waitForSeconds;
                 }
             }
             else if (fill + 0.1f > 1)
             {
-                while (decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount < 1)
+                while (decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value < 1)
                 {
-                    decent_Manager.stage5_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount += 0.01f;
+                    decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value += 0.01f;
                     yield return waitForSeconds;
                 }
             }
