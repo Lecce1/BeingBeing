@@ -10,6 +10,8 @@ public class Lovely_Manager : MonoBehaviour
     public GameObject tutorial;
     public TMP_Text tutorial_Notice;
     public GameObject game;
+    public GameObject first;
+    public GameObject second;
     public GameObject character;
     public GameObject timer;
     public TMP_Text notice;
@@ -161,7 +163,7 @@ public class Lovely_Manager : MonoBehaviour
     IEnumerator HeartGenerator2()
     {
         GameObject temp = Instantiate(heart2);
-        temp.transform.SetParent(game.transform.GetChild(1));
+        temp.transform.SetParent(second.transform);
         temp.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-300, 400), 800);
         temp.transform.localScale = new Vector3(1f, 1f, 1f);
         int num = Random.Range(0, heart_Text.Count);
@@ -187,7 +189,7 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true && stage == 4)
         {
-            if (isHeart == false && game.transform.GetChild(1).gameObject.activeSelf == true && (success.activeSelf == false || fail.activeSelf == false))
+            if (isHeart == false && second.activeSelf == true && (success.activeSelf == false || fail.activeSelf == false))
             {
                 isHeart = true;
                 StartCoroutine("HeartGenerator");
@@ -198,7 +200,7 @@ public class Lovely_Manager : MonoBehaviour
     IEnumerator HeartGenerator()
     {
         GameObject temp = Instantiate(heart);
-        temp.transform.SetParent(game.transform.GetChild(1));
+        temp.transform.SetParent(second.transform);
         temp.transform.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(Random.Range(-300, 400), 800);
         temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
@@ -242,8 +244,8 @@ public class Lovely_Manager : MonoBehaviour
 
     void Loading()
     {
-        game.transform.GetChild(0).gameObject.SetActive(false);
-        game.transform.GetChild(1).gameObject.SetActive(true);
+        first.SetActive(false);
+        second.SetActive(true);
         loading.SetActive(false);
     }
 
@@ -352,16 +354,16 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (timer.activeSelf == true && success.activeSelf == false && (stage == 1 || stage == 2 || stage == 3))
         {
-            emotionTime = 45 - (Time.time - emotionStartTime);
+            emotionTime = Time.time - emotionStartTime;
             timer.transform.GetChild(0).GetComponent<Image>().fillAmount = emotionTime * (1f / 45f);
 
-            if (emotionTime <= 10 && isTimer == false)
+            if (emotionTime >= 35 && isTimer == false)
             {
                 isTimer = true;
                 timer.GetComponent<Animator>().Play("Emotion_Timer");
             }
             
-            if (timer.transform.GetChild(0).GetComponent<Image>().fillAmount == 0)
+            if (timer.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
             {
                 shadow.SetActive(true);
                 fail.SetActive(true);
@@ -582,12 +584,11 @@ public class Lovely_Manager : MonoBehaviour
         isTutorial_Check = false;
         isTutorial_Check2 = false;
         game.SetActive(false);
-        game.transform.GetChild(0).gameObject.SetActive(true);
-        game.transform.GetChild(1).gameObject.SetActive(false);
+        first.SetActive(true);
+        second.SetActive(false);
         character.SetActive(false);
         timer.SetActive(false);
-        timer.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
-        timer.transform.GetChild(0).GetComponent<Image>().color = Color.black;
+        timer.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         notice.GetComponent<TextMeshProUGUI>().text = "";
         emotionBtn.SetActive(true);
         emotionColor.SetActive(false);

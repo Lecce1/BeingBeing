@@ -134,16 +134,16 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (emotionTimer.activeSelf == true && success.activeSelf == false)
         {
-            emotionTime = 90 - (Time.time - emotionStartTime);
+            emotionTime = Time.time - emotionStartTime;
             emotionTimer.transform.GetChild(0).GetComponent<Image>().fillAmount = emotionTime * (1f / 90f);
 
-            if (emotionTime <= 20 && isTimer == false)
+            if (emotionTime >= 70 && isTimer == false)
             {
                 isTimer = true;
                 emotionTimer.GetComponent<Animator>().Play("Emotion_Timer");
             }
             
-            if (emotionTimer.transform.GetChild(0).GetComponent<Image>().fillAmount == 0)
+            if (emotionTimer.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
             {
                 shadow.SetActive(true);
                 fail.SetActive(true);
@@ -681,8 +681,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         game.SetActive(false);
         character.SetActive(false);
         emotionTimer.SetActive(false);
-        emotionTimer.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
-        emotionTimer.transform.GetChild(0).GetComponent<Image>().color = Color.black;
+        emotionTimer.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         emotionBtn.SetActive(true);
         emotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = true;
         emotionBtn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color =

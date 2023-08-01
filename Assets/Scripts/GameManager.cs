@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text main_Text;
     public GameObject stage;
     public GameObject[] stage_Select_Level;
-    public int stage_Select_Level_Num = 1;
+    public int stage_Select_Level_Num = 0;
     public GameObject[] stage_Select_Buttons;
     public GameObject stage_Select_Stage;
     public TMP_Text stage_Select_Stage_Title;
@@ -33,10 +33,15 @@ public class GameManager : MonoBehaviour
     public TMP_Text info_Content;
     public GameObject pause;
     public GameObject set;
+    public GameObject quit;
     public Slider set_Music;
-    public Image set_Music_Switch;
+    public Image set_Music_Image;
     public Slider set_Vibrate;
-    public Image set_Vibrate_Border;
+    public Image set_Vibrate_Image;
+    public Slider set_Voice;
+    public Image set_Voice_Image;
+    public Sprite toggleOn;
+    public Sprite toggleOff;
     public GameObject loading;
     public AnimManager animManager;
     public int screen_Width;
@@ -44,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
@@ -53,6 +58,11 @@ public class GameManager : MonoBehaviour
     {
         Set();
         Splash();
+    }
+
+    void Update()
+    {
+        Quit();
     }
 
     public void Set()
@@ -64,34 +74,154 @@ public class GameManager : MonoBehaviour
         {
             stage_Select_Buttons[i].SetActive(false);
         }
-        
-        if (PlayerPrefs.HasKey("level") == true)
-        {
-            int index = PlayerPrefs.GetInt("level");
 
-            if (index <= 4)
+        if (stage_Select_Level_Num == 0)
+        {
+            if (PlayerPrefs.HasKey("level") == true)
             {
-                stage_Select_Level_Num = 1;
-                stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
-                stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                int index = PlayerPrefs.GetInt("level");
+
+                if (index <= 4)
+                {
+                    stage_Select_Level_Num = 1;
+                    stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                    stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                    stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = false;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                }
+                else if (index >= 5 && index <= 8)
+                {
+                    stage_Select_Level_Num = 2;
+                    stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                    stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                    stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                }
+                else if (index >= 9 && index <= 12)
+                {
+                    stage_Select_Level_Num = 3;
+                    stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                    stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                    stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = true;
+                }
+
+                if (stage_Select_Level_Num == 1)
+                {
+                    if (index <= 4)
+                    {
+                        for (int i = 0; i < index; i++)
+                        {
+                            stage_Select_Buttons[i].SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            stage_Select_Buttons[i].SetActive(true);
+                        }
+                    }
+                }
+                else if (stage_Select_Level_Num == 2)
+                {
+                    if (index >= 5 && index <= 8)
+                    {
+                        for (int i = 0; i < index - 4; i++)
+                        {
+                            stage_Select_Buttons[i].SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            stage_Select_Buttons[i].SetActive(true);
+                        }
+                    }
+                }
+                else if (stage_Select_Level_Num == 3)
+                {
+                    if (index >= 9)
+                    {
+                        for (int i = 0; i < index - 8; i++)
+                        {
+                            stage_Select_Buttons[i].SetActive(true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetInt("level", 1);
+                int index = PlayerPrefs.GetInt("level");
+
+                for (int i = 0; i < index; i++)
+                {
+                    stage_Select_Buttons[i].SetActive(true);
+                }
+                
                 stage_Select_Level[0].GetComponent<Button>().interactable = true;
                 stage_Select_Level[1].GetComponent<Button>().interactable = false;
                 stage_Select_Level[2].GetComponent<Button>().interactable = false;
             }
-            else if (index >= 5 && index <= 8)
+        }
+        else
+        {
+            int index = PlayerPrefs.GetInt("level");
+
+            if (stage_Select_Level_Num == 1)
             {
-                stage_Select_Level_Num = 2;
+                stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
+                
+                if (index <= 4)
+                {
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = false;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                }
+                else if (index >= 5 && index <= 8)
+                {
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = true;
+                }
+            }
+            else if (stage_Select_Level_Num == 2)
+            {
                 stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
                 stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                stage_Select_Level[0].GetComponent<Button>().interactable = true;
-                stage_Select_Level[1].GetComponent<Button>().interactable = true;
-                stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                
+                if (index >= 5 && index <= 8)
+                {
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    stage_Select_Level[0].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[1].GetComponent<Button>().interactable = true;
+                    stage_Select_Level[2].GetComponent<Button>().interactable = true;
+                }
             }
-            else if (index >= 9 && index <= 12)
+            else if (stage_Select_Level_Num == 3)
             {
-                stage_Select_Level_Num = 3;
                 stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
@@ -99,7 +229,7 @@ public class GameManager : MonoBehaviour
                 stage_Select_Level[1].GetComponent<Button>().interactable = true;
                 stage_Select_Level[2].GetComponent<Button>().interactable = true;
             }
-
+            
             if (stage_Select_Level_Num == 1)
             {
                 if (index <= 4)
@@ -145,20 +275,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            PlayerPrefs.SetInt("level", 1);
-            int index = PlayerPrefs.GetInt("level");
-
-            for (int i = 0; i < index; i++)
-            {
-                stage_Select_Buttons[i].SetActive(true);
-            }
-            
-            stage_Select_Level[0].GetComponent<Button>().interactable = true;
-            stage_Select_Level[1].GetComponent<Button>().interactable = false;
-            stage_Select_Level[2].GetComponent<Button>().interactable = false;
-        }
         
         Set2();
     }
@@ -186,12 +302,45 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.HasKey("Music"))
         {
             set_Music.value = PlayerPrefs.GetInt("Music");
+
+            if (set_Music.value == 0)
+            {
+                set_Music_Image.sprite = toggleOff;
+            }
+            else if (set_Music.value == 1)
+            {
+                set_Music_Image.sprite = toggleOn;
+            }
+            
             transform.GetComponent<AudioSource>().volume = set_Music.value;
         }
         
         if (PlayerPrefs.HasKey("Vibrate"))
         {
             set_Vibrate.value = PlayerPrefs.GetInt("Sound");
+            
+            if (set_Vibrate.value == 0)
+            {
+                set_Vibrate_Image.sprite = toggleOff;
+            }
+            else if (set_Vibrate.value == 1)
+            {
+                set_Vibrate_Image.sprite = toggleOn;
+            }
+        }
+        
+        if (PlayerPrefs.HasKey("Voice"))
+        {
+            set_Voice.value = PlayerPrefs.GetInt("Sound");
+            
+            if (set_Voice.value == 0)
+            {
+                set_Voice_Image.sprite = toggleOff;
+            }
+            else if (set_Voice.value == 1)
+            {
+                set_Voice_Image.sprite = toggleOn;
+            }
         }
 
         buttons.SetActive(false);
@@ -418,11 +567,11 @@ public class GameManager : MonoBehaviour
 
         if (set_Music.value == 0)
         {
-            set_Music_Switch.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
+            set_Music_Image.sprite = toggleOff;
         }
         else if (set_Music.value == 1)
         {
-            set_Music_Switch.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+            set_Music_Image.sprite = toggleOn;
         }
     }
     
@@ -432,11 +581,25 @@ public class GameManager : MonoBehaviour
         
         if (set_Vibrate.value == 0)
         {
-            set_Vibrate_Border.color = new Color(120 / 255f, 129 / 255f, 138 / 255f, 255 / 255f);
+            set_Vibrate_Image.sprite = toggleOff;
         }
         else if (set_Vibrate.value == 1)
         {
-            set_Vibrate_Border.color = new Color(60 / 255f, 129 / 255f, 11 / 255f, 255 / 255f);
+            set_Vibrate_Image.sprite = toggleOn;
+        }
+    }
+    
+    public void Set_Voice()
+    {
+        PlayerPrefs.SetInt("Voice", (int)set_Vibrate.value);
+        
+        if (set_Voice.value == 0)
+        {
+            set_Voice_Image.sprite = toggleOff;
+        }
+        else if (set_Voice.value == 1)
+        {
+            set_Voice_Image.sprite = toggleOn;
         }
     }
 
@@ -453,7 +616,7 @@ public class GameManager : MonoBehaviour
         if (stage_Select_Stage_Num == 1)
         {
             stage_Select_Stage_Title.text = "호흡과 빙그레";
-            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>호흡</color></size></b>\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n<b><size=55><color=#43536C>빙그레</color></size></b>\n빙그레 웃음 한 번으로 마음의 여우를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>호흡</color></size></b>\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n<b><size=55><color=#43536C>빙그레</color></size></b>\n빙그레 웃음 한 번으로 마음의 여유를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 2)
         {
@@ -463,7 +626,7 @@ public class GameManager : MonoBehaviour
         else if (stage_Select_Stage_Num == 3)
         {
             stage_Select_Stage_Title.text = "러블리어텐션";
-            stage_Select_Stage_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다";
+            stage_Select_Stage_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 4)
         {
@@ -471,7 +634,7 @@ public class GameManager : MonoBehaviour
             stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을\n객관적으로 바라봄으로써\n현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를 있는 그대로 받아들이고\n생활 속에서 더욱 긍정적으로\n살아가게 될 것입니다.";
         }
         
-        Invoke("Stage_Select_Stage_StartBtn", 2.0f);
+        Invoke("Stage_Select_Stage_StartBtn", 1.0f);
     }
 
     void Stage_Select_Stage_StartBtn()
@@ -625,5 +788,26 @@ public class GameManager : MonoBehaviour
         {
             decent.transform.GetChild(0).GetComponent<Decent_Manager>().Help();
         }
+    }
+
+    void Quit()
+    {
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            if(Input.GetKey(KeyCode.Escape))
+            {
+                quit.SetActive(true);
+            }
+        }
+    }
+
+    public void Quit_Cancel()
+    {
+        quit.SetActive(false);
+    }
+
+    public void Quit_Accept()
+    {
+        Application.Quit();
     }
 }
