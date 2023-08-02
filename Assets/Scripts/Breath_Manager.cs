@@ -34,6 +34,7 @@ public class Breath_Manager : MonoBehaviour
     private bool isTutorial_Check2;
     private int tutorial_Notice_Num = 1;
     private bool isTouch = false;
+    public GameObject fade;
 
     void Awake()
     {
@@ -376,7 +377,7 @@ public class Breath_Manager : MonoBehaviour
             {
                 isNext = true;
                 game_Notice.GetComponent<TMP_Text>().text = string.Empty;
-                animManager.Fade_Out();
+                StartCoroutine(nameof(FadeOut));
             }
         }
 
@@ -385,11 +386,29 @@ public class Breath_Manager : MonoBehaviour
         yield return null;
     }
 
+    private IEnumerator FadeOut()
+    {
+        fade.SetActive(true);
+        float timer = 0;
+
+        while (timer < 255)
+        {
+            timer += 250 * Time.deltaTime;
+            fade.GetComponent<Image>().color = new Color(0, 0, 0, timer / 255f);
+            Debug.Log("timer + " + timer);
+            yield return waitForSeconds;
+        }
+        
+        Reset();
+        gameManager.breath.SetActive(false);
+        gameManager.smile.SetActive(true);
+    }
+
     void Timer()
     {
         if (isTutorial == true)
         {
-            if (isLimit == true && isCheck == true)
+            if (isLimit == true && isCheck == true && circle.fillAmount != 1)
             {
                 time += Time.deltaTime;
                 circle_Timer.fillAmount = time / 4;
@@ -464,5 +483,7 @@ public class Breath_Manager : MonoBehaviour
         circle_Timer.fillAmount = 0;
         shadow.SetActive(false);
         gameManager.buttons.SetActive(true);
+        fade.SetActive(false);
+        fade.GetComponent<Image>().color = new Color(0, 0, 0, 0);
     }
 }

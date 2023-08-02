@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,11 +32,33 @@ public class Smile_Manager : MonoBehaviour
     private bool isTutorial_Check2;
     private bool isTutorial_Cursor;
     private int tutorial_Notice_Num = 1;
+    public GameObject fade;
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
 
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         animManager = GameObject.Find("AnimManager").GetComponent<AnimManager>();
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(nameof(FadeIn));
+    }
+    
+    private IEnumerator FadeIn()
+    {
+        fade.SetActive(true);
+        float timer = 0;
+
+        while (timer < 255)
+        {
+            timer += 250 * Time.deltaTime;
+            fade.GetComponent<Image>().color = new Color(0, 0, 0, 1 - (timer / 255f));
+            yield return waitForSeconds;
+        }
+        
+        fade.SetActive(false);
     }
 
     void Update()
@@ -301,5 +326,7 @@ public class Smile_Manager : MonoBehaviour
         tutorial_Notice_Num = 1;
         check.transform.GetChild(0).gameObject.SetActive(false);
         gameManager.buttons.SetActive(true);
+        fade.SetActive(false);
+        fade.GetComponent<Image>().color = new Color(0, 0, 0, 1);
     }
 }
