@@ -471,7 +471,7 @@ public class Breath_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         tutorial.SetActive(true);
         game.SetActive(false);
-        game_Notice.GetComponent<TMP_Text>().text = "<incr>소리를 켜서 안내말을 따라해 주세요.</incr>";
+        game_Notice.GetComponent<TMP_Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
         tutorial_Body.transform.localScale = new Vector3(1, 1, 1);
         body.transform.localScale = new Vector3(1, 1, 1);
         count = 0;

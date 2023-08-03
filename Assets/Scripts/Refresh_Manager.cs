@@ -300,7 +300,7 @@ public class Refresh_Manager : MonoBehaviour
         circle_Timer.fillAmount = 0;
         count = 0;
         time = 0;
-        game_Notice.GetComponent<TMP_Text>().text = "<incr>소리를 켜서 안내말을 따라해 주세요.</incr>";
+        game_Notice.GetComponent<TMP_Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
         isDoubleUp = false;
         isLimit = false;
         isCheck = false;
