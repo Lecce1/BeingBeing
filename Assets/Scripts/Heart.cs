@@ -71,6 +71,11 @@ public class Heart : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (lovely_Manager.fail.activeSelf == true)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Touch()
@@ -169,11 +174,14 @@ public class Heart : MonoBehaviour
             else if (isPositive == false)
             {
                 lovely_Manager.heart_Fail++;
+                
+                lovely_Manager.lifes[lovely_Manager.heart_Fail - 1].transform.GetChild(0).GetComponent<Image>().color = Color.white;
 
                 if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
                 {
                     if (lovely_Manager.heart_Fail >= 2)
                     {
+                        lovely_Manager.shadow.SetActive(true);
                         lovely_Manager.fail.SetActive(true);
                     }
                 }
@@ -181,6 +189,7 @@ public class Heart : MonoBehaviour
                 {
                     if (lovely_Manager.heart_Fail >= 3)
                     {
+                        lovely_Manager.shadow.SetActive(true);
                         lovely_Manager.fail.SetActive(true);
                     }
                 }

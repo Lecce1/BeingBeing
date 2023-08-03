@@ -49,7 +49,7 @@ public class Decent_Manager : MonoBehaviour
     public int stage = 1;
     GameManager gameManager;
     AnimManager animManager;
-    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
@@ -839,7 +839,7 @@ public class Decent_Manager : MonoBehaviour
             while (delay < 0.6f)
             {
                 delay += Time.deltaTime;
-                yield return waitForEndOfFrame;
+                yield return waitForSeconds;
             }
     
             isSentence = false;
@@ -880,7 +880,7 @@ public class Decent_Manager : MonoBehaviour
             while (delay < 0.6f)
             {
                 delay += Time.deltaTime;
-                yield return waitForEndOfFrame;
+                yield return waitForSeconds;
             }
     
             isSentence = false;
@@ -922,7 +922,7 @@ public class Decent_Manager : MonoBehaviour
         while (delay < 1f)
         {
             delay += Time.deltaTime;
-            yield return waitForEndOfFrame;
+            yield return waitForSeconds;
         }
     
         isSentence = false;
@@ -1043,7 +1043,7 @@ public class Decent_Manager : MonoBehaviour
         while (delay < 1.5f)
         {
             delay += 0.5f * Time.deltaTime;
-            yield return waitForEndOfFrame;
+            yield return waitForSeconds;
         }
         
         if (test == false)

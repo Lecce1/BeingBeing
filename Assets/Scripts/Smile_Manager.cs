@@ -96,7 +96,7 @@ public class Smile_Manager : MonoBehaviour
                 {
                     tutorial_Notice_Num++;
 
-                    if (tutorial_Notice_Num != 5)
+                    if (tutorial_Notice_Num != 4)
                     {
                         Tutorial_Notice();
                     }
@@ -129,18 +129,14 @@ public class Smile_Manager : MonoBehaviour
             tutorial_Notice.text = "그림과 같이 두 손가락을\n빙빙이의 양 입꼬리를 터치하여\n위로 올려 빙그레 미소를 만들어주세요.";
             tutorial_Character.SetActive(true);
             tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
+            tutorial_Finger.SetActive(true);
+            tutorial_Finger.GetComponent<Animator>().Play("Finger3");
         }
         else if (tutorial_Notice_Num == 3)
-        {
-            tutorial_Notice.text = "빙빙이의 입꼬리를 위로 올려\n빙그레 미소짓게 만들어주세요.";
-        }
-        else if (tutorial_Notice_Num == 4)
         {
             tutorial_Notice_Image.SetActive(false);
             gameObject.GetComponent<Touch>().result = Result.none;
             tutorial_Notice.text = "빙빙이를 따라\n당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
-            tutorial_Finger.SetActive(true);
-            tutorial_Finger.GetComponent<Animator>().Play("Finger3");
             tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
         }
     }

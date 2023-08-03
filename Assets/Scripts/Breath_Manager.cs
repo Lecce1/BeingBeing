@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -20,8 +21,8 @@ public class Breath_Manager : MonoBehaviour
     public GameObject shadow;
     [SerializeField]
     private int count = 0;
-    private float time = 0;
-    private bool isLimit = false;
+    public float time = 0;
+    public bool isLimit = false;
     public bool isUp = false;
     public bool isDown = false;
     public bool isBreathe = false;
@@ -34,9 +35,10 @@ public class Breath_Manager : MonoBehaviour
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
     private int tutorial_Notice_Num = 1;
-    private bool isTouch = false;
+    public bool isTouch = false;
     public GameObject fade;
     public GameObject tutorial_Notice_Image;
+    private bool isFirst = false;
 
     void Awake()
     {
@@ -95,6 +97,7 @@ public class Breath_Manager : MonoBehaviour
             isDown = false;
             isBreathe = false;
             isTouch = false;
+            isLimit = false;
             tutorial.SetActive(false);
             game.SetActive(true);
             gameManager.buttons.SetActive(true);
@@ -226,27 +229,47 @@ public class Breath_Manager : MonoBehaviour
         {
             if (isBreathe == true)
             {
-                tutorial_Notice.text = "잘했어요!";
-                tutorial_Finger.SetActive(false);
-                
+                if (isFirst == false)
+                {
+                    tutorial_Notice.text = "잘했어요!";
+                    tutorial_Finger.SetActive(false);
+                }
+                else
+                {
+                    tutorial_Notice.text = String.Empty;
+                }
+
                 while (tutorial_Body.transform.localScale.x < 1.2f)
                 {
                     yield return waitForSeconds;
                     tutorial_Body.transform.localScale += new Vector3(0.2f, 0.2f, 0) * Time.deltaTime;
                 }
-                
-                tutorial_Finger.SetActive(true);
-                tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
-                tutorial_Notice.text = "이번에는 빙빙이와 함께\n숨을 내쉬면서 배에서 가슴으로\n드래그 합니다.";
+
+                if (isFirst == false)
+                {
+                    tutorial_Notice.text = "이번에는 빙빙이와 함께\n숨을 내쉬면서 배에서 가슴으로\n드래그 합니다.";
+                    tutorial_Finger.SetActive(true);
+                    tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
+                }
+                else
+                {
+                    tutorial_Notice.text = "내쉬고";
+                }
+
                 isTouch = false;
             }
             else if (isBreathe == false)
             {
-                isUp = false;
-                isDown = false;
-                //tutorial_Notice.text = "잘 하셨습니다. 호흡 연습을 마칩니다.";
-                tutorial_Notice.text = "잘 하셨습니다.";
-                tutorial_Finger.SetActive(false);
+                if (isFirst == false)
+                {
+                    isFirst = true;
+                    tutorial_Notice.text = "잘 하셨습니다.";
+                    tutorial_Finger.SetActive(false);
+                }
+                else
+                {
+                    tutorial_Notice.text = String.Empty;
+                }
 
                 while (tutorial_Body.transform.localScale.x > 1)
                 {
@@ -254,7 +277,6 @@ public class Breath_Manager : MonoBehaviour
                     tutorial_Body.transform.localScale -= new Vector3(0.3f, 0.3f, 0) * Time.deltaTime;
                 }
                 
-                Invoke("Skip", 3.0f);
                 isTouch = false;
             }
         }
@@ -292,15 +314,12 @@ public class Breath_Manager : MonoBehaviour
 
     void Gauge()
     {
-        if (isTutorial == true)
+        if (isUp == true && isDown == true && isLimit == false)
         {
-            if (isUp == true && isDown == true && isLimit == false)
-            {
-                time = 0;
-                isUp = false;
-                isDown = false;
-                isLimit = true;
-            }
+            time = 0;
+            isUp = false;
+            isDown = false;
+            isLimit = true;
         }
     }
 
@@ -310,15 +329,26 @@ public class Breath_Manager : MonoBehaviour
         
         if (isTutorial == false && tutorial_Notice_Num >= 5)
         {
-            if (count <= 10)
+            if (count <= 6)
             {
                 count++;
             }
         
-            while (tutorial_Circle.fillAmount < (count * 0.1f))
+            while (tutorial_Circle.fillAmount < (count * 0.167f))
             {
                 yield return waitForSeconds;
                 tutorial_Circle.fillAmount += 0.5f * Time.deltaTime;
+                
+                if (tutorial_Circle.fillAmount == 1)
+                {
+                    break;
+                }
+            }
+            
+            if (tutorial_Circle.fillAmount == 1)
+            {
+                tutorial_Notice.text = "잘 하셨습니다. 호흡 연습을 마칩니다.";
+                Invoke("Skip", 4.0f);
             }
         }
         else if (isTutorial == true)
@@ -507,5 +537,6 @@ public class Breath_Manager : MonoBehaviour
         fade.SetActive(false);
         fade.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         tutorial_Notice_Image.SetActive(true);
+        isFirst = false;
     }
 }

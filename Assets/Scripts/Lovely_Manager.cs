@@ -51,8 +51,9 @@ public class Lovely_Manager : MonoBehaviour
     public int touch = 0;
     private List<string> heart_Text = new List<string> {"고마워", "힘이나", "편안해", "기분이 좋아", "사랑해", "잘했어", "최고야", "힘빠져", "기분 나빠", "불편해", "뭘 잘해?", "잘못 했네", "최악이야"};
     public int heart_Fail = 0;
+    public List<GameObject> lifes;
     private List<RaycastResult> results = new List<RaycastResult>();
-    WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     private int tutorial_Notice_Num = 1;
 
     void Awake()
@@ -162,23 +163,26 @@ public class Lovely_Manager : MonoBehaviour
     
     IEnumerator HeartGenerator2()
     {
-        GameObject temp = Instantiate(heart2);
-        temp.transform.SetParent(second.transform);
-        temp.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-300, 400), 800);
-        temp.transform.localScale = new Vector3(1f, 1f, 1f);
-        int num = Random.Range(0, heart_Text.Count);
-        temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = heart_Text[num];
-        heart_Text.RemoveAt(num);
-
-        float delay = 0;
-
-        while (delay < 3f)
+        if (fail.activeSelf == false)
         {
-            delay += Time.deltaTime;
-            yield return waitForEndOfFrame;
-        }
+            GameObject temp = Instantiate(heart2);
+            temp.transform.SetParent(second.transform);
+            temp.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-300, 400), 800);
+            temp.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            int num = Random.Range(0, heart_Text.Count);
+            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = heart_Text[num];
+            heart_Text.RemoveAt(num);
+
+            float delay = 0;
+
+            while (delay < 1.5f)
+            {
+                delay += Time.deltaTime;
+                yield return waitForSeconds;
+            }
     
-        isHeart = false;
+            isHeart = false;
+        }
     }
 
     void Heart()
@@ -199,21 +203,24 @@ public class Lovely_Manager : MonoBehaviour
 
     IEnumerator HeartGenerator()
     {
-        GameObject temp = Instantiate(heart);
-        temp.transform.SetParent(second.transform);
-        temp.transform.GetComponent<RectTransform>().anchoredPosition =
-            new Vector2(Random.Range(-300, 400), 800);
-        temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-
-        float delay = 0;
-
-        while (delay < 1f)
+        if (fail.activeSelf == false)
         {
-            delay += Time.deltaTime;
-            yield return waitForEndOfFrame;
-        }
+            GameObject temp = Instantiate(heart);
+            temp.transform.SetParent(second.transform);
+            temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                new Vector2(Random.Range(-300, 400), 800);
+            temp.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+            float delay = 0;
+
+            while (delay < 0.5f)
+            {
+                delay += Time.deltaTime;
+                yield return waitForSeconds;
+            }
     
-        isHeart = false;
+            isHeart = false;
+        }
     }
 
     void Touch()
@@ -247,6 +254,15 @@ public class Lovely_Manager : MonoBehaviour
         first.SetActive(false);
         second.SetActive(true);
         loading.SetActive(false);
+
+        if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
+        {
+            lifes[2].SetActive(false);
+        }
+        else
+        {
+            lifes[2].SetActive(true);
+        }
     }
 
     void Check()
@@ -615,5 +631,8 @@ public class Lovely_Manager : MonoBehaviour
         shadow.SetActive(false);
         success.SetActive(false);
         fail.SetActive(false);
+        lifes[0].transform.GetChild(0).GetComponent<Image>().color = new Color(255f / 255f, 150f / 255f, 150f / 255f, 1);
+        lifes[1].transform.GetChild(0).GetComponent<Image>().color = new Color(255f / 255f, 150f / 255f, 150f / 255f, 1);
+        lifes[2].transform.GetChild(0).GetComponent<Image>().color = new Color(255f / 255f, 150f / 255f, 150f / 255f, 1);
     }
-}
+} 
