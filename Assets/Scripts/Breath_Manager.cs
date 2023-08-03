@@ -35,6 +35,7 @@ public class Breath_Manager : MonoBehaviour
     private int tutorial_Notice_Num = 1;
     private bool isTouch = false;
     public GameObject fade;
+    public GameObject tutorial_Notice_Image;
 
     void Awake()
     {
@@ -110,6 +111,7 @@ public class Breath_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "안녕하세요\n호흡 연습을 시작합니다.";
+            tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
@@ -125,6 +127,7 @@ public class Breath_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 5)
         {
+            tutorial_Notice_Image.SetActive(false);
             tutorial_Character_Panel.SetActive(true);
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
@@ -485,5 +488,6 @@ public class Breath_Manager : MonoBehaviour
         gameManager.buttons.SetActive(true);
         fade.SetActive(false);
         fade.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        tutorial_Notice_Image.SetActive(true);
     }
 }

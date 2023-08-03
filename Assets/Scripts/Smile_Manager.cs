@@ -34,6 +34,7 @@ public class Smile_Manager : MonoBehaviour
     private int tutorial_Notice_Num = 1;
     public GameObject fade;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    public GameObject tutorial_Notice_Image;
 
     void Awake()
     {
@@ -121,6 +122,7 @@ public class Smile_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "호흡 후에 빙그레 웃음으로 마무리를 합니다.";
+            tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
@@ -134,6 +136,7 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 4)
         {
+            tutorial_Notice_Image.SetActive(false);
             gameObject.GetComponent<Touch>().result = Result.none;
             tutorial_Notice.text = "빙빙이를 따라\n당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
             tutorial_Finger.SetActive(true);
@@ -328,5 +331,6 @@ public class Smile_Manager : MonoBehaviour
         gameManager.buttons.SetActive(true);
         fade.SetActive(false);
         fade.GetComponent<Image>().color = new Color(0, 0, 0, 1);
+        tutorial_Notice_Image.SetActive(true);
     }
 }

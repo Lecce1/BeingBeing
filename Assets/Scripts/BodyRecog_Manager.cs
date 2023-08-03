@@ -36,6 +36,8 @@ public class BodyRecog_Manager : MonoBehaviour
     public List<GameObject> slider;
     public Sprite noReach;
     public Sprite reach;
+    public GameObject tutorial_Notice_Image;
+    
 
     void Awake()
     {
@@ -122,6 +124,7 @@ public class BodyRecog_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "신체자각과 감정자각을 시작합니다.";
+            tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
@@ -133,6 +136,7 @@ public class BodyRecog_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 4)
         {
+            tutorial_Notice_Image.SetActive(false);
             tutorial_Notice.text = "이제부터 시작해볼까요?";
             StartCoroutine("Start_Delay");
         }
@@ -991,6 +995,7 @@ public class BodyRecog_Manager : MonoBehaviour
         isTutorial_Check = true;
         isTutorial_Check2 = false;
         tutorial_Notice_Num = 1;
+        tutorial_Notice_Image.SetActive(true);
         gameManager.buttons.SetActive(true);
         slider[0].transform.GetChild(0).GetComponent<Image>().sprite = noReach;
         slider[0].transform.GetChild(1).GetComponent<Image>().sprite = noReach;

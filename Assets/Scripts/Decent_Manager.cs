@@ -71,6 +71,7 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
     public GameObject stage6;
     public int count = 0;
+    public GameObject tutorial_Notice_Image;
 
     void Awake()
     {
@@ -101,6 +102,7 @@ public class Decent_Manager : MonoBehaviour
                 {
                     gameManager.buttons.SetActive(false);
                     isTutorial = false;
+                    Tutorial_Notice();
                 }
                 else
                 {
@@ -154,6 +156,7 @@ public class Decent_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "탈중심화 연습을 시작합니다.";
+            tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
@@ -165,6 +168,7 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 4)
         {
+            tutorial_Notice_Image.SetActive(false);
             tutorial_Notice.text = "";
             tutorial_True.SetActive(true);
             tutorial_Interpret.SetActive(true);
@@ -1269,5 +1273,6 @@ public class Decent_Manager : MonoBehaviour
         shadow.SetActive(false);
         success.SetActive(false);
         fail.SetActive(false);
+        tutorial_Notice_Image.SetActive(true);
     }
 }

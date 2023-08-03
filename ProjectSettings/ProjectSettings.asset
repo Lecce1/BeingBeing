@@ -163,9 +163,9 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 7
-  AndroidMinSdkVersion: 22
-  AndroidTargetSdkVersion: 0
+  AndroidBundleVersionCode: 8
+  AndroidMinSdkVersion: 24
+  AndroidTargetSdkVersion: 31
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -769,6 +769,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
     Android: USC_UNITY_PIPELINE_LEGACY;USC_EXCLUDE_SHARE
+    Server: 
     Standalone: USC_UNITY_PIPELINE_LEGACY
     WebGL: USC_EXCLUDE_SHARE
     iPhone: USC_EXCLUDE_SHARE;USC_UNITY_PIPELINE_LEGACY

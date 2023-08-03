@@ -47,6 +47,7 @@ public class EmotionRecog_Manager : MonoBehaviour
     [SerializeField]
     private int tutorial_Notice_Num = 1;
     private List<string> cloud_Text = new List<string> {"너 때문이야", "다 부숴버릴거야", "잘못되면 끝이야", "다른 사람이 알면 큰일인데", "나 때문이야", "내가 원망스러워", "좋은 사람은 다 가버리네", "내 편은 아무도 없어"};
+    public GameObject tutorial_Notice_Image;
 
     void Awake()
     {
@@ -75,6 +76,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                 {
                     gameManager.buttons.SetActive(false);
                     isTutorial = false;
+                    Tutorial_Notice();
                 }
                 else
                 {
@@ -112,6 +114,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "이번에는 감정자각 연습을 시작합니다";
+            tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
@@ -119,6 +122,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 3)
         {
+            tutorial_Notice_Image.SetActive(false);
             tutorial_Notice.text = "아래 4가지 감정 중 하나를 선택해봅시다";
             tutorial_EmotionBtn.SetActive(true);
         }
@@ -719,5 +723,6 @@ public class EmotionRecog_Manager : MonoBehaviour
         isClick = false;
         isNext = false;
         shadow.SetActive(false);
+        tutorial_Notice_Image.SetActive(true);
     }
 }
