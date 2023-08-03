@@ -11,6 +11,7 @@ public class Breath_Manager : MonoBehaviour
     public GameObject tutorial_Character_Panel;
     public GameObject tutorial_Body;
     public Image tutorial_Circle;
+    public Image tutorial_Circle_Timer;
     public GameObject game;
     public GameObject game_Notice;
     public GameObject body;
@@ -243,15 +244,16 @@ public class Breath_Manager : MonoBehaviour
             {
                 isUp = false;
                 isDown = false;
-                tutorial_Notice.text = "잘 하셨습니다. 호흡 연습을 마칩니다.";
+                //tutorial_Notice.text = "잘 하셨습니다. 호흡 연습을 마칩니다.";
+                tutorial_Notice.text = "잘 하셨습니다.";
                 tutorial_Finger.SetActive(false);
-                
+
                 while (tutorial_Body.transform.localScale.x > 1)
                 {
                     yield return waitForSeconds;
                     tutorial_Body.transform.localScale -= new Vector3(0.3f, 0.3f, 0) * Time.deltaTime;
                 }
-
+                
                 Invoke("Skip", 3.0f);
                 isTouch = false;
             }
@@ -409,7 +411,23 @@ public class Breath_Manager : MonoBehaviour
 
     void Timer()
     {
-        if (isTutorial == true)
+        if (isTutorial == false)
+        {
+            if (isLimit == true && isCheck == true && tutorial_Circle.fillAmount != 1)
+            {
+                time += Time.deltaTime;
+                tutorial_Circle_Timer.fillAmount = time / 4;
+            }
+            
+            if (time >= 4)
+            {
+                tutorial_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+                tutorial_Circle_Timer.fillAmount = 0;
+                time = 0;
+                isLimit = false;
+            }
+        }
+        else if (isTutorial == true)
         {
             if (isLimit == true && isCheck == true && circle.fillAmount != 1)
             {

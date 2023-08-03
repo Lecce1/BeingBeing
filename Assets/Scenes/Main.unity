@@ -3509,10 +3509,10 @@ RectTransform:
   m_Father: {fileID: 351266684}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -322.63077}
-  m_SizeDelta: {x: 1080, y: 317.63077}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54747376
 MonoBehaviour:
@@ -8550,10 +8550,10 @@ RectTransform:
   m_Father: {fileID: 325335930}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -1409.3384}
-  m_SizeDelta: {x: 1080, y: 1855.7845}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &198026779
 MonoBehaviour:
@@ -15658,10 +15658,10 @@ RectTransform:
   m_Father: {fileID: 325335930}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -240.72302}
-  m_SizeDelta: {x: 1080, y: 481.44614}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &351266685
 MonoBehaviour:
@@ -20515,10 +20515,10 @@ RectTransform:
   m_Father: {fileID: 351266684}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -81.9077}
-  m_SizeDelta: {x: 1080, y: 163.81538}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &422630934
 MonoBehaviour:
@@ -78232,6 +78232,7 @@ MonoBehaviour:
   tutorial_Character_Panel: {fileID: 1429302944}
   tutorial_Body: {fileID: 1825390844}
   tutorial_Circle: {fileID: 735219667}
+  tutorial_Circle_Timer: {fileID: 0}
   game: {fileID: 46664860}
   game_Notice: {fileID: 943573930}
   body: {fileID: 54528210}
@@ -91000,7 +91001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1917395309
 RectTransform:
   m_ObjectHideFlags: 0
