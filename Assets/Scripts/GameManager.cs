@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
@@ -605,7 +605,7 @@ public class GameManager : MonoBehaviour
 
     public void Set_Youtube()
     {
-        Application.OpenURL("https://www.youtube.com");
+        Application.OpenURL("https://www.youtube.com/watch?v=WC5K4oX-yPc");
     }
     
     public void Stage_Select_Stage(int num)

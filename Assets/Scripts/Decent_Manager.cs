@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,17 +17,27 @@ public class Decent_Manager : MonoBehaviour
     public GameObject sentence;
     public GameObject game;
     public GameObject stage1;
+    public Image stage1_cutToon;
+    public GameObject stage1_Notice_Image;
     public GameObject stage1_Button;
     public GameObject[] stage1_Buttons;
     public TMP_Text stage1_Notice;
     public int stage1_Notice_Num = 1;
     public GameObject stage2;
+    public Image stage2_cutToon;
     public TMP_Text stage2_Notice;
-    private string stage2_Emotion;
+    public string stage2_Emotion;
+    public GameObject stage2_Emotion_Btn;
+    public GameObject stage2_Main_Panel;
+    public GameObject stage2_ScrollView;
     public GameObject stage2_Button;
     private int stage2_Answer = 0;
     public GameObject stage3;
+    public GameObject stage3_Sentence;
     public GameObject stage4;
+    public GameObject stage4_First;
+    public GameObject stage4_Second;
+    public GameObject stage4_Third;
     private int stage4_Count = 1;
     public GameObject stage5;
     public GameObject stage5_Tutorial;
@@ -34,9 +45,12 @@ public class Decent_Manager : MonoBehaviour
     private bool stage5_isTutorial_Check;
     private bool stage5_isTutorial_Check2;
     public GameObject stage5_Tutorial_Bar;
+    public GameObject stage5_Tutorial_Panel;
     public TMP_Text stage5_Notice;
+    public GameObject stage5_Notice_Image;
     public int stage5_Notice_Num = 1;
     public GameObject stage5_Game;
+    public Image stage5_Road;
     public GameObject stage5_Bar;
     public GameObject stage5_Car;
     public GameObject fuel;
@@ -54,7 +68,7 @@ public class Decent_Manager : MonoBehaviour
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
     public int tutorial_Notice_Num = 1;
-    private List<string> sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};
+    public List<string> sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다.", "오늘 아침에 내 짝이 나를 보고 미소를 지었다.", "나는 생각하고 느끼는 존재이다.", "우리 엄마는 잔소리를 많이 한다.", "우리 아빠는 집안일을 잘 하지 않는다.", "내 동생은 다소 이기적이다.", "우리 반 친구들은 나를 싫어한다.", "내 친구들은 나를 보고도 모른 체 한다.", "내 초등학교 절친은 사회성이 부족하다.", "선생님들은 우리를 힘들게 한다.", "우리 회사의 사장님은 권위적이다.", "공부든 일이든 모두 나를 위한 것이다.", "적성을 아는 것이 진로 선택에 도움이 된다.", "나는 타인의 눈치를 많이 본다.", "나는 왕따이다.", "나는 자신감이 부족하다.", "운전하면서 중간에 끼어들면 안 된다.", "운전하면서 중간에 끼어들어도 괜찮다.", "경상도 남자들은 말이 별로 없다.", "안중근 의사는 애국자이다."};
     private List<string> stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
     private List<string> stage2_Anger = new List<string> { "나는 잘못이 없어", "이 친구는 나쁜 놈이야", "참으면 나를 무시할 거야", "일부러 나를 힘들게 해"};
     private List<string> stage2_Unrest = new List<string> { "앞으로도 계속 괴롭히겠지", "언제 또 당할지 몰라", "모두 나를 바보처럼 보겠지", "이제 학교생활은 끝이야"};
@@ -72,6 +86,8 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage6;
     public int count = 0;
     public GameObject tutorial_Notice_Image;
+    public List<Sprite> cutToon;
+    public List<Sprite> stage5_Road_Image;
 
     void Awake()
     {
@@ -147,7 +163,19 @@ public class Decent_Manager : MonoBehaviour
             
             tutorial.SetActive(false);
             game.SetActive(true);
+            stage1_Notice_Image.GetComponent<Animator>().Play("Text");
             gameManager.buttons.SetActive(true);
+
+            if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
+            {
+                stage1_cutToon.sprite = cutToon[0];
+                stage2_cutToon.sprite = cutToon[0];
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                stage1_cutToon.sprite = cutToon[1];
+                stage2_cutToon.sprite = cutToon[1];
+            }
         }
     }
     
@@ -199,6 +227,7 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (stage1_Notice_Num == 2)
         {
+            stage1_Notice_Image.SetActive(false);
             stage1_Button.SetActive(true);
             stage1_Notice.text = "아래 제시된 9가지 감정 중\n그림에서 경험할 수 있는 감정을\n4가지 선택해보세요.";
         }
@@ -207,14 +236,14 @@ public class Decent_Manager : MonoBehaviour
     public void Stage1_Btn(int num)
     {
         count = 0;
-        stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
+        /*stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
         stage2.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
         stage2.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
         stage2.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
         stage2.transform.GetChild(0).GetChild(2).GetComponent<Button>().interactable = true;
         stage2.transform.GetChild(0).GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
         stage2.transform.GetChild(0).GetChild(3).GetComponent<Button>().interactable = true;
-        stage2.transform.GetChild(0).GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
+        stage2.transform.GetChild(0).GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);*/
         
         if (num == 0)
         {
@@ -250,26 +279,26 @@ public class Decent_Manager : MonoBehaviour
 
         if (type == "Anger")
         {
-            stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
-            stage2.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Emotion_Btn.transform.GetChild(0).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
             stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Unrest")
         {
-            stage2.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
-            stage2.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Emotion_Btn.transform.GetChild(1).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
             stage2_Notice.text = "불안이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Sadness")
         {
-            stage2.transform.GetChild(0).GetChild(2).GetComponent<Button>().interactable = false;
-            stage2.transform.GetChild(0).GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Emotion_Btn.transform.GetChild(2).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
             stage2_Notice.text = "슬픔이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
         else if (type == "Remorse")
         {
-            stage2.transform.GetChild(0).GetChild(3).GetComponent<Button>().interactable = false;
-            stage2.transform.GetChild(0).GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+            stage2_Emotion_Btn.transform.GetChild(3).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
             stage2_Notice.text = "자책이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
         }
 
@@ -306,7 +335,7 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < 8; i++)
             {
                 GameObject temp = Instantiate(stage2_Button);
-                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0));
+                temp.transform.SetParent(stage2_ScrollView.transform.GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
                 temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
@@ -456,7 +485,7 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < 10; i++)
             {
                 GameObject temp = Instantiate(stage2_Button);
-                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0));
+                temp.transform.SetParent(stage2_ScrollView.transform.GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
                 temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
@@ -606,7 +635,7 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < 14; i++)
             {
                 GameObject temp = Instantiate(stage2_Button);
-                temp.transform.SetParent(stage2.transform.GetChild(3).GetChild(0).GetChild(0));
+                temp.transform.SetParent(stage2_ScrollView.transform.GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
                 temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
@@ -631,9 +660,8 @@ public class Decent_Manager : MonoBehaviour
             }
         }
         
-        stage2.transform.GetChild(0).gameObject.SetActive(false);
-        stage2.transform.GetChild(2).gameObject.SetActive(true);
-        stage2.transform.GetChild(3).gameObject.SetActive(true);
+        stage2_Emotion_Btn.SetActive(false);
+        stage2_Main_Panel.SetActive(true);
     }
 
     public void Stage2_Check(string type)
@@ -693,19 +721,20 @@ public class Decent_Manager : MonoBehaviour
     {
         if (stage4_Count == 1)
         {
-            stage4.transform.GetChild(1).gameObject.SetActive(false);
-            stage4.transform.GetChild(2).gameObject.SetActive(true);
+            stage4_First.SetActive(false);
+            stage4_Second.SetActive(true);
         }
         else if (stage4_Count == 2)
         {
-            stage4.transform.GetChild(2).gameObject.SetActive(false);
-            stage4.transform.GetChild(3).gameObject.SetActive(true);
+            stage4_Second.SetActive(false);
+            stage4_Third.SetActive(true);
         }
         else if (stage4_Count == 3)
         {
             stage4.SetActive(false);
             stage5.SetActive(true);
             stage = 5;
+            stage5_Notice_Image.GetComponent<Animator>().Play("Text");
         }
 
         stage4_Count++;
@@ -745,6 +774,22 @@ public class Decent_Manager : MonoBehaviour
         {
             stage5_isTutorial_Check2 = true;
             stage5_Tutorial.SetActive(false);
+
+            switch (stage2_Emotion)
+            {
+                case "Anger":
+                    stage5_Road.sprite = stage5_Road_Image[0];
+                    break;
+                case "Unrest":
+                    stage5_Road.sprite = stage5_Road_Image[1];
+                    break;
+                case "Sadness":
+                    stage5_Road.sprite = stage5_Road_Image[2];
+                    break;
+                case "Remorse":
+                    stage5_Road.sprite = stage5_Road_Image[3];
+                    break;
+            }
             stage5_Game.SetActive(true);
         }
     }
@@ -774,10 +819,8 @@ public class Decent_Manager : MonoBehaviour
         else if (stage5_Notice_Num == 6)
         {
             stage5_Notice.text = "";
-            stage5_Tutorial.transform.GetChild(3).gameObject.SetActive(true);
-            stage5_Tutorial.transform.GetChild(4).gameObject.SetActive(true);
-            stage5_Tutorial.transform.GetChild(5).gameObject.SetActive(true);
-            stage5_Tutorial.transform.GetChild(6).gameObject.SetActive(true);
+            stage5_Tutorial_Panel.SetActive(true);
+            stage5_Notice_Image.SetActive(false);
         }
     }
 
@@ -794,17 +837,14 @@ public class Decent_Manager : MonoBehaviour
         {
             isSentence = true;
             
-            if (stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount != 1)
+            if (stage5_Tutorial_Bar.GetComponent<Slider>().value != 1)
             {
                 StartCoroutine("FuelGenerator");
             }
-            else if (stage5_Tutorial_Bar.transform.GetChild(0).GetComponent<Image>().fillAmount == 1)
+            else if (stage5_Tutorial_Bar.GetComponent<Slider>().value == 1)
             {
                 stage5_Notice.text = "잘 하셨습니다. 수용 연습을 마칩니다.";
-                stage5_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
-                stage5_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-                stage5_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-                stage5_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
+                stage5_Tutorial_Panel.SetActive(false);
                 Invoke("Stage5_Check", 3f);
             }
         }
@@ -828,15 +868,14 @@ public class Decent_Manager : MonoBehaviour
         if (stage5_isTutorial == false)
         {
             GameObject temp = Instantiate(fuel);
-            temp.transform.SetParent(stage5_Tutorial.transform.GetChild(6));
+            temp.transform.SetParent(stage5_Tutorial_Panel.transform.GetChild(1));
             temp.transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(Random.Range(-300, 400), -200);
-            temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "테스트";
-            
+                new Vector2(Random.Range(-300, 400), 200);
+            temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+
             float delay = 0;
 
-            while (delay < 0.6f)
+            while (delay < 1f)
             {
                 delay += Time.deltaTime;
                 yield return waitForSeconds;
@@ -847,10 +886,10 @@ public class Decent_Manager : MonoBehaviour
         else if (stage5_isTutorial == true)
         {
             GameObject temp = Instantiate(fuel);
-            temp.transform.SetParent(stage5_Game.transform.GetChild(3));
+            temp.transform.SetParent(stage5_Game.transform.GetChild(2));
             temp.transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(Random.Range(-300, 400), -200);
-            temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                new Vector2(Random.Range(-230, 230), 200);
+            temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             int num = Random.Range(0, stage5_Text.Count);
             temp.transform.GetChild(0).GetComponent<TMP_Text>().text = stage5_Text[num];
             stage5_Text.RemoveAt(num);
@@ -877,7 +916,7 @@ public class Decent_Manager : MonoBehaviour
         
             float delay = 0;
 
-            while (delay < 0.6f)
+            while (delay < 1f)
             {
                 delay += Time.deltaTime;
                 yield return waitForSeconds;
@@ -1026,7 +1065,7 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (stage3_Text.Count == 0)
             {
-                if (stage3.transform.GetChild(3).childCount == 0)
+                if (stage3_Sentence.transform.childCount == 0)
                 {
                     Check();
                 }
@@ -1037,19 +1076,11 @@ public class Decent_Manager : MonoBehaviour
     IEnumerator SentenceGenerator()
     {
         bool test = isTutorial;
-        
-        float delay = 0;
 
-        while (delay < 1.5f)
-        {
-            delay += 0.5f * Time.deltaTime;
-            yield return waitForSeconds;
-        }
-        
         if (test == false)
         {
             GameObject temp = Instantiate(sentence);
-            temp.transform.SetParent(tutorial.transform.GetChild(5));
+            temp.transform.SetParent(tutorial_Sentence.transform);
             temp.transform.GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(0, -200);
             temp.transform.localScale = new Vector3(1, 1, 1);
@@ -1060,13 +1091,21 @@ public class Decent_Manager : MonoBehaviour
         else if (test == true)
         {
             GameObject temp = Instantiate(sentence);
-            temp.transform.SetParent(stage3.transform.GetChild(3));
+            temp.transform.SetParent(stage3_Sentence.transform);
             temp.transform.GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(0, -400);
             temp.transform.localScale = new Vector3(1, 1, 1);
             int num = Random.Range(0, stage3_Text.Count);
             temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage3_Text[num];
             stage3_Text.RemoveAt(num);
+        }
+        
+        float delay = 0;
+
+        while (delay < 1f)
+        {
+            delay += 0.5f * Time.deltaTime;
+            yield return waitForSeconds;
         }
 
         isSentence = false;
@@ -1196,35 +1235,34 @@ public class Decent_Manager : MonoBehaviour
         stage = 1;
         game.SetActive(false);
         stage1.SetActive(true);
+        stage1_Notice_Image.SetActive(true);
         stage1_Button.SetActive(false);
         stage1_Notice_Num = 1;
         stage1_Notice.text = "아래 그림을 자세히 살펴봐주세요.";
         stage2.SetActive(false);
         stage2_Answer = 0;
         stage2_Notice.text = "아래의 앞서 선택한 4가지 감정이 있습니다.\n이 중 한 가지를 선택해주세요.";
-        stage2.transform.GetChild(0).gameObject.SetActive(true);
-        stage2.transform.GetChild(2).gameObject.SetActive(false);
-        stage2.transform.GetChild(3).gameObject.SetActive(false);
-        stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition =
-            new Vector2(0, 0);
+        stage2_Emotion_Btn.SetActive(true);
+        stage2_Main_Panel.SetActive(false);
+        stage2_ScrollView.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         stage3.SetActive(false);
         stage4.SetActive(false);
-        stage4.transform.GetChild(1).gameObject.SetActive(true);
-        stage4.transform.GetChild(2).gameObject.SetActive(false);
-        stage4.transform.GetChild(3).gameObject.SetActive(false);
+        stage4_First.SetActive(true);
+        stage4_Second.SetActive(false);
+        stage4_Third.SetActive(false);
         stage4_Count = 1;
 
-        for (int i = 0; i < stage2.transform.GetChild(3).GetChild(0).GetChild(0).childCount; i++)
+        for (int i = 0; i < stage2_ScrollView.transform.GetChild(0).GetChild(0).childCount; i++)
         {
-            Destroy(stage2.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(i).gameObject);
+            Destroy(stage2_ScrollView.transform.GetChild(0).GetChild(0).GetChild(i).gameObject);
         }
         
-        for (int i = 0; i < stage3.transform.GetChild(3).childCount; i++)
+        for (int i = 0; i < stage3_Sentence.transform.childCount; i++)
         {
-            Destroy(stage3.transform.GetChild(3).GetChild(i).gameObject);
+            Destroy(stage3_Sentence.transform.GetChild(i).gameObject);
         }
         
-        for (int i = 0; i < stage5_Tutorial.transform.GetChild(6).childCount; i++)
+        for (int i = 0; i < stage5_Tutorial_Panel.transform.GetChild(2).childCount; i++)
         {
             Destroy(stage5_Tutorial.transform.GetChild(6).GetChild(i).gameObject);
         }
@@ -1245,11 +1283,10 @@ public class Decent_Manager : MonoBehaviour
         stage5_Notice_Num = 1;
         stage5_Game.SetActive(false);
         stage5_isTutorial = false;
-        stage5_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
-        stage5_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-        stage5_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-        stage5_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
+        stage5_Tutorial_Panel.SetActive(false);
         stage5_Tutorial_Bar.GetComponent<Slider>().value = 0;
+        stage5_Tutorial_Panel.SetActive(false);
+        stage5_Notice_Image.SetActive(true);
         stage5_Bar.GetComponent<Slider>().value = 0;
         stage6.SetActive(false);
         stage6_Bar.GetComponent<Slider>().value = 0;

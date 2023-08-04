@@ -106,6 +106,7 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         if (isTouch == false && other.name == "True")
         {
+            decent_Manager.sentence_Text.Add(transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
             Destroy(gameObject);
         }
     }
