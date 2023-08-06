@@ -10,7 +10,7 @@ public class BodyRecog_Manager : MonoBehaviour
     public GameObject tutorial;
     public GameObject tutorial_Character_Panel;
     public GameObject tutorial_Points;
-    public TMP_Text tutorial_Notice;
+    public Text tutorial_Notice;
     public GameObject tutorial_Line;
     public GameObject tutorial_Choices;
     public GameObject game;
@@ -20,7 +20,7 @@ public class BodyRecog_Manager : MonoBehaviour
     public Sprite[] choices_Color = new Sprite[6];
     public GameObject shadow;
     public GameObject success;
-    public TMP_Text result = null;
+    public Text result = null;
     public int pointNum = 1;
     private int choiceNum;
     public int step = 0;
@@ -187,7 +187,7 @@ public class BodyRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "현재 당신의 머리는 편한가요, 불편한가요?";
+            tutorial_Notice.text = "현재 당신의 머리는 편한가요, 불편한가요?";
             tutorial_Choices.SetActive(true);
             tutorial_Choices.transform.GetChild(0).gameObject.SetActive(true);
             tutorial_Choices.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "편하다";
@@ -962,7 +962,7 @@ public class BodyRecog_Manager : MonoBehaviour
         tutorial_Character_Panel.SetActive(false);
         tutorial_Points.SetActive(false);
         tutorial_Line.SetActive(false);
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "신체자각과 감정자각을 시작합니다.";
+        tutorial_Notice.text = "신체자각과 감정자각을 시작합니다.";
         tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         tutorial_Choices.SetActive(false);
         tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);

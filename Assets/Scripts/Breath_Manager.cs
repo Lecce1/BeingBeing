@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Breath_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public TMP_Text tutorial_Notice;
+    public Text tutorial_Notice;
     public GameObject tutorial_Finger;
     public GameObject tutorial_Character_Panel;
     public GameObject tutorial_Body;
@@ -30,7 +30,6 @@ public class Breath_Manager : MonoBehaviour
     public bool isCheck = false;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
     GameManager gameManager;
-    AnimManager animManager;
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
@@ -42,7 +41,6 @@ public class Breath_Manager : MonoBehaviour
 
     void Awake()
     {
-        animManager = GameObject.Find("AnimManager").GetComponent<AnimManager>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -107,7 +105,7 @@ public class Breath_Manager : MonoBehaviour
 
     private void First_Text()
     {
-        game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+        game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
     }
 
     void Tutorial_Notice()
@@ -284,7 +282,7 @@ public class Breath_Manager : MonoBehaviour
         {
             if (isBreathe == true)
             {
-                game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+                game_Notice.GetComponent<Text>().text = string.Empty;
                 
                 while (body.transform.localScale.x < 1.2f)
                 {
@@ -292,12 +290,12 @@ public class Breath_Manager : MonoBehaviour
                     body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
                 }
                 
-                game_Notice.GetComponent<TMP_Text>().text = "내쉬고";
+                game_Notice.GetComponent<Text>().text = "내쉬고";
                 isTouch = false;
             }
             else if (isBreathe == false)
             {
-                game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+                game_Notice.GetComponent<Text>().text = string.Empty;
                 
                 while (body.transform.localScale.x > 1)
                 {
@@ -411,7 +409,7 @@ public class Breath_Manager : MonoBehaviour
             if (circle.fillAmount == 1)
             {
                 isNext = true;
-                game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+                game_Notice.GetComponent<Text>().text = string.Empty;
                 StartCoroutine(nameof(FadeOut));
             }
         }
@@ -451,7 +449,7 @@ public class Breath_Manager : MonoBehaviour
             
             if (time >= 4)
             {
-                tutorial_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+                tutorial_Notice.text = "숨을 들이쉬고";
                 tutorial_Circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
@@ -467,7 +465,7 @@ public class Breath_Manager : MonoBehaviour
             
             if (time >= 4)
             {
-                game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+                game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
                 circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
@@ -519,7 +517,7 @@ public class Breath_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         tutorial.SetActive(true);
         game.SetActive(false);
-        game_Notice.GetComponent<TMP_Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
+        game_Notice.GetComponent<Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
         tutorial_Body.transform.localScale = new Vector3(1, 1, 1);
         body.transform.localScale = new Vector3(1, 1, 1);
         count = 0;

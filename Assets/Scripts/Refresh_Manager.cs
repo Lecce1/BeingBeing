@@ -52,7 +52,7 @@ public class Refresh_Manager : MonoBehaviour
     
     private void First_Text()
     {
-        game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+        game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
     }
 
     void Cursor()
@@ -108,7 +108,7 @@ public class Refresh_Manager : MonoBehaviour
     {
         if (isBreathe == true)
         {
-            game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+            game_Notice.GetComponent<Text>().text = string.Empty;
             
             while (body.transform.localScale.x < 1.2f)
             {
@@ -116,11 +116,11 @@ public class Refresh_Manager : MonoBehaviour
                 body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
             }
             
-            game_Notice.GetComponent<TMP_Text>().text = "내쉬고";
+            game_Notice.GetComponent<Text>().text = "내쉬고";
         }
         else if (isBreathe == false)
         {
-            game_Notice.GetComponent<TMP_Text>().text = string.Empty;
+            game_Notice.GetComponent<Text>().text = string.Empty;
             
             while (body.transform.localScale.x > 1)
             {
@@ -185,7 +185,7 @@ public class Refresh_Manager : MonoBehaviour
 
             if (time >= 4)
             {
-                game_Notice.GetComponent<TMP_Text>().text = "숨을 들이쉬고";
+                game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
                 circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
@@ -300,7 +300,7 @@ public class Refresh_Manager : MonoBehaviour
         circle_Timer.fillAmount = 0;
         count = 0;
         time = 0;
-        game_Notice.GetComponent<TMP_Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
+        game_Notice.GetComponent<Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
         isDoubleUp = false;
         isLimit = false;
         isCheck = false;

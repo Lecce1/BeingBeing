@@ -4,13 +4,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Decent_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public TMP_Text tutorial_Notice;
+    public Text tutorial_Notice;
     public GameObject tutorial_True;
     public GameObject tutorial_Interpret;
     public GameObject tutorial_Sentence;
@@ -21,11 +22,11 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage1_Notice_Image;
     public GameObject stage1_Button;
     public GameObject[] stage1_Buttons;
-    public TMP_Text stage1_Notice;
+    public Text stage1_Notice;
     public int stage1_Notice_Num = 1;
     public GameObject stage2;
     public Image stage2_cutToon;
-    public TMP_Text stage2_Notice;
+    public Text stage2_Notice;
     public string stage2_Emotion;
     public GameObject stage2_Emotion_Btn;
     public GameObject stage2_Main_Panel;
@@ -46,14 +47,19 @@ public class Decent_Manager : MonoBehaviour
     private bool stage5_isTutorial_Check2;
     public GameObject stage5_Tutorial_Bar;
     public GameObject stage5_Tutorial_Panel;
-    public TMP_Text stage5_Notice;
+    public GameObject stage5_Count;
+    public bool stage5_Count_Finish = false;
+    public Text stage5_Notice;
     public GameObject stage5_Notice_Image;
     public int stage5_Notice_Num = 1;
     public GameObject stage5_Game;
     public Image stage5_Road;
     public GameObject stage5_Bar;
     public GameObject stage5_Car;
-    public GameObject fuel;
+    public GameObject stage5_fuel;
+    public GameObject stage5_Obstacle1;
+    public GameObject stage5_Obstacle2;
+    public GameObject stage5_Obstacle3;
     public GameObject stage6_Bar;
     public GameObject shadow;
     public GameObject success;
@@ -829,6 +835,31 @@ public class Decent_Manager : MonoBehaviour
         stage5_isTutorial = true;
         isSentence = false;
         PlayerPrefs.SetInt("Decent_Stage5_Tutorial", 1);
+        StartCoroutine(nameof(Stage5_Count));
+    }
+
+    private IEnumerator Stage5_Count()
+    {
+        float time = 3;
+
+        while (time >= 0)
+        {
+            if (time < 1)
+            {
+                stage5_Count.GetComponent<Text>().text = "START!";
+            }
+            else
+            {
+                stage5_Count.GetComponent<Text>().text = Mathf.Round(time).ToString();
+            }
+            
+            time -= 1;
+            
+            yield return new WaitForSeconds(1f);
+        }
+
+        stage5_Count.SetActive(false);
+        stage5_Count_Finish = true;
     }
     
     void Fuel()
@@ -848,7 +879,7 @@ public class Decent_Manager : MonoBehaviour
                 Invoke("Stage5_Check", 3f);
             }
         }
-        else if (isTutorial == true && stage == 5 && isSentence == false && stage5_isTutorial == true)
+        else if (isTutorial == true && stage == 5 && isSentence == false && stage5_isTutorial == true && stage5_Count_Finish == true)
         {
             isSentence = true;
             
@@ -867,11 +898,39 @@ public class Decent_Manager : MonoBehaviour
     {
         if (stage5_isTutorial == false)
         {
-            GameObject temp = Instantiate(fuel);
-            temp.transform.SetParent(stage5_Tutorial_Panel.transform.GetChild(1));
-            temp.transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(Random.Range(-300, 400), 200);
-            temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            int rand1 = Random.Range(0, 2);
+
+            if (rand1 == 0)
+            {
+                int rand2 = Random.Range(0, 3);
+                GameObject temp = Instantiate(stage5_fuel);
+
+                switch (rand2)
+                {
+                    case 0:
+                        temp = Instantiate(stage5_Obstacle1);
+                        break;
+                    case 1:
+                        temp = Instantiate(stage5_Obstacle2);
+                        break;
+                    case 2:
+                        temp = Instantiate(stage5_Obstacle3);
+                        break;
+                }
+                
+                temp.transform.SetParent(stage5_Tutorial_Panel.transform.GetChild(2));
+                temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                    new Vector2(Random.Range(-220, 220), 190);
+                temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }
+            else
+            {
+                GameObject temp = Instantiate(stage5_fuel);
+                temp.transform.SetParent(stage5_Tutorial_Panel.transform.GetChild(2));
+                temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                    new Vector2(Random.Range(-220, 220), 190);
+                temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }
 
             float delay = 0;
 
@@ -885,35 +944,63 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (stage5_isTutorial == true)
         {
-            GameObject temp = Instantiate(fuel);
-            temp.transform.SetParent(stage5_Game.transform.GetChild(2));
-            temp.transform.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(Random.Range(-230, 230), 200);
-            temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            int num = Random.Range(0, stage5_Text.Count);
-            temp.transform.GetChild(0).GetComponent<TMP_Text>().text = stage5_Text[num];
-            stage5_Text.RemoveAt(num);
+            int rand1 = Random.Range(0, 2);
 
-            if (stage5_Text.Count == 0)
+            if (rand1 == 0)
             {
-                if (stage2_Emotion == "Anger")
+                int rand2 = Random.Range(0, 3);
+                GameObject temp = Instantiate(stage5_fuel);
+
+                switch (rand2)
                 {
-                    stage5_Text.AddRange(stage5_Anger);
+                    case 0:
+                        temp = Instantiate(stage5_Obstacle1);
+                        break;
+                    case 1:
+                        temp = Instantiate(stage5_Obstacle2);
+                        break;
+                    case 2:
+                        temp = Instantiate(stage5_Obstacle3);
+                        break;
                 }
-                else if (stage2_Emotion == "Unrest")
+                
+                temp.transform.SetParent(stage5_Game.transform.GetChild(2));
+                temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                    new Vector2(Random.Range(-230, 230), 200);
+                temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }
+            else
+            {
+                GameObject temp = Instantiate(stage5_fuel);
+                temp.transform.SetParent(stage5_Game.transform.GetChild(2));
+                temp.transform.GetComponent<RectTransform>().anchoredPosition =
+                    new Vector2(Random.Range(-230, 230), 200);
+                temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                int num = Random.Range(0, stage5_Text.Count);
+                temp.transform.GetChild(0).GetComponent<TMP_Text>().text = stage5_Text[num];
+                stage5_Text.RemoveAt(num);
+
+                if (stage5_Text.Count == 0)
                 {
-                    stage5_Text.AddRange(stage5_Unrest);
-                }
-                else if (stage2_Emotion == "Sadness")
-                {
-                    stage5_Text.AddRange(stage5_Sadness);
-                }
-                else if (stage2_Emotion == "Remorse")
-                {
-                    stage5_Text.AddRange(stage5_Remorse);
+                    if (stage2_Emotion == "Anger")
+                    {
+                        stage5_Text.AddRange(stage5_Anger);
+                    }
+                    else if (stage2_Emotion == "Unrest")
+                    {
+                        stage5_Text.AddRange(stage5_Unrest);
+                    }
+                    else if (stage2_Emotion == "Sadness")
+                    {
+                        stage5_Text.AddRange(stage5_Sadness);
+                    }
+                    else if (stage2_Emotion == "Remorse")
+                    {
+                        stage5_Text.AddRange(stage5_Remorse);
+                    }
                 }
             }
-        
+
             float delay = 0;
 
             while (delay < 1f)
@@ -947,7 +1034,7 @@ public class Decent_Manager : MonoBehaviour
     
     IEnumerator MentGenerator()
     {
-        GameObject temp = Instantiate(fuel);
+        GameObject temp = Instantiate(stage5_fuel);
         temp.transform.SetParent(stage6.transform.GetChild(2));
         temp.transform.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(Random.Range(-300, 400), -200);
@@ -1286,6 +1373,9 @@ public class Decent_Manager : MonoBehaviour
         stage5_Tutorial_Panel.SetActive(false);
         stage5_Tutorial_Bar.GetComponent<Slider>().value = 0;
         stage5_Tutorial_Panel.SetActive(false);
+        stage5_Count.SetActive(true);
+        stage5_Count.GetComponent<Text>().text = "3";
+        stage5_Count_Finish = false;
         stage5_Notice_Image.SetActive(true);
         stage5_Bar.GetComponent<Slider>().value = 0;
         stage6.SetActive(false);

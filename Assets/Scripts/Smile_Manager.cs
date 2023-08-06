@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Smile_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public TMP_Text tutorial_Notice;
+    public Text tutorial_Notice;
     public GameObject tutorial_Finger;
     public GameObject tutorial_Character;
     public GameObject tutorial_Mouse;

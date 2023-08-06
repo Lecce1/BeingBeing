@@ -10,6 +10,7 @@ public class AnimManager : MonoBehaviour
     Animator emotionRecog_Fade_Animator;
     Animator lovely_BackGlow_Animator;
     GameManager gameManager;
+    BGMManager bgmManager;
     Breath_Manager breath_Manager;
     Smile_Manager smile_Manager;
     BodyRecog_Manager bodyRecog_Manager;
@@ -21,6 +22,7 @@ public class AnimManager : MonoBehaviour
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        bgmManager = GameObject.Find("BGMManager").GetComponent<BGMManager>();
     }
 
     public void Splash()
@@ -34,13 +36,12 @@ public class AnimManager : MonoBehaviour
         gameManager.splash.SetActive(false);
         gameManager.main.SetActive(true);
         //gameManager.main_Logo.GetComponent<Animator>().Play("Main");
-        gameManager.GetComponent<AudioSource>().Play();
+        bgmManager.PlayBGM("Main_BGM");
     }
 
     void Main_Finish()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.GetComponent<AudioSource>().Play();
     }
 
     public void Main_Start_Start()
@@ -81,7 +82,11 @@ public class AnimManager : MonoBehaviour
 
     public void BackGlow()
     {
-        Handheld.Vibrate();
+        if (gameManager.set_Vibrate.value == 1)
+        {
+            Handheld.Vibrate();
+        }
+
         smile_Manager = GameObject.Find("Smile_Manager").GetComponent<Smile_Manager>();
 
         if (smile_Manager.isTutorial == false)
@@ -156,7 +161,11 @@ public class AnimManager : MonoBehaviour
 
     public void Refresh_BackGlow()
     {
-        Handheld.Vibrate();
+        if (gameManager.set_Vibrate.value == 1)
+        {
+            Handheld.Vibrate();
+        }
+        
         refresh_Manager = GameObject.Find("Refresh_Manager").GetComponent<Refresh_Manager>();
         refresh_Manager.backGlow.SetActive(true);
         refresh_BackGlow_Animator = refresh_Manager.backGlow.GetComponent<Animator>();
@@ -182,7 +191,52 @@ public class AnimManager : MonoBehaviour
 
     public void Fade_Out()
     {
-        gameManager.loading.SetActive(true);
+        bgmManager.StopBGM();
+        
+        if (gameManager.emotionRecog.activeSelf == true)
+        {
+            emotionRecog_Manager = GameObject.Find("EmotionRecog").transform.GetChild(0).GetComponent<EmotionRecog_Manager>();
+
+            if (emotionRecog_Manager.isNext == true)
+            {
+                gameManager.refresh_Loading.SetActive(true);
+            }
+            else
+            {
+                gameManager.loading.SetActive(true);
+            }
+        }
+        else if (gameManager.lovely.activeSelf == true)
+        {
+            lovely_Manager = GameObject.Find("Lovely").transform.GetChild(0).GetComponent<Lovely_Manager>();
+
+            if (lovely_Manager.isNext == true)
+            {
+                gameManager.refresh_Loading.SetActive(true);
+            }
+            else
+            {
+                gameManager.loading.SetActive(true);
+            }
+        }
+        else if (gameManager.decent.activeSelf == true)
+        {
+            decent_Manager = GameObject.Find("Decent").transform.GetChild(0).GetComponent<Decent_Manager>();
+            
+            if (decent_Manager.isNext == true)
+            {
+                gameManager.refresh_Loading.SetActive(true);
+            }
+            else
+            {
+                gameManager.loading.SetActive(true);
+            }
+        }
+        else
+        {
+            gameManager.loading.SetActive(true);
+        }
+
         Invoke("Loading_Finish", 3.0f);
     }
 
@@ -190,6 +244,7 @@ public class AnimManager : MonoBehaviour
     {
         if (gameManager.main.activeSelf == true)
         {
+            bgmManager.PlayBGM("Stage_BGM");
             gameManager.main.SetActive(false);
             gameManager.stage.SetActive(true);
             gameManager.Set();
@@ -347,5 +402,6 @@ public class AnimManager : MonoBehaviour
         gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
         gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
         gameManager.loading.SetActive(false);
+        gameManager.refresh_Loading.SetActive(false);
     }
 }

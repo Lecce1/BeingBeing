@@ -14,7 +14,7 @@ public class Lovely_Manager : MonoBehaviour
     public GameObject second;
     public GameObject character;
     public GameObject timer;
-    public TMP_Text notice;
+    public Text notice;
     public GameObject emotionBtn;
     public GameObject emotionColor;
     public GameObject dot;
@@ -269,7 +269,7 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (isUp == true && isDown == true && isUp2 == true && isDown2 == true)
         {
-            notice.GetComponent<TextMeshProUGUI>().text = "아직 감정과 분리되지 못했어요\n남아있는 감정을 토닥토닥 해주세요";
+            notice.text = "아직 감정과 분리되지 못했어요\n남아있는 감정을 토닥토닥 해주세요";
             stage = 3;
             Balloon();
         }
@@ -299,7 +299,11 @@ public class Lovely_Manager : MonoBehaviour
             balloon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "여전히 내 탓인 것 같아";
         }
         
-        Handheld.Vibrate();
+        if (gameManager.set_Vibrate.value == 1)
+        {
+            Handheld.Vibrate();
+        }
+        
         balloon.SetActive(true);
     }
 
@@ -442,7 +446,7 @@ public class Lovely_Manager : MonoBehaviour
                     stage = 2;
                     isDot = false;
                     dot.SetActive(false);
-                    notice.GetComponent<TextMeshProUGUI>().text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요";
+                    notice.text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요";
                 }
             }
         }
@@ -489,7 +493,7 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true)
         {
-            notice.GetComponent<TextMeshProUGUI>().text = "움직이는 포인트를 따라 감정을 따라가주세요";
+            notice.text = "움직이는 포인트를 따라 감정을 따라가주세요";
             emotionStartTime = Time.time;
             timer.SetActive(true);
             emotionBtn.SetActive(false);
@@ -605,7 +609,7 @@ public class Lovely_Manager : MonoBehaviour
         character.SetActive(false);
         timer.SetActive(false);
         timer.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
-        notice.GetComponent<TextMeshProUGUI>().text = "";
+        notice.text = "";
         emotionBtn.SetActive(true);
         emotionColor.SetActive(false);
         emotionColor.GetComponent<RectTransform>().localScale = new Vector3(5, 0, 5);

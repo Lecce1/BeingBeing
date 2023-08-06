@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,12 +15,13 @@ public class GameManager : MonoBehaviour
     public GameObject main_Logo;
     public TMP_Text main_Text;
     public GameObject stage;
+    public Image stage_Char;
     public GameObject[] stage_Select_Level;
     public int stage_Select_Level_Num = 0;
     public GameObject[] stage_Select_Buttons;
     public GameObject stage_Select_Stage;
-    public TMP_Text stage_Select_Stage_Title;
-    public TMP_Text stage_Select_Stage_Content;
+    public Text stage_Select_Stage_Title;
+    public Text stage_Select_Stage_Content;
     public GameObject stage_Select_Stage_Start;
     public int stage_Select_Stage_Num;
     public GameObject breath;
@@ -29,11 +32,12 @@ public class GameManager : MonoBehaviour
     public GameObject lovely;
     public GameObject decent;
     public GameObject info;
-    public TMP_Text info_Title;
-    public TMP_Text info_Content;
+    public Text info_Title;
+    public Text info_Content;
     public GameObject pause;
     public GameObject set;
     public GameObject quit;
+    public GameObject reset_Popup;
     public Slider set_Music;
     public Image set_Music_Image;
     public Slider set_Vibrate;
@@ -43,20 +47,21 @@ public class GameManager : MonoBehaviour
     public Sprite toggleOn;
     public Sprite toggleOff;
     public GameObject loading;
+    public GameObject refresh_Loading;
     public AnimManager animManager;
+    public BGMManager bgmManager;
+    public List<Sprite> charLevel;
     public int screen_Width;
     public int isFirst = 0;
 
     void Awake()
     {
-        PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 144;
         screen_Width = Screen.width;
     }
 
     void Start()
     {
-        Set();
         Splash();
     }
 
@@ -114,6 +119,8 @@ public class GameManager : MonoBehaviour
 
                 if (stage_Select_Level_Num == 1)
                 {
+                    stage_Char.sprite = charLevel[0];
+                    
                     if (index <= 4)
                     {
                         for (int i = 0; i < index; i++)
@@ -131,6 +138,8 @@ public class GameManager : MonoBehaviour
                 }
                 else if (stage_Select_Level_Num == 2)
                 {
+                    stage_Char.sprite = charLevel[1];
+                    
                     if (index >= 5 && index <= 8)
                     {
                         for (int i = 0; i < index - 4; i++)
@@ -148,6 +157,8 @@ public class GameManager : MonoBehaviour
                 }
                 else if (stage_Select_Level_Num == 3)
                 {
+                    stage_Char.sprite = charLevel[2];
+                    
                     if (index >= 9)
                     {
                         for (int i = 0; i < index - 8; i++)
@@ -170,6 +181,7 @@ public class GameManager : MonoBehaviour
                 stage_Select_Level[0].GetComponent<Button>().interactable = true;
                 stage_Select_Level[1].GetComponent<Button>().interactable = false;
                 stage_Select_Level[2].GetComponent<Button>().interactable = false;
+                stage_Char.sprite = charLevel[0];
             }
         }
         else
@@ -232,6 +244,8 @@ public class GameManager : MonoBehaviour
             
             if (stage_Select_Level_Num == 1)
             {
+                stage_Char.sprite = charLevel[0];
+                
                 if (index <= 4)
                 {
                     for (int i = 0; i < index; i++)
@@ -249,6 +263,8 @@ public class GameManager : MonoBehaviour
             }
             else if (stage_Select_Level_Num == 2)
             {
+                stage_Char.sprite = charLevel[1];
+                
                 if (index >= 5 && index <= 8)
                 {
                     for (int i = 0; i < index - 4; i++)
@@ -266,6 +282,8 @@ public class GameManager : MonoBehaviour
             }
             else if (stage_Select_Level_Num == 3)
             {
+                stage_Char.sprite = charLevel[2];
+                
                 if (index >= 9)
                 {
                     for (int i = 0; i < index - 8; i++)
@@ -312,7 +330,7 @@ public class GameManager : MonoBehaviour
                 set_Music_Image.sprite = toggleOn;
             }
             
-            transform.GetComponent<AudioSource>().volume = set_Music.value;
+            bgmManager.bgmAudioSource.volume = set_Music.value;
         }
         
         if (PlayerPrefs.HasKey("Vibrate"))
@@ -341,6 +359,8 @@ public class GameManager : MonoBehaviour
             {
                 set_Voice_Image.sprite = toggleOn;
             }
+            
+            bgmManager.voiceAudioSource.volume = set_Voice.value;
         }
 
         buttons.SetActive(false);
@@ -458,6 +478,7 @@ public class GameManager : MonoBehaviour
 
         if (num == 1)
         {
+            stage_Char.sprite = charLevel[0];
             stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
             stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
@@ -479,6 +500,7 @@ public class GameManager : MonoBehaviour
         }
         else if (num == 2)
         {
+            stage_Char.sprite = charLevel[1];
             stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
             stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
@@ -500,6 +522,7 @@ public class GameManager : MonoBehaviour
         }
         else if (num == 3)
         {
+            stage_Char.sprite = charLevel[2];
             stage_Select_Level[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
             stage_Select_Level[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
@@ -563,7 +586,7 @@ public class GameManager : MonoBehaviour
     public void Set_Music()
     {
         PlayerPrefs.SetInt("Music", (int)set_Music.value);
-        transform.GetComponent<AudioSource>().volume = set_Music.value;
+        bgmManager.bgmAudioSource.volume = set_Music.value;
 
         if (set_Music.value == 0)
         {
@@ -621,17 +644,17 @@ public class GameManager : MonoBehaviour
         else if (stage_Select_Stage_Num == 2)
         {
             stage_Select_Stage_Title.text = "자각";
-            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>신체자각</color></size></b>\n긴장 이완 및 주의 집중 효과와 함께\n자신의 현재 상태를\n정확하게 이해할 수 있게 됩니다.\n\n<b><size=55><color=#43536C>감정자각</color></size></b>\n현재 겪고 있는 고통과 괴로움에서\n잠시 벗어나 보다 편안한 상태에서\n문제를 해결할 수 있게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>신체자각</color></size></b>\n긴장 이완 및 주의 집중 효과와 함께\n자신의 현재 상태를 정확하게\n이해할 수 있게 됩니다.\n\n<b><size=55><color=#43536C>감정자각</color></size></b>\n현재 겪고 있는 고통과 괴로움에서\n잠시 벗어나 보다 편안한 상태에서\n문제를 해결할 수 있게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 3)
         {
             stage_Select_Stage_Title.text = "러블리어텐션";
-            stage_Select_Stage_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다.";
+            stage_Select_Stage_Content.text = "자신의 심신 상태를 사랑스러운 마음으로\n지켜봄으로써, 자기 돌봄의 힘과 여유를\n갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 4)
         {
             stage_Select_Stage_Title.text = "탈중심화";
-            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을\n객관적으로 바라봄으로써\n현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를 있는 그대로 받아들이고\n생활 속에서 더욱 긍정적으로\n살아가게 될 것입니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을 객관적으로\n바라봄으로써 현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를 있는 그대로\n받아들이고 생활 속에서 더욱 긍정적으로\n살아가게 될 것입니다.";
         }
         
         Invoke("Stage_Select_Stage_StartBtn", 1.0f);
@@ -809,5 +832,21 @@ public class GameManager : MonoBehaviour
     public void Quit_Accept()
     {
         Application.Quit();
+    }
+
+    public void Reset_Popup()
+    {
+        reset_Popup.SetActive(true);
+    }
+    
+    public void Reset_Cancel()
+    {
+        reset_Popup.SetActive(false);
+    }
+    
+    public void Reset_Accept()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("Main");
     }
 }

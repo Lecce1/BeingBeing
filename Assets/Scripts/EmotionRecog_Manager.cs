@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class EmotionRecog_Manager : MonoBehaviour
 {
     public GameObject tutorial;
-    public TMP_Text tutorial_Notice;
+    public Text tutorial_Notice;
     public GameObject tutorial_EmotionComingBtn;
     public GameObject tutorial_EmotionBtn;
     public GameObject tutorial_Character;
@@ -186,7 +186,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                     {
                         tutorial_EmotionComingBtn.SetActive(true);
                         tutorial_EmotionComingBtn.GetComponent<Animator>().Play("Emotion_Tutorial_Coming");
-                        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정이 다 차오르기 전에\n“그분이 오셨네＂를 터치해주세요";
+                        tutorial_Notice.text = "감정이 다 차오르기 전에\n“그분이 오셨네＂를 터치해주세요";
                     }
 
                     if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y >= 5f)
@@ -218,7 +218,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                             }
                             else if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= emotionColor_Fill)
                             {
-                                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "";
+                                tutorial_Notice.text = "";
                                 EmotionColor2();
                             }
                         }
@@ -284,7 +284,7 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "감정과 만들어내는 생각을 누르면\n감정이 줄어들고 가슴 부위에 머무르게 됩니다\n아래 부위에 손가락을 대고\n가만히 감정의 느낌을 느껴주세요";
+            tutorial_Notice.text = "감정과 만들어내는 생각을 누르면\n감정이 줄어들고 가슴 부위에 머무르게 됩니다\n아래 부위에 손가락을 대고\n가만히 감정의 느낌을 느껴주세요";
             isDot = true;
         }
         else if (isTutorial == true)
@@ -308,7 +308,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         {
             emotionColor_Fill = tutorial_EmotionColor.transform.localScale.y * (3f / 4f);
             tutorial_EmotionCloud.SetActive(true);
-            tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "아래 보기의 여러 생각 중에\n분노를 만들어내는 생각 2개를 찾아서 눌러주세요";
+            tutorial_Notice.text = "아래 보기의 여러 생각 중에\n분노를 만들어내는 생각 2개를 찾아서 눌러주세요";
         }
         else if (isTutorial == true)
         {
@@ -421,7 +421,7 @@ public class EmotionRecog_Manager : MonoBehaviour
             
                 if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= 0f)
                 {
-                    tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "잘 하셨습니다.\n감정자각 연습을 마칩니다";
+                    tutorial_Notice.text = "잘 하셨습니다.\n감정자각 연습을 마칩니다";
                     Invoke("Skip", 3.0f);
                 }
             }
@@ -537,7 +537,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         {
             if (isDot == false)
             {
-                tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "빙빙이에게 감정이 점점 차오르고 있어요";
+                tutorial_Notice.text = "빙빙이에게 감정이 점점 차오르고 있어요";
                 tutorial_EmotionBtn.SetActive(false);
                 tutorial_Character.SetActive(true);
                 tutorial_EmotionColor.SetActive(true);
@@ -660,7 +660,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         tutorial_Notice_Num = 1;
         tutorial_EmotionBtn.SetActive(false);
         tutorial.SetActive(true);
-        tutorial_Notice.GetComponent<TextMeshProUGUI>().text = "이번에는 감정자각 연습을 시작합니다";
+        tutorial_Notice.text = "이번에는 감정자각 연습을 시작합니다";
         tutorial_EmotionComingBtn.SetActive(false);
         tutorial_EmotionCloud.SetActive(false);
         tutorial_EmotionBtn.transform.GetChild(0).GetComponent<Button>().interactable = true;

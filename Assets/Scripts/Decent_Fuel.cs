@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Decent_Fuel : MonoBehaviour
 {
+    public bool isObstacle;
     Decent_Manager decent_Manager;
     WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
 
@@ -32,8 +33,10 @@ public class Decent_Fuel : MonoBehaviour
         }
     }
 
-    IEnumerator Bar()
+    IEnumerator Bar_Success()
     {
+        transform.GetComponent<Image>().enabled = false;
+        
         if (decent_Manager.stage5_isTutorial == false)
         {
             float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value;
@@ -82,11 +85,71 @@ public class Decent_Fuel : MonoBehaviour
         }
     }
     
+    IEnumerator Bar_Fail()
+    {
+        transform.GetComponent<Image>().enabled = false;
+        
+        if (decent_Manager.stage5_isTutorial == false)
+        {
+            float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value;
+
+            if (fill - 0.2f >= 0)
+            {
+                while (decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value > fill - 0.2f)
+                {
+                    decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value -= 0.01f;
+                    yield return waitForSeconds;
+                }
+            }
+            else if (fill - 0.2f < 0)
+            {
+                while (decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value > 0)
+                {
+                    decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value -= 0.01f;
+                    yield return waitForSeconds;
+                }
+            }
+        
+            Destroy(gameObject);
+        }
+        else if (decent_Manager.stage5_isTutorial == true)
+        {
+            float fill = decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value;
+
+            if (fill - 0.1f >= 0)
+            {
+                while (decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value > fill - 0.1f)
+                {
+                    decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value -= 0.01f;
+                    yield return waitForSeconds;
+                }
+            }
+            else if (fill - 0.1f < 0)
+            {
+                while (decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value > 0)
+                {
+                    decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value -= 0.01f;
+                    yield return waitForSeconds;
+                }
+            }
+        
+            Destroy(gameObject);
+        }
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "Car")
         {
-            StartCoroutine("Bar");
+            if (isObstacle == false)
+            {
+                StartCoroutine("Bar_Success");
+            }
+            else
+            {
+                StartCoroutine("Bar_Fail");
+            }
+
         }
     }
 }
