@@ -796,7 +796,9 @@ public class Decent_Manager : MonoBehaviour
                     stage5_Road.sprite = stage5_Road_Image[3];
                     break;
             }
+            
             stage5_Game.SetActive(true);
+            StartCoroutine(nameof(Stage5_Count));
         }
     }
     
@@ -977,7 +979,7 @@ public class Decent_Manager : MonoBehaviour
                     new Vector2(Random.Range(-230, 230), 200);
                 temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                 int num = Random.Range(0, stage5_Text.Count);
-                temp.transform.GetChild(0).GetComponent<TMP_Text>().text = stage5_Text[num];
+                temp.transform.GetChild(0).GetComponent<Text>().text = stage5_Text[num];
                 stage5_Text.RemoveAt(num);
 
                 if (stage5_Text.Count == 0)
@@ -1134,7 +1136,7 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (sentence_Text.Count == 0)
             {
-                if (tutorial.transform.GetChild(5).childCount == 0)
+                if (tutorial_Sentence.transform.childCount == 0)
                 {
                     tutorial_Notice.text = "사실과 해석에 대한 구분이 잘 되시나요?\n이제부터 본격적으로 시작해봅시다.";
                     tutorial_True.SetActive(false);
@@ -1187,13 +1189,7 @@ public class Decent_Manager : MonoBehaviour
             stage3_Text.RemoveAt(num);
         }
         
-        float delay = 0;
-
-        while (delay < 1f)
-        {
-            delay += 0.5f * Time.deltaTime;
-            yield return waitForSeconds;
-        }
+        yield return new WaitForSeconds(3.0f);
 
         isSentence = false;
     }

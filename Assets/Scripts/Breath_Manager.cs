@@ -105,7 +105,10 @@ public class Breath_Manager : MonoBehaviour
 
     private void First_Text()
     {
-        game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+        if (game_Notice.GetComponent<Text>().text == "소리를 켜서 안내말을 따라해 주세요.")
+        {
+            game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+        }
     }
 
     void Tutorial_Notice()

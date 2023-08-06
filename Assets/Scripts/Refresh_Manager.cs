@@ -76,7 +76,7 @@ public class Refresh_Manager : MonoBehaviour
         }
         else if (isFirst == true)
         {
-            if (gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2)
+            if (gameObject.GetComponent<Touch>().result == Result.up)
             {
                 time = 0;
                 isDoubleUp = true;

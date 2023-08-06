@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -162,7 +159,7 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (isTutorial == true) // ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2)))
         {
-            if (gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2)
+            if (gameObject.GetComponent<Touch>().result == Result.up)
             {
                 time = 0;
                 isDoubleUp = true;
