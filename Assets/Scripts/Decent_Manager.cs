@@ -151,13 +151,13 @@ public class Decent_Manager : MonoBehaviour
             for (int i = 0; i < stage1_Buttons.Length; i++)
             {
                 int num = Random.Range(0, stage1_Text.Count);
-                stage1_Buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage1_Text[num];
+                stage1_Buttons[i].transform.GetChild(0).GetComponent<Text>().text = stage1_Text[num];
                 stage1_Text.RemoveAt(num);
 
-                if (stage1_Buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "화난" ||
-                    stage1_Buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "슬픈" ||
-                    stage1_Buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "괴로운" ||
-                    stage1_Buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "불안한")
+                if (stage1_Buttons[i].transform.GetChild(0).GetComponent<Text>().text == "화난" ||
+                    stage1_Buttons[i].transform.GetChild(0).GetComponent<Text>().text == "슬픈" ||
+                    stage1_Buttons[i].transform.GetChild(0).GetComponent<Text>().text == "괴로운" ||
+                    stage1_Buttons[i].transform.GetChild(0).GetComponent<Text>().text == "불안한")
                 {
                     stage1_Buttons[i].transform.GetComponent<Button>().onClick.AddListener(() => Stage1_Btn(1));
                 }
@@ -344,22 +344,22 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.SetParent(stage2_ScrollView.transform.GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
-                temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
+                temp.transform.GetChild(0).GetComponent<Text>().text = stage2_Text[num];
                 stage2_Text.RemoveAt(num);
                 
-                if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "일부러 나를 힘들게 해")
+                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Anger"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "이제 학교생활은 끝이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Unrest"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "아무도 도와주지 않아")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -494,22 +494,22 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.SetParent(stage2_ScrollView.transform.GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
-                temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
+                temp.transform.GetChild(0).GetComponent<Text>().text = stage2_Text[num];
                 stage2_Text.RemoveAt(num);
                 
-                if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "일부러 나를 힘들게 해")
+                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Anger"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "이제 학교생활은 끝이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Unrest"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "아무도 도와주지 않아")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -644,22 +644,22 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.SetParent(stage2_ScrollView.transform.GetChild(0).GetChild(0));
                 temp.transform.localScale = new Vector3(1f, 1f, 1f);
                 int num = Random.Range(0, stage2_Text.Count);
-                temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage2_Text[num];
+                temp.transform.GetChild(0).GetComponent<Text>().text = stage2_Text[num];
                 stage2_Text.RemoveAt(num);
 
-                if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "일부러 나를 힘들게 해")
+                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Anger"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "이제 학교생활은 끝이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Unrest"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "아무도 도와주지 않아")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -674,8 +674,8 @@ public class Decent_Manager : MonoBehaviour
     {
         if (stage2_Emotion == type)
         {
-            stage3_Text.Add(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
-            EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "<bounce>" + EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text + "</bounce>";
+            stage3_Text.Add(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<Text>().text);
+            EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<Text>().color = Color.white;
             EventSystem.current.currentSelectedGameObject.GetComponent<Image>().color = Color.green;
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
             stage2_Answer++;
@@ -691,7 +691,7 @@ public class Decent_Manager : MonoBehaviour
                         stage3_True.RemoveAt(num);
                     }
                     
-                    Invoke("Stage2_Delay", 3.0f);
+                    Invoke("Stage2_Delay", 1.5f);
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 2 || gameManager.stage_Select_Level_Num == 3)
@@ -705,7 +705,7 @@ public class Decent_Manager : MonoBehaviour
                         stage3_True.RemoveAt(num);
                     }
                     
-                    Invoke("Stage2_Delay", 3.0f);
+                    Invoke("Stage2_Delay", 1.5f);
                 }
             }
         }
@@ -1172,7 +1172,7 @@ public class Decent_Manager : MonoBehaviour
                 new Vector2(0, -200);
             temp.transform.localScale = new Vector3(1, 1, 1);
             int num = Random.Range(0, sentence_Text.Count);
-            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = sentence_Text[num];
+            temp.transform.GetChild(0).GetComponent<Text>().text = sentence_Text[num];
             sentence_Text.RemoveAt(num);
         }
         else if (test == true)
@@ -1183,7 +1183,7 @@ public class Decent_Manager : MonoBehaviour
                 new Vector2(0, -400);
             temp.transform.localScale = new Vector3(1, 1, 1);
             int num = Random.Range(0, stage3_Text.Count);
-            temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage3_Text[num];
+            temp.transform.GetChild(0).GetComponent<Text>().text = stage3_Text[num];
             stage3_Text.RemoveAt(num);
         }
         

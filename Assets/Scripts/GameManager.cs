@@ -51,17 +51,16 @@ public class GameManager : MonoBehaviour
     public AnimManager animManager;
     public BGMManager bgmManager;
     public List<Sprite> charLevel;
-    public int screen_Width;
     public int isFirst = 0;
 
     void Awake()
     {
         Application.targetFrameRate = 144;
-        screen_Width = Screen.width;
     }
 
     void Start()
     {
+        Set();
         Splash();
     }
 

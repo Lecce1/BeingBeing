@@ -151,7 +151,7 @@ public class Smile_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            if (isTutorial_Cursor == false && tutorial_Notice_Num >= 4 && gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
+            if (isTutorial_Cursor == false && tutorial_Notice_Num >= 4 && gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2)
             {
                 isTutorial_Cursor = true;
                 isDoubleUp = true;
@@ -160,21 +160,14 @@ public class Smile_Manager : MonoBehaviour
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
         }
-        else if (isTutorial == true)
+        else if (isTutorial == true) // ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2)))
         {
-            if (gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2 && ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2))))
+            if (gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2)
             {
                 time = 0;
                 isDoubleUp = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
             }
-            
-            /*if (gameObject.GetComponent<Touch>().result == Result.up)
-            {
-                time = 0;
-                isDoubleUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }*/
         }
     }
 

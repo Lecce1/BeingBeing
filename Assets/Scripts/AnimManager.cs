@@ -242,6 +242,8 @@ public class AnimManager : MonoBehaviour
 
     void Loading_Finish()
     {
+        bgmManager.PlayBGM("Stage_BGM");
+        
         if (gameManager.main.activeSelf == true)
         {
             bgmManager.PlayBGM("Stage_BGM");

@@ -320,7 +320,7 @@ public class EmotionRecog_Manager : MonoBehaviour
 
                 if (i <= 2)
                 {
-                    emotionCloud.transform.GetChild(0).GetChild(i).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
+                    emotionCloud.transform.GetChild(0).GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>().text = cloud_Text[num];
                     
                     if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
                     {
@@ -341,7 +341,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                 }
                 else if (i >= 3 && i <=4)
                 {
-                    emotionCloud.transform.GetChild(1).GetChild(i-3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
+                    emotionCloud.transform.GetChild(1).GetChild(i-3).GetChild(1).GetChild(0).GetComponent<Text>().text = cloud_Text[num];
                     
                     if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
                     {
@@ -362,7 +362,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                 }
                 else if (i >= 5)
                 {
-                    emotionCloud.transform.GetChild(2).GetChild(i-5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = cloud_Text[num];
+                    emotionCloud.transform.GetChild(2).GetChild(i-5).GetChild(1).GetChild(0).GetComponent<Text>().text = cloud_Text[num];
                     
                     if (cloud_Text[num] == "너 때문이야" || cloud_Text[num] == "다 부숴버릴거야")
                     {

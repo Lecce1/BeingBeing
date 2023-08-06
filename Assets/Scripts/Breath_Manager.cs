@@ -240,7 +240,7 @@ public class Breath_Manager : MonoBehaviour
                 while (tutorial_Body.transform.localScale.x < 1.2f)
                 {
                     yield return waitForSeconds;
-                    tutorial_Body.transform.localScale += new Vector3(0.2f, 0.2f, 0) * Time.deltaTime;
+                    tutorial_Body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
                 }
 
                 if (isFirst == false)
@@ -272,7 +272,7 @@ public class Breath_Manager : MonoBehaviour
                 while (tutorial_Body.transform.localScale.x > 1)
                 {
                     yield return waitForSeconds;
-                    tutorial_Body.transform.localScale -= new Vector3(0.3f, 0.3f, 0) * Time.deltaTime;
+                    tutorial_Body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
                 }
                 
                 isTouch = false;
