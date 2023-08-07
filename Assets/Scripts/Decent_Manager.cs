@@ -10,6 +10,9 @@ using Random = UnityEngine.Random;
 
 public class Decent_Manager : MonoBehaviour
 {
+    public Image background;
+    public Sprite main_Background;
+    public GameObject blur;
     public GameObject tutorial;
     public Text tutorial_Notice;
     public GameObject tutorial_True;
@@ -36,9 +39,11 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage3;
     public GameObject stage3_Sentence;
     public GameObject stage4;
-    public GameObject stage4_First;
-    public GameObject stage4_Second;
-    public GameObject stage4_Third;
+    public GameObject stage4_One;
+    public GameObject stage4_Two;
+    public GameObject stage4_Three;
+    public GameObject stage4_Four;
+    public GameObject stage4_Five;
     private int stage4_Count = 1;
     public GameObject stage5;
     public GameObject stage5_Tutorial;
@@ -60,6 +65,8 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage5_Obstacle1;
     public GameObject stage5_Obstacle2;
     public GameObject stage5_Obstacle3;
+    public GameObject stage6;
+    public Sprite stage6_Background;
     public GameObject stage6_Bar;
     public GameObject shadow;
     public GameObject success;
@@ -89,7 +96,6 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     private List<string> stage5_Text = new List<string> { };
     private List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
-    public GameObject stage6;
     public int count = 0;
     public GameObject tutorial_Notice_Image;
     public List<Sprite> cutToon;
@@ -727,15 +733,25 @@ public class Decent_Manager : MonoBehaviour
     {
         if (stage4_Count == 1)
         {
-            stage4_First.SetActive(false);
-            stage4_Second.SetActive(true);
+            stage4_One.SetActive(false);
+            stage4_Two.SetActive(true);
         }
         else if (stage4_Count == 2)
         {
-            stage4_Second.SetActive(false);
-            stage4_Third.SetActive(true);
+            stage4_Two.SetActive(false);
+            stage4_Three.SetActive(true);
         }
         else if (stage4_Count == 3)
+        {
+            stage4_Three.SetActive(false);
+            stage4_Four.SetActive(true);
+        }
+        else if (stage4_Count == 4)
+        {
+            stage4_Four.SetActive(false);
+            stage4_Five.SetActive(true);
+        }
+        else if (stage4_Count == 5)
         {
             stage4.SetActive(false);
             stage5.SetActive(true);
@@ -1295,6 +1311,8 @@ public class Decent_Manager : MonoBehaviour
 
     public void Reset()
     {
+        background.sprite = main_Background;
+        blur.SetActive(true);
         tutorial.SetActive(true);
         isTutorial = false;
         isTutorial_Check = false;
@@ -1330,9 +1348,11 @@ public class Decent_Manager : MonoBehaviour
         stage2_ScrollView.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         stage3.SetActive(false);
         stage4.SetActive(false);
-        stage4_First.SetActive(true);
-        stage4_Second.SetActive(false);
-        stage4_Third.SetActive(false);
+        stage4_One.SetActive(true);
+        stage4_Two.SetActive(false);
+        stage4_Three.SetActive(false);
+        stage4_Four.SetActive(false);
+        stage4_Five.SetActive(false);
         stage4_Count = 1;
 
         for (int i = 0; i < stage2_ScrollView.transform.GetChild(0).GetChild(0).childCount; i++)

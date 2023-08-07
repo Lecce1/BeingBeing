@@ -387,8 +387,10 @@ public class AnimManager : MonoBehaviour
                 refresh_Manager.Reset();
                 gameManager.refresh.SetActive(false);
                 decent_Manager.isTutorial = true;
-                decent_Manager.stage1.SetActive(false);
+                decent_Manager.background.sprite = decent_Manager.stage6_Background;
+                decent_Manager.blur.SetActive(false);
                 decent_Manager.stage6.SetActive(true);
+                decent_Manager.stage1.SetActive(false);
                 decent_Manager.stage = 6;
             }
             else
