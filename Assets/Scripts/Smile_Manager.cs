@@ -8,12 +8,13 @@ public class Smile_Manager : MonoBehaviour
     public Text tutorial_Notice;
     public GameObject tutorial_Finger;
     public GameObject tutorial_Character;
-    public GameObject tutorial_Mouse;
     public GameObject tutorial_BackGlow;
     public GameObject tutorial_LightEffect;
     public GameObject game;
+    public GameObject character_Step1;
+    public GameObject character_Step2;
+    public GameObject character_Step3;
 	public GameObject check;
-    public GameObject mouse;
     public GameObject backGlow;
     public GameObject lightEffect;
     public GameObject shadow;
@@ -76,7 +77,7 @@ public class Smile_Manager : MonoBehaviour
                 isTutorial_Check = true;
                 gameManager.Set2();
 
-                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Smile_Tutorial") == 0)
+                if (PlayerPrefs.GetInt("Smile_Tutorial") == 0)
                 {
                     gameManager.buttons.SetActive(false);
                     isTutorial = false;
@@ -107,9 +108,22 @@ public class Smile_Manager : MonoBehaviour
             isSmile = false;
             isNum = false;
             isTutorial_Check2 = true;
-            mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
             tutorial.SetActive(false);
             game.SetActive(true);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                character_Step1.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                character_Step2.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                character_Step3.SetActive(true);
+            }
+            
             gameManager.buttons.SetActive(true);
         }
     }
@@ -125,7 +139,6 @@ public class Smile_Manager : MonoBehaviour
         {
             tutorial_Notice.text = "그림과 같이 두 손가락을\n빙빙이의 양 입꼬리를 터치하여\n위로 올려 빙그레 미소를 만들어주세요.";
             tutorial_Character.SetActive(true);
-            tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Finger3");
         }
@@ -134,7 +147,6 @@ public class Smile_Manager : MonoBehaviour
             tutorial_Notice_Image.SetActive(false);
             gameObject.GetComponent<Touch>().result = Result.none;
             tutorial_Notice.text = "빙빙이를 따라\n당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
-            tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
         }
     }
 
@@ -148,7 +160,7 @@ public class Smile_Manager : MonoBehaviour
     {
         if (isTutorial == false)
         {
-            if (isTutorial_Cursor == false && tutorial_Notice_Num >= 4 && gameObject.GetComponent<Touch>().result == Result.up && Input.touchCount == 2)
+            if (isTutorial_Cursor == false && tutorial_Notice_Num >= 4 && gameObject.GetComponent<Touch>().result == Result.up)
             {
                 isTutorial_Cursor = true;
                 isDoubleUp = true;
@@ -174,7 +186,6 @@ public class Smile_Manager : MonoBehaviour
         {
             if (isDoubleUp == true && isNum == false)
             {
-                tutorial_Mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
                 isSmile = true;
                 isNum = true;
                 animManager.BackGlow();
@@ -187,13 +198,11 @@ public class Smile_Manager : MonoBehaviour
         {
             if (isDoubleUp == false)
             {
-                mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
                 isSmile = false;
             }
             else if (isDoubleUp == true && isNum == false)
             {
                 check.transform.GetChild(0).gameObject.SetActive(true);
-                mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
                 isSmile = true;
                 isNum = true;
                 animManager.BackGlow();
@@ -302,6 +311,9 @@ public class Smile_Manager : MonoBehaviour
         tutorial_Finger.SetActive(false);
         tutorial_BackGlow.SetActive(false);
         game.SetActive(false);
+        character_Step1.SetActive(false);
+        character_Step2.SetActive(false);
+        character_Step3.SetActive(false);
         lightEffect.SetActive(false);
         shadow.SetActive(false);
         time = 0;

@@ -11,12 +11,20 @@ public class Lovely_Manager : MonoBehaviour
     public TMP_Text tutorial_Notice;
     public GameObject game;
     public GameObject first;
+    public GameObject first_Character_Step1;
+    public GameObject first_Character_Step2;
+    public GameObject first_Character_Step3;
+    public GameObject dragArea;
     public GameObject second;
+    public GameObject second_Character_Step1;
+    public GameObject second_Character_Step2;
+    public GameObject second_Character_Step3;
     public GameObject character;
     public GameObject timer;
     public Text notice;
     public GameObject emotionBtn;
     public GameObject emotionColor;
+    public List<Sprite> emotionColor_Sprite;
     public GameObject dot;
     public GameObject balloon;
     public GameObject backGlow;
@@ -83,7 +91,7 @@ public class Lovely_Manager : MonoBehaviour
                 isTutorial_Check = true;
                 gameManager.Set2();
                 
-                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Lovely_Tutorial") == 0)
+                if (PlayerPrefs.GetInt("Lovely_Tutorial") == 0)
                 {
                     gameManager.buttons.SetActive(false);
                     isTutorial = false;
@@ -111,6 +119,20 @@ public class Lovely_Manager : MonoBehaviour
             isTutorial_Check2 = true;
             tutorial.SetActive(false);
             game.SetActive(true);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                first_Character_Step1.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                first_Character_Step2.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                first_Character_Step3.SetActive(true);
+            }
+            
             gameManager.buttons.SetActive(true);
         }
     }
@@ -241,7 +263,7 @@ public class Lovely_Manager : MonoBehaviour
                     {
                         stage = 4;
                         balloon.SetActive(false);
-                        loading.SetActive(true);
+                        Invoke("Loading_SetActive", 1.5f);
                         Invoke("Loading", 5.0f);
                     }
                 }
@@ -249,10 +271,29 @@ public class Lovely_Manager : MonoBehaviour
         }
     }
 
+    void Loading_SetActive()
+    {
+        loading.SetActive(true);
+    }
+
     void Loading()
     {
         first.SetActive(false);
         second.SetActive(true);
+        
+        if (gameManager.stage_Select_Level_Num == 1)
+        {
+            second_Character_Step1.SetActive(true);
+        }
+        else if (gameManager.stage_Select_Level_Num == 2)
+        {
+            second_Character_Step2.SetActive(true);
+        }
+        else if (gameManager.stage_Select_Level_Num == 3)
+        {
+            second_Character_Step3.SetActive(true);
+        }
+        
         loading.SetActive(false);
 
         if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
@@ -327,38 +368,31 @@ public class Lovely_Manager : MonoBehaviour
             
             if (Input.GetMouseButton(0))
             {
-                for (int i = 0; i < results.Count; i++)
+                if (isUp == false || isDown == false)
                 {
-                    if (results[i].gameObject.name == "Body")
+                    if (Input.mousePosition.y <= startPos.y)
                     {
-                        if (isUp == false || isDown == false)
-                        {
-                            if (Input.mousePosition.y <= startPos.y)
-                            {
-                                isDown = true;
-                                currentPos = Input.mousePosition;
-                            }
+                        isDown = true;
+                        currentPos = Input.mousePosition;
+                    }
 
-                            if (Input.mousePosition.y > currentPos.y && isDown == true)
-                            {
-                                isUp = true;
-                                startPos = Input.mousePosition;
-                            }
-                        }
-                        else
-                        {
-                            if (Input.mousePosition.y <= startPos.y)
-                            {
-                                isDown2 = true;
-                                currentPos = Input.mousePosition;
-                            }
+                    if (Input.mousePosition.y > currentPos.y && isDown == true)
+                    {
+                        isUp = true;
+                        startPos = Input.mousePosition;
+                    }
+                }
+                else
+                {
+                    if (Input.mousePosition.y <= startPos.y)
+                    {
+                        isDown2 = true;
+                        currentPos = Input.mousePosition;
+                    }
 
-                            if (Input.mousePosition.y > currentPos.y && isDown2 == true)
-                            {
-                                isUp2 = true;
-                            }
-                        }
-
+                    if (Input.mousePosition.y > currentPos.y && isDown2 == true)
+                    {
+                        isUp2 = true;
                     }
                 }
             }
@@ -447,6 +481,24 @@ public class Lovely_Manager : MonoBehaviour
                     isDot = false;
                     dot.SetActive(false);
                     notice.text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요";
+                    
+                    dragArea.SetActive(true);
+                
+                    switch (gameManager.stage_Select_Level_Num)
+                    {
+                        case 1:
+                            dragArea.GetComponent<RectTransform>().anchoredPosition =
+                                new Vector2(dragArea.GetComponent<RectTransform>().anchoredPosition.x, 100);
+                            break;
+                        case 2:
+                            dragArea.GetComponent<RectTransform>().anchoredPosition =
+                                new Vector2(dragArea.GetComponent<RectTransform>().anchoredPosition.x, 150);
+                            break;
+                        case 3:
+                            dragArea.GetComponent<RectTransform>().anchoredPosition =
+                                new Vector2(dragArea.GetComponent<RectTransform>().anchoredPosition.x, 200);
+                            break;
+                    }
                 }
             }
         }
@@ -463,22 +515,22 @@ public class Lovely_Manager : MonoBehaviour
             if (type == "Anger")
             {
                 emotionFeel = "Anger";
-                emotionColor.GetComponent<Image>().color = Color.red;
+                emotionColor.GetComponent<Image>().sprite = emotionColor_Sprite[0];
             }
             else if (type == "Unrest")
             {
                 emotionFeel = "Unrest";
-                emotionColor.GetComponent<Image>().color = Color.black;
+                emotionColor.GetComponent<Image>().sprite = emotionColor_Sprite[1];
             }
             else if (type == "Sadness")
             {
                 emotionFeel = "Sadness";
-                emotionColor.GetComponent<Image>().color = Color.blue;
+                emotionColor.GetComponent<Image>().sprite = emotionColor_Sprite[2];
             }
             else if (type == "Remorse")
             {
                 emotionFeel = "Remorse";
-                emotionColor.GetComponent<Image>().color = Color.gray;
+                emotionColor.GetComponent<Image>().sprite = emotionColor_Sprite[3];
             }
         }
         
@@ -605,7 +657,14 @@ public class Lovely_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         game.SetActive(false);
         first.SetActive(true);
+        first_Character_Step1.SetActive(false);
+        first_Character_Step2.SetActive(false);
+        first_Character_Step3.SetActive(false);
+        dragArea.SetActive(false);
         second.SetActive(false);
+        second_Character_Step1.SetActive(false);
+        second_Character_Step2.SetActive(false);
+        second_Character_Step3.SetActive(false);
         character.SetActive(false);
         timer.SetActive(false);
         timer.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;

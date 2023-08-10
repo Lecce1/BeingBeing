@@ -10,12 +10,14 @@ public class Breath_Manager : MonoBehaviour
     public Text tutorial_Notice;
     public GameObject tutorial_Finger;
     public GameObject tutorial_Character_Panel;
-    public GameObject tutorial_Body;
+    public GameObject tutorial_Character_Step1;
     public Image tutorial_Circle;
     public Image tutorial_Circle_Timer;
+    public GameObject character_Step1;
+    public GameObject character_Step2;
+    public GameObject character_Step3;
     public GameObject game;
     public GameObject game_Notice;
-    public GameObject body;
     public Image circle;
     public Image circle_Timer;
     public GameObject shadow;
@@ -62,7 +64,7 @@ public class Breath_Manager : MonoBehaviour
                 isTutorial_Check = true;
                 gameManager.Set2();
 
-                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Breath_Tutorial") == 0)
+                if (PlayerPrefs.GetInt("Breath_Tutorial") == 0)
                 {
                     gameManager.buttons.SetActive(false);
                     isTutorial = false;
@@ -98,6 +100,20 @@ public class Breath_Manager : MonoBehaviour
             isLimit = false;
             tutorial.SetActive(false);
             game.SetActive(true);
+
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                character_Step1.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                character_Step2.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                character_Step3.SetActive(true);
+            }
+            
             gameManager.buttons.SetActive(true);
             Invoke(nameof(First_Text), 5f);
         }
@@ -240,11 +256,8 @@ public class Breath_Manager : MonoBehaviour
                     tutorial_Notice.text = String.Empty;
                 }
 
-                while (tutorial_Body.transform.localScale.x < 1.2f)
-                {
-                    yield return waitForSeconds;
-                    tutorial_Body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
-                }
+                tutorial_Character_Step1.GetComponent<Animator>().Play("Breath_Step1_1");
+                yield return new WaitForSeconds(1f);
 
                 if (isFirst == false)
                 {
@@ -272,11 +285,8 @@ public class Breath_Manager : MonoBehaviour
                     tutorial_Notice.text = String.Empty;
                 }
 
-                while (tutorial_Body.transform.localScale.x > 1)
-                {
-                    yield return waitForSeconds;
-                    tutorial_Body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
-                }
+                tutorial_Character_Step1.GetComponent<Animator>().Play("Breath_Step1_2");
+                yield return new WaitForSeconds(1f);
                 
                 isTouch = false;
             }
@@ -287,12 +297,20 @@ public class Breath_Manager : MonoBehaviour
             {
                 game_Notice.GetComponent<Text>().text = string.Empty;
                 
-                while (body.transform.localScale.x < 1.2f)
+                if (gameManager.stage_Select_Level_Num == 1)
                 {
-                    yield return waitForSeconds;
-                    body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
+                    character_Step1.GetComponent<Animator>().Play("Breath_Step1_1");
                 }
-                
+                else if (gameManager.stage_Select_Level_Num == 2)
+                {
+                    character_Step2.GetComponent<Animator>().Play("Breath_Step2_1");
+                }
+                else if (gameManager.stage_Select_Level_Num == 3)
+                {
+                    character_Step3.GetComponent<Animator>().Play("Breath_Step3_1");
+                }
+
+                yield return new WaitForSeconds(1f);
                 game_Notice.GetComponent<Text>().text = "내쉬고";
                 isTouch = false;
             }
@@ -300,12 +318,20 @@ public class Breath_Manager : MonoBehaviour
             {
                 game_Notice.GetComponent<Text>().text = string.Empty;
                 
-                while (body.transform.localScale.x > 1)
+                if (gameManager.stage_Select_Level_Num == 1)
                 {
-                    yield return waitForSeconds;
-                    body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
+                    character_Step1.GetComponent<Animator>().Play("Breath_Step1_2");
                 }
-                
+                else if (gameManager.stage_Select_Level_Num == 2)
+                {
+                    character_Step2.GetComponent<Animator>().Play("Breath_Step2_2");
+                }
+                else if (gameManager.stage_Select_Level_Num == 3)
+                {
+                    character_Step3.GetComponent<Animator>().Play("Breath_Step3_2");
+                }
+
+                yield return new WaitForSeconds(1f);
                 isTouch = false;
             }
         }
@@ -520,9 +546,10 @@ public class Breath_Manager : MonoBehaviour
         isTutorial_Check2 = false;
         tutorial.SetActive(true);
         game.SetActive(false);
+        character_Step1.SetActive(false);
+        character_Step2.SetActive(false);
+        character_Step3.SetActive(false);
         game_Notice.GetComponent<Text>().text = "소리를 켜서 안내말을 따라해 주세요.";
-        tutorial_Body.transform.localScale = new Vector3(1, 1, 1);
-        body.transform.localScale = new Vector3(1, 1, 1);
         count = 0;
         time = 0;
         isLimit = false;

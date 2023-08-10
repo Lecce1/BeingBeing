@@ -199,7 +199,7 @@ public class Heart : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isTouch == false && other.name == "Head")
+        if (isTouch == false && other.name == "Line")
         {
             Destroy(gameObject);
         }

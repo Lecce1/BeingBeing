@@ -14,6 +14,9 @@ public class BodyRecog_Manager : MonoBehaviour
     public GameObject tutorial_Line;
     public GameObject tutorial_Choices;
     public GameObject game;
+    public GameObject character_Step1;
+    public GameObject character_Step2;
+    public GameObject character_Step3;
     public GameObject line;
     public GameObject points;
     public GameObject choices;
@@ -62,7 +65,7 @@ public class BodyRecog_Manager : MonoBehaviour
                 isTutorial_Check = true;
                 gameManager.Set2();
 
-                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("BodyRecog_Tutorial") == 0)
+                if (PlayerPrefs.GetInt("BodyRecog_Tutorial") == 0)
                 {
                     gameManager.buttons.SetActive(false);
                     isStop = true;
@@ -94,6 +97,20 @@ public class BodyRecog_Manager : MonoBehaviour
             result.text = "";
             tutorial.SetActive(false);
             game.SetActive(true);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                character_Step1.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                character_Step2.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                character_Step3.SetActive(true);
+            }
+            
             gameManager.buttons.SetActive(true);
 
             if (gameManager.stage_Select_Level_Num == 1)
@@ -849,6 +866,9 @@ public class BodyRecog_Manager : MonoBehaviour
         tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         tutorial_Choices.SetActive(false);
         tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
+        character_Step1.SetActive(false);
+        character_Step2.SetActive(false);
+        character_Step3.SetActive(false);
         line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 200);
         points.transform.GetChild(0).gameObject.SetActive(true);
         points.transform.GetChild(1).gameObject.SetActive(false);

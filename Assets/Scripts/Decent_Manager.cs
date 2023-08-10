@@ -126,7 +126,7 @@ public class Decent_Manager : MonoBehaviour
                 isTutorial_Check = true;
                 gameManager.Set2();
                 
-                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Decent_Tutorial") == 0)
+                if (PlayerPrefs.GetInt("Decent_Tutorial") == 0)
                 {
                     gameManager.buttons.SetActive(false);
                     isTutorial = false;
@@ -1250,6 +1250,7 @@ public class Decent_Manager : MonoBehaviour
                 if (PlayerPrefs.GetInt("level") <= 4)
                 {
                     PlayerPrefs.SetInt("level", 5);
+                    gameManager.stage_Select_Level_Num = 2;
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 2)
@@ -1257,6 +1258,7 @@ public class Decent_Manager : MonoBehaviour
                 if (PlayerPrefs.GetInt("level") <= 8)
                 {
                     PlayerPrefs.SetInt("level", 9);
+                    gameManager.stage_Select_Level_Num = 3;
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 3)

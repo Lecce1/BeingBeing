@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,9 @@ using UnityEngine.UI;
 public class Refresh_Manager : MonoBehaviour
 {
     public GameObject breath;
-    public GameObject body;
+    public GameObject breath_Character_Step1;
+    public GameObject breath_Character_Step2;
+    public GameObject breath_Character_Step3;
     public Image circle;
     public Image circle_Timer;
     public GameObject game_Notice;
@@ -21,7 +24,9 @@ public class Refresh_Manager : MonoBehaviour
     public bool isBreathe = false;
     private bool isFirst = false;
     public GameObject smile;
-    public GameObject mouse;
+    public GameObject smile_Character_Step1;
+    public GameObject smile_Character_Step2;
+    public GameObject smile_Character_Step3;
     public GameObject backGlow;
     public GameObject lightEffect;
     public GameObject check;
@@ -41,6 +46,22 @@ public class Refresh_Manager : MonoBehaviour
         Invoke(nameof(First_Text), 5f);
     }
 
+    void OnEnable()
+    {
+        if (gameManager.stage_Select_Level_Num == 1)
+        {
+            breath_Character_Step1.SetActive(true);
+        }
+        else if (gameManager.stage_Select_Level_Num == 2)
+        {
+            breath_Character_Step2.SetActive(true);
+        }
+        else if (gameManager.stage_Select_Level_Num == 3)
+        {
+            breath_Character_Step3.SetActive(true);
+        }
+    }
+
     void Update()
     {
         Cursor();
@@ -52,7 +73,10 @@ public class Refresh_Manager : MonoBehaviour
     
     private void First_Text()
     {
-        game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+        if (game_Notice.GetComponent<Text>().text == "소리를 켜서 안내말을 따라해 주세요.")
+        {
+            game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+        }
     }
 
     void Cursor()
@@ -110,23 +134,40 @@ public class Refresh_Manager : MonoBehaviour
         {
             game_Notice.GetComponent<Text>().text = string.Empty;
             
-            while (body.transform.localScale.x < 1.2f)
+            if (gameManager.stage_Select_Level_Num == 1)
             {
-                yield return waitForSeconds;
-                body.transform.localScale += new Vector3(1f, 1f, 0) * Time.deltaTime;
+                breath_Character_Step1.GetComponent<Animator>().Play("Breath_Step1_1");
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                breath_Character_Step2.GetComponent<Animator>().Play("Breath_Step2_1");
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                breath_Character_Step3.GetComponent<Animator>().Play("Breath_Step3_1");
             }
             
+            yield return new WaitForSeconds(1f);
             game_Notice.GetComponent<Text>().text = "내쉬고";
         }
         else if (isBreathe == false)
         {
             game_Notice.GetComponent<Text>().text = string.Empty;
             
-            while (body.transform.localScale.x > 1)
+            if (gameManager.stage_Select_Level_Num == 1)
             {
-                yield return waitForSeconds;
-                body.transform.localScale -= new Vector3(1f, 1f, 0) * Time.deltaTime;
+                breath_Character_Step1.GetComponent<Animator>().Play("Breath_Step1_2");
             }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                breath_Character_Step2.GetComponent<Animator>().Play("Breath_Step2_2");
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                breath_Character_Step3.GetComponent<Animator>().Play("Breath_Step3_2");
+            }
+            
+            yield return new WaitForSeconds(1f);
         }
 
         yield return null;
@@ -166,6 +207,19 @@ public class Refresh_Manager : MonoBehaviour
             isFirst = true;
             breath.SetActive(false);
             smile.SetActive(true);
+            
+            if (gameManager.stage_Select_Level_Num == 1)
+            {
+                smile_Character_Step1.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 2)
+            {
+                smile_Character_Step2.SetActive(true);
+            }
+            else if (gameManager.stage_Select_Level_Num == 3)
+            {
+                smile_Character_Step3.SetActive(true);
+            }
         }
         
         isCheck = true;
@@ -211,7 +265,6 @@ public class Refresh_Manager : MonoBehaviour
     {
         if (isDoubleUp == true && isNum == false)
         {
-            mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse4");
             isSmile = true;
             isNum = true;
             animManager.Refresh_BackGlow();
@@ -295,7 +348,9 @@ public class Refresh_Manager : MonoBehaviour
     public void Reset()
     {
         breath.SetActive(true);
-        body.transform.localScale = new Vector3(1, 1, 1);
+        breath_Character_Step1.SetActive(false);
+        breath_Character_Step2.SetActive(false);
+        breath_Character_Step3.SetActive(false);
         circle.fillAmount = 0;
         circle_Timer.fillAmount = 0;
         count = 0;
@@ -308,6 +363,9 @@ public class Refresh_Manager : MonoBehaviour
         isDown = false;
         isBreathe = false;
         smile.SetActive(false);
+        smile_Character_Step1.SetActive(false);
+        smile_Character_Step2.SetActive(false);
+        smile_Character_Step3.SetActive(false);
         backGlow.SetActive(false);
         lightEffect.SetActive(false);
         isDoubleUp = false;
@@ -317,7 +375,6 @@ public class Refresh_Manager : MonoBehaviour
         shadow.SetActive(false);
         success.SetActive(false);
         gameManager.buttons.SetActive(true);
-        mouse.GetComponent<Image>().sprite = Resources.Load<Sprite>("mouse");
         check.transform.GetChild(0).gameObject.SetActive(false);
     }
 }
