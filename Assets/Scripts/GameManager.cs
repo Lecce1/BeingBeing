@@ -675,6 +675,7 @@ public class GameManager : MonoBehaviour
     {
         if (stage_Select_Stage.activeSelf == true)
         {
+            CancelInvoke("Stage_Select_Stage_StartBtn");
             stage_Select_Stage.GetComponent<Animator>().Play("Close");
             Invoke("Back_Delay", 0.3f);
         }
