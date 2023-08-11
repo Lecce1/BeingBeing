@@ -66,8 +66,12 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage5_Obstacle2;
     public GameObject stage5_Obstacle3;
     public GameObject stage6;
+    public GameObject stage6_Char_Step1;
+    public GameObject stage6_Char_Step2;
+    public GameObject stage6_Char_Step3;
     public Sprite stage6_Background;
     public GameObject stage6_Bar;
+    public GameObject stage6_Ment;
     public GameObject shadow;
     public GameObject success;
     public GameObject fail;
@@ -95,7 +99,7 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Sadness = new List<string> {"슬프다", "눈물이 난다", "아무것도 하고 싶지 않다", "가라앉는다", "귀찮다", "내가 우울했구나"};
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     private List<string> stage5_Text = new List<string> { };
-    private List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
+    public List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
     public int count = 0;
     public GameObject tutorial_Notice_Image;
     public List<Sprite> cutToon;
@@ -1036,34 +1040,28 @@ public class Decent_Manager : MonoBehaviour
         if (isTutorial == true && stage == 6 && isSentence == false)
         {
             isSentence = true;
-            
-            Invoke("Check", 3f);
-            
-            /*if (stage6_Bar.GetComponent<Slider>().value != 1 && stage6_Text.Count != 0)
+
+            if (stage6_Bar.GetComponent<Slider>().value != 1 && stage6_Text.Count != 0)
             {
-                //StartCoroutine("MentGenerator");
+                StartCoroutine("MentGenerator");
             }
-            else if (stage6_Bar.GetComponent<Slider>().value == 1)
-            {
-                Invoke("Check", 0.5f);
-            }*/
         }
     }
     
     IEnumerator MentGenerator()
     {
-        GameObject temp = Instantiate(stage5_fuel);
+        GameObject temp = Instantiate(stage6_Ment);
         temp.transform.SetParent(stage6.transform.GetChild(2));
         temp.transform.GetComponent<RectTransform>().anchoredPosition =
-            new Vector2(Random.Range(-300, 400), -200);
+            new Vector2(Random.Range(-250, 400), 300);
         temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         int num = Random.Range(0, stage6_Text.Count);
-        temp.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stage6_Text[num];
+        temp.transform.GetChild(0).GetComponent<Text>().text = stage6_Text[num];
         stage6_Text.RemoveAt(num);
 
         float delay = 0;
 
-        while (delay < 1f)
+        while (delay < 1.5f)
         {
             delay += Time.deltaTime;
             yield return waitForSeconds;
@@ -1072,7 +1070,7 @@ public class Decent_Manager : MonoBehaviour
         isSentence = false;
     }
 
-    void Check()
+    public void Check()
     {
         if (isTutorial == false)
         {
@@ -1397,6 +1395,9 @@ public class Decent_Manager : MonoBehaviour
         stage5_Notice_Image.SetActive(true);
         stage5_Bar.GetComponent<Slider>().value = 0;
         stage6.SetActive(false);
+        stage6_Char_Step1.SetActive(false);
+        stage6_Char_Step2.SetActive(false);
+        stage6_Char_Step3.SetActive(false);
         stage6_Bar.GetComponent<Slider>().value = 0;
         isSentence = false;
         sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘요 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};

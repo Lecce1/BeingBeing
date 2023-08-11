@@ -71,7 +71,7 @@ public class Refresh_Manager : MonoBehaviour
         Mouse();
     }
     
-    private void First_Text()
+    void First_Text()
     {
         if (game_Notice.GetComponent<Text>().text == "소리를 켜서 안내말을 따라해 주세요.")
         {
@@ -147,7 +147,7 @@ public class Refresh_Manager : MonoBehaviour
                 breath_Character_Step3.GetComponent<Animator>().Play("Breath_Step3_1");
             }
             
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2.5f);
             game_Notice.GetComponent<Text>().text = "내쉬고";
         }
         else if (isBreathe == false)
@@ -167,7 +167,8 @@ public class Refresh_Manager : MonoBehaviour
                 breath_Character_Step3.GetComponent<Animator>().Play("Breath_Step3_2");
             }
             
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2.5f);
+            game_Notice.GetComponent<Text>().text = "들이쉬고";
         }
 
         yield return null;
@@ -177,7 +178,7 @@ public class Refresh_Manager : MonoBehaviour
     {
         if (isFirst == false)
         {
-            if (isUp == true && isDown == true && isLimit == false)
+            if ((isUp == true || isDown == true) && isLimit == false)
             {
                 time = 0;
                 isUp = false;
@@ -234,12 +235,11 @@ public class Refresh_Manager : MonoBehaviour
             if (isLimit == true && isCheck == true)
             {
                 time += Time.deltaTime;
-                circle_Timer.fillAmount = time / 4;
+                circle_Timer.fillAmount = time / 2;
             }
 
-            if (time >= 4)
+            if (time >= 2)
             {
-                game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
                 circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;

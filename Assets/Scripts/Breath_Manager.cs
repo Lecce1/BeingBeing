@@ -119,7 +119,7 @@ public class Breath_Manager : MonoBehaviour
         }
     }
 
-    private void First_Text()
+    void First_Text()
     {
         if (game_Notice.GetComponent<Text>().text == "소리를 켜서 안내말을 따라해 주세요.")
         {
@@ -166,24 +166,7 @@ public class Breath_Manager : MonoBehaviour
 
     void Cursor()
     {
-        if (isTutorial == false && isTouch == false)
-        {
-            if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false)
-            {
-                isDown = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
-            else if (isBreathe == true && gameObject.GetComponent<Touch>().result == Result.up && isLimit == false)
-            {
-                isUp = true;
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
-            else if (isLimit == true)
-            {
-                gameObject.GetComponent<Touch>().result = Result.none;
-            }
-        }
-        else if (isTutorial == true && isTouch == false)
+        if (isTouch == false)
         {
             if (gameObject.GetComponent<Touch>().result == Result.down && isLimit == false)
             {
@@ -257,7 +240,7 @@ public class Breath_Manager : MonoBehaviour
                 }
 
                 tutorial_Character_Step1.GetComponent<Animator>().Play("Breath_Step1_1");
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2.5f);
 
                 if (isFirst == false)
                 {
@@ -265,7 +248,7 @@ public class Breath_Manager : MonoBehaviour
                     tutorial_Finger.SetActive(true);
                     tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
                 }
-                else
+                else if(tutorial_Circle.fillAmount != 1)
                 {
                     tutorial_Notice.text = "내쉬고";
                 }
@@ -286,8 +269,13 @@ public class Breath_Manager : MonoBehaviour
                 }
 
                 tutorial_Character_Step1.GetComponent<Animator>().Play("Breath_Step1_2");
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2.5f);
                 
+                if(tutorial_Circle.fillAmount != 1)
+                {
+                    tutorial_Notice.text = "숨을 들이쉬고";
+                }
+
                 isTouch = false;
             }
         }
@@ -310,7 +298,7 @@ public class Breath_Manager : MonoBehaviour
                     character_Step3.GetComponent<Animator>().Play("Breath_Step3_1");
                 }
 
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2.2f);
                 game_Notice.GetComponent<Text>().text = "내쉬고";
                 isTouch = false;
             }
@@ -331,7 +319,8 @@ public class Breath_Manager : MonoBehaviour
                     character_Step3.GetComponent<Animator>().Play("Breath_Step3_2");
                 }
 
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2.2f);
+                game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
                 isTouch = false;
             }
         }
@@ -341,7 +330,7 @@ public class Breath_Manager : MonoBehaviour
 
     void Gauge()
     {
-        if (isUp == true && isDown == true && isLimit == false)
+        if ((isUp == true || isDown == true) && isLimit == false)
         {
             time = 0;
             isUp = false;
@@ -473,12 +462,11 @@ public class Breath_Manager : MonoBehaviour
             if (isLimit == true && isCheck == true && tutorial_Circle.fillAmount != 1)
             {
                 time += Time.deltaTime;
-                tutorial_Circle_Timer.fillAmount = time / 4;
+                tutorial_Circle_Timer.fillAmount = time / 2;
             }
             
-            if (time >= 4)
+            if (time >= 2)
             {
-                tutorial_Notice.text = "숨을 들이쉬고";
                 tutorial_Circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
@@ -489,12 +477,11 @@ public class Breath_Manager : MonoBehaviour
             if (isLimit == true && isCheck == true && circle.fillAmount != 1)
             {
                 time += Time.deltaTime;
-                circle_Timer.fillAmount = time / 4;
+                circle_Timer.fillAmount = time / 2;
             }
             
-            if (time >= 4)
+            if (time >= 2)
             {
-                game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
                 circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;

@@ -390,6 +390,20 @@ public class AnimManager : MonoBehaviour
                 decent_Manager.background.sprite = decent_Manager.stage6_Background;
                 decent_Manager.blur.SetActive(false);
                 decent_Manager.stage6.SetActive(true);
+                
+                if (gameManager.stage_Select_Level_Num == 1)
+                {
+                    decent_Manager.stage6_Char_Step1.SetActive(true);
+                }
+                else if (gameManager.stage_Select_Level_Num == 2)
+                {
+                    decent_Manager.stage6_Char_Step2.SetActive(true);
+                }
+                else if (gameManager.stage_Select_Level_Num == 3)
+                {
+                    decent_Manager.stage6_Char_Step3.SetActive(true);
+                }
+                
                 decent_Manager.stage1.SetActive(false);
                 decent_Manager.stage = 6;
             }

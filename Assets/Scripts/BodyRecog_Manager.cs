@@ -17,7 +17,11 @@ public class BodyRecog_Manager : MonoBehaviour
     public GameObject character_Step1;
     public GameObject character_Step2;
     public GameObject character_Step3;
+    public GameObject character_Step1_Points;
+    public GameObject character_Step2_Points;
+    public GameObject character_Step3_Points;
     public GameObject line;
+    public Text notice;
     public GameObject points;
     public GameObject choices;
     public Sprite[] choices_Color = new Sprite[6];
@@ -47,7 +51,6 @@ public class BodyRecog_Manager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         animManager = GameObject.Find("AnimManager").GetComponent<AnimManager>();
-        points.GetComponent<Animator>().Play("Point");
     }
 
     void Update()
@@ -101,14 +104,17 @@ public class BodyRecog_Manager : MonoBehaviour
             if (gameManager.stage_Select_Level_Num == 1)
             {
                 character_Step1.SetActive(true);
+                character_Step1_Points.SetActive(true);
             }
             else if (gameManager.stage_Select_Level_Num == 2)
             {
                 character_Step2.SetActive(true);
+                character_Step2_Points.SetActive(true);
             }
             else if (gameManager.stage_Select_Level_Num == 3)
             {
                 character_Step3.SetActive(true);
+                character_Step2_Points.SetActive(true);
             }
             
             gameManager.buttons.SetActive(true);
@@ -425,154 +431,155 @@ public class BodyRecog_Manager : MonoBehaviour
                 choices.SetActive(false);
                 choices.transform.GetChild(1).gameObject.SetActive(false);
                 isStop = false;
+                notice.text = string.Empty;
 
                 if (gameManager.stage_Select_Level_Num == 1)
                 {
                     if (pointNum == 1)
                     {
-                        points.transform.GetChild(0).gameObject.SetActive(false);
-                        points.transform.GetChild(5).gameObject.SetActive(true);
+                        character_Step1_Points.transform.GetChild(0).gameObject.SetActive(false);
+                        character_Step1_Points.transform.GetChild(1).gameObject.SetActive(true);
                     }
                     else if (pointNum == 2)
                     {
-                        points.transform.GetChild(5).gameObject.SetActive(false);
-                        points.transform.GetChild(6).gameObject.SetActive(true);
+                        character_Step1_Points.transform.GetChild(1).gameObject.SetActive(false);
+                        character_Step1_Points.transform.GetChild(2).gameObject.SetActive(true);
                     }
                     else if (pointNum == 3)
                     {
-                        points.transform.GetChild(6).gameObject.SetActive(false);
-                        points.transform.GetChild(7).gameObject.SetActive(true);
+                        character_Step1_Points.transform.GetChild(2).gameObject.SetActive(false);
+                        character_Step1_Points.transform.GetChild(3).gameObject.SetActive(true);
                     }
                     else if (pointNum == 4)
                     {
-                        points.transform.GetChild(7).gameObject.SetActive(false);
-                        points.transform.GetChild(11).gameObject.SetActive(true);
+                        character_Step1_Points.transform.GetChild(3).gameObject.SetActive(false);
+                        character_Step1_Points.transform.GetChild(4).gameObject.SetActive(true);
                     }
                     else if (pointNum == 5)
                     {
-                        points.transform.GetChild(11).gameObject.SetActive(false);
-                        points.transform.GetChild(12).gameObject.SetActive(true);
+                        character_Step1_Points.transform.GetChild(4).gameObject.SetActive(false);
+                        character_Step1_Points.transform.GetChild(5).gameObject.SetActive(true);
                     }
                     else if (pointNum == 6)
                     {
-                        points.transform.GetChild(12).gameObject.SetActive(false);
-                        points.transform.GetChild(13).gameObject.SetActive(true);
+                        character_Step1_Points.transform.GetChild(5).gameObject.SetActive(false);
+                        character_Step1_Points.transform.GetChild(6).gameObject.SetActive(true);
                     }
                 }
                 else if (gameManager.stage_Select_Level_Num == 2)
                 {
                     if (pointNum == 1)
                     {
-                        points.transform.GetChild(0).gameObject.SetActive(false);
-                        points.transform.GetChild(1).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(0).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(1).gameObject.SetActive(true);
                     }
                     else if (pointNum == 2)
                     {
-                        points.transform.GetChild(1).gameObject.SetActive(false);
-                        points.transform.GetChild(2).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(1).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(2).gameObject.SetActive(true);
                     }
                     else if (pointNum == 3)
                     {
-                        points.transform.GetChild(2).gameObject.SetActive(false);
-                        points.transform.GetChild(3).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(2).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(3).gameObject.SetActive(true);
                     }
                     else if (pointNum == 4)
                     {
-                        points.transform.GetChild(3).gameObject.SetActive(false);
-                        points.transform.GetChild(4).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(3).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(4).gameObject.SetActive(true);
                     }
                     else if (pointNum == 5)
                     {
-                        points.transform.GetChild(4).gameObject.SetActive(false);
-                        points.transform.GetChild(8).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(4).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(5).gameObject.SetActive(true);
                     }
                     else if (pointNum == 6)
                     {
-                        points.transform.GetChild(8).gameObject.SetActive(false);
-                        points.transform.GetChild(9).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(5).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(6).gameObject.SetActive(true);
                     }
                     else if (pointNum == 7)
                     {
-                        points.transform.GetChild(9).gameObject.SetActive(false);
-                        points.transform.GetChild(10).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(6).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(7).gameObject.SetActive(true);
                     }
                     else if (pointNum == 8)
                     {
-                        points.transform.GetChild(10).gameObject.SetActive(false);
-                        points.transform.GetChild(12).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(7).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(8).gameObject.SetActive(true);
                     }
                     else if (pointNum == 9)
                     {
-                        points.transform.GetChild(12).gameObject.SetActive(false);
-                        points.transform.GetChild(13).gameObject.SetActive(true);
+                        character_Step2_Points.transform.GetChild(8).gameObject.SetActive(false);
+                        character_Step2_Points.transform.GetChild(9).gameObject.SetActive(true);
                     }
                 }
                 else if (gameManager.stage_Select_Level_Num == 3)
                 {
                     if (pointNum == 1)
                     {
-                        points.transform.GetChild(0).gameObject.SetActive(false);
-                        points.transform.GetChild(1).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(0).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(1).gameObject.SetActive(true);
                     }
                     else if (pointNum == 2)
                     {
-                        points.transform.GetChild(1).gameObject.SetActive(false);
-                        points.transform.GetChild(2).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(1).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(2).gameObject.SetActive(true);
                     }
                     else if (pointNum == 3)
                     {
-                        points.transform.GetChild(2).gameObject.SetActive(false);
-                        points.transform.GetChild(3).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(2).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(3).gameObject.SetActive(true);
                     }
                     else if (pointNum == 4)
                     {
-                        points.transform.GetChild(3).gameObject.SetActive(false);
-                        points.transform.GetChild(4).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(3).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(4).gameObject.SetActive(true);
                     }
                     else if (pointNum == 5)
                     {
-                        points.transform.GetChild(4).gameObject.SetActive(false);
-                        points.transform.GetChild(5).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(4).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(5).gameObject.SetActive(true);
                     }
                     else if (pointNum == 6)
                     {
-                        points.transform.GetChild(5).gameObject.SetActive(false);
-                        points.transform.GetChild(6).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(5).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(6).gameObject.SetActive(true);
                     }
                     else if (pointNum == 7)
                     {
-                        points.transform.GetChild(6).gameObject.SetActive(false);
-                        points.transform.GetChild(7).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(6).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(7).gameObject.SetActive(true);
                     }
                     else if (pointNum == 8)
                     {
-                        points.transform.GetChild(7).gameObject.SetActive(false);
-                        points.transform.GetChild(8).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(7).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(8).gameObject.SetActive(true);
                     }
                     else if (pointNum == 9)
                     {
-                        points.transform.GetChild(8).gameObject.SetActive(false);
-                        points.transform.GetChild(9).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(8).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(9).gameObject.SetActive(true);
                     }
                     else if (pointNum == 10)
                     {
-                        points.transform.GetChild(9).gameObject.SetActive(false);
-                        points.transform.GetChild(10).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(9).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(10).gameObject.SetActive(true);
                     }
                     else if (pointNum == 11)
                     {
-                        points.transform.GetChild(10).gameObject.SetActive(false);
-                        points.transform.GetChild(11).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(10).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(11).gameObject.SetActive(true);
                     }
                     else if (pointNum == 12)
                     {
-                        points.transform.GetChild(11).gameObject.SetActive(false);
-                        points.transform.GetChild(12).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(11).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(12).gameObject.SetActive(true);
                     }
                     else if (pointNum == 13)
                     {
-                        points.transform.GetChild(12).gameObject.SetActive(false);
-                        points.transform.GetChild(13).gameObject.SetActive(true);
+                        character_Step3_Points.transform.GetChild(12).gameObject.SetActive(false);
+                        character_Step3_Points.transform.GetChild(13).gameObject.SetActive(true);
                     }
                 }
                 
@@ -869,21 +876,41 @@ public class BodyRecog_Manager : MonoBehaviour
         character_Step1.SetActive(false);
         character_Step2.SetActive(false);
         character_Step3.SetActive(false);
+        character_Step1_Points.SetActive(false);
+        character_Step2_Points.SetActive(false);
+        character_Step3_Points.SetActive(false);
         line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 200);
-        points.transform.GetChild(0).gameObject.SetActive(true);
-        points.transform.GetChild(1).gameObject.SetActive(false);
-        points.transform.GetChild(2).gameObject.SetActive(false);
-        points.transform.GetChild(3).gameObject.SetActive(false);
-        points.transform.GetChild(4).gameObject.SetActive(false);
-        points.transform.GetChild(5).gameObject.SetActive(false);
-        points.transform.GetChild(6).gameObject.SetActive(false);
-        points.transform.GetChild(7).gameObject.SetActive(false);
-        points.transform.GetChild(8).gameObject.SetActive(false);
-        points.transform.GetChild(9).gameObject.SetActive(false);
-        points.transform.GetChild(10).gameObject.SetActive(false);
-        points.transform.GetChild(11).gameObject.SetActive(false);
-        points.transform.GetChild(12).gameObject.SetActive(false);
-        points.transform.GetChild(13).gameObject.SetActive(false);
+        character_Step1_Points.transform.GetChild(0).gameObject.SetActive(true);
+        character_Step1_Points.transform.GetChild(1).gameObject.SetActive(false);
+        character_Step1_Points.transform.GetChild(2).gameObject.SetActive(false);
+        character_Step1_Points.transform.GetChild(3).gameObject.SetActive(false);
+        character_Step1_Points.transform.GetChild(4).gameObject.SetActive(false);
+        character_Step1_Points.transform.GetChild(5).gameObject.SetActive(false);
+        character_Step1_Points.transform.GetChild(6).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(0).gameObject.SetActive(true);
+        character_Step2_Points.transform.GetChild(1).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(2).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(3).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(4).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(5).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(6).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(7).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(8).gameObject.SetActive(false);
+        character_Step2_Points.transform.GetChild(9).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(0).gameObject.SetActive(true);
+        character_Step3_Points.transform.GetChild(1).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(2).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(3).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(4).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(5).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(6).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(7).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(8).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(9).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(10).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(11).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(12).gameObject.SetActive(false);
+        character_Step3_Points.transform.GetChild(13).gameObject.SetActive(false);
         choices.SetActive(false);
         choices.transform.GetChild(0).gameObject.SetActive(false);
         choices.transform.GetChild(1).gameObject.SetActive(false);
