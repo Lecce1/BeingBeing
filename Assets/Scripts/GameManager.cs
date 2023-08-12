@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public Text info_Title;
     public Text info_Content;
     public GameObject pause;
+    public GameObject pause_Help;
     public GameObject set;
     public GameObject quit;
     public GameObject reset_Popup;
@@ -575,6 +576,15 @@ public class GameManager : MonoBehaviour
     public void PauseBtn()
     {
         pause.SetActive(true);
+
+        if (lovely.activeSelf == true)
+        {
+            pause_Help.SetActive(false);
+        }
+        else
+        {
+            pause_Help.SetActive(true);
+        }
     }
 
     public void SetBtn()

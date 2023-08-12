@@ -67,7 +67,7 @@ public class BodyRecog_Manager : MonoBehaviour
             {
                 isTutorial_Check = true;
                 gameManager.Set2();
-
+                
                 if (PlayerPrefs.GetInt("BodyRecog_Tutorial") == 0)
                 {
                     gameManager.buttons.SetActive(false);
@@ -114,7 +114,7 @@ public class BodyRecog_Manager : MonoBehaviour
             else if (gameManager.stage_Select_Level_Num == 3)
             {
                 character_Step3.SetActive(true);
-                character_Step2_Points.SetActive(true);
+                character_Step3_Points.SetActive(true);
             }
             
             gameManager.buttons.SetActive(true);
@@ -921,8 +921,8 @@ public class BodyRecog_Manager : MonoBehaviour
         shadow.SetActive(false);
         tutorial.SetActive(true);
         game.SetActive(false);
-        isTutorial = true;
-        isTutorial_Check = true;
+        isTutorial = false;
+        isTutorial_Check = false;
         isTutorial_Check2 = false;
         tutorial_Notice_Num = 1;
         tutorial_Notice_Image.SetActive(true);
