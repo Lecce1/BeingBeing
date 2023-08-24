@@ -53,14 +53,12 @@ public class AnimManager : MonoBehaviour
     public void Main_Start_Finish()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = true;
         gameManager.main_Background.GetComponent<Animator>().Play("Main_Background");
     }
 
     public void Main_Background_Middle()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.camera.GetComponent<CustomPostProcessing>().enabled = false;
     }
 
     public void Main_Background_Finish()

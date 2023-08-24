@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Camera camera;
     public GameObject splash;
     public GameObject buttons;
     public GameObject main;
@@ -56,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 120;
     }
 
@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
 
     public void Set()
     {
-        camera.GetComponent<CustomPostProcessing>().enabled = false;
         isFirst = PlayerPrefs.GetInt("isFirst");
 
         for (int i = 0; i < 4; i++)
@@ -383,7 +382,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        while (delay < 2)
+        while (delay < 3)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -405,7 +404,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        while (delay < 2)
+        while (delay < 3)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -427,7 +426,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         
-        while (delay < 2)
+        while (delay < 3)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -449,7 +448,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         
-        while (delay < 2)
+        while (delay < 3)
         {
             delay += Time.deltaTime;
             yield return null;
