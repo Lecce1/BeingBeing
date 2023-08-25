@@ -103,11 +103,12 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (isTutorial == true && isTutorial_Check2 == false)
         {
+            isTutorial_Check2 = true;
+            gameObject.GetComponent<Touch>().result = Result.none;
             check.transform.GetChild(0).gameObject.SetActive(false);
             isDoubleUp = false;
             isSmile = false;
             isNum = false;
-            isTutorial_Check2 = true;
             tutorial.SetActive(false);
             game.SetActive(true);
             
@@ -162,11 +163,11 @@ public class Smile_Manager : MonoBehaviour
         {
             if (isTutorial_Cursor == false && tutorial_Notice_Num >= 4 && gameObject.GetComponent<Touch>().result == Result.up)
             {
+                gameObject.GetComponent<Touch>().result = Result.none;
                 isTutorial_Cursor = true;
                 isDoubleUp = true;
                 tutorial_Notice.text = "잘했어요!\n호흡과 빙그레 연습을 마칩니다.";
                 tutorial_Finger.SetActive(false);
-                gameObject.GetComponent<Touch>().result = Result.none;
             }
         }
         else if (isTutorial == true) // ((Input.touches[0].position.x < (gameManager.screen_Width / 2) && Input.touches[1].position.x > (gameManager.screen_Width / 2)) || (Input.touches[0].position.x > (gameManager.screen_Width / 2) && Input.touches[1].position.x < (gameManager.screen_Width / 2)))
@@ -192,6 +193,7 @@ public class Smile_Manager : MonoBehaviour
                 tutorial_LightEffect.SetActive(false);
                 tutorial_LightEffect.SetActive(true);
                 transform.GetComponent<AudioSource>().Play();
+                tutorial_Character.GetComponent<Animator>().Play("Smile_Step1");
             }
         }
         else if (isTutorial == true)
@@ -209,6 +211,19 @@ public class Smile_Manager : MonoBehaviour
                 lightEffect.SetActive(false);
                 lightEffect.SetActive(true);
                 transform.GetComponent<AudioSource>().Play();
+
+                if (character_Step1.activeSelf == true)
+                {
+                    character_Step1.GetComponent<Animator>().Play("Smile_Step1");
+                }
+                else if (character_Step2.activeSelf == true)
+                {
+                    character_Step2.GetComponent<Animator>().Play("Smile_Step2");
+                }
+                else if (character_Step3.activeSelf == true)
+                {
+                    character_Step3.GetComponent<Animator>().Play("Smile_Step3");
+                }
             }
         }
     }

@@ -45,6 +45,7 @@ public class BodyRecog_Manager : MonoBehaviour
     public List<Sprite> step1Line;
     public List<Sprite> step2Line;
     public List<Sprite> step3Line;
+    public List<GameObject> results;
     
 
     void Awake()
@@ -598,8 +599,20 @@ public class BodyRecog_Manager : MonoBehaviour
 
     void Result(string data)
     {
+        /*for (int i = 0; i < results.Count; i++)
+        {
+            results[i].SetActive(false);
+        }*/
+        
         if (gameManager.stage_Select_Level_Num == 1)
         {
+            /*results[0].SetActive(true);
+            results[5].SetActive(true);
+            results[6].SetActive(true);
+            results[7].SetActive(true);
+            results[11].SetActive(true);
+            results[12].SetActive(true);*/
+            
             if (pointNum == 1)
             {
                 if (step == 1)

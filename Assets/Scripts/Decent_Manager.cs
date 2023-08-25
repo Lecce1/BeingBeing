@@ -1409,7 +1409,7 @@ public class Decent_Manager : MonoBehaviour
         { "앞으로도 계속 괴롭히겠지", "언제 또 당할지 몰라", "모두 나를 바보처럼 보겠지", "이제 학교생활은 끝이야" };
 
         stage2_Sadness = new List<string> {"내 편은 아무도 없어", "언제나 나는 혼자야", "아무런 희망이 안 보여", "아무도 도와주지 않아"};
-        stage2_Remorse = new List<string> {"나는 바보같아", "내가 잘 못했어", "다 나 떄문이야", "원래 나는 비호감이야"};
+        stage2_Remorse = new List<string> {"나는 바보같아", "내가 잘 못했어", "다 나 때문이야", "원래 나는 비호감이야"};
         stage2_Text = new List<string> { };
         stage3_True = new List<string> {"저 애가 나를 쳐다보고 있어", "지금 엄마가 생각나", "반 친구들이 여기를 보고 있네", "나는 현재 긴장된 상태야", "지금 어떻게 해야할지 고민이야", "친구들이 가만히 있기만 하네", "손에 힘이 들어가고 있어", "목이 마르고 열이 나네"};
         stage3_Text = new List<string> { };

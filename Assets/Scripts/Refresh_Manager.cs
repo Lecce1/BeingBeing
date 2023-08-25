@@ -272,6 +272,19 @@ public class Refresh_Manager : MonoBehaviour
             lightEffect.SetActive(true);
             transform.GetComponent<AudioSource>().Play();
             check.transform.GetChild(0).gameObject.SetActive(true);
+            
+            if (smile_Character_Step1.activeSelf == true)
+            {
+                smile_Character_Step1.GetComponent<Animator>().Play("Smile_Step1");
+            }
+            else if (smile_Character_Step2.activeSelf == true)
+            {
+                smile_Character_Step2.GetComponent<Animator>().Play("Smile_Step2");
+            }
+            else if (smile_Character_Step3.activeSelf == true)
+            {
+                smile_Character_Step3.GetComponent<Animator>().Play("Smile_Step3");
+            }
         }
     }
     

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     public Text stage_Select_Stage_Content;
     public GameObject stage_Select_Stage_Start;
     public int stage_Select_Stage_Num;
+    public List<Image> stage_Road;
     public GameObject breath;
     public GameObject smile;
     public GameObject bodyRecog;
@@ -55,7 +57,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 120;
     }
 
@@ -76,7 +77,12 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            stage_Select_Buttons[i].SetActive(false);
+            stage_Select_Buttons[i].GetComponent<Button>().interactable = false;
+        }
+        
+        for (int i = 0; i < stage_Road.Count; i++)
+        {
+            stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 100 / 255f);
         }
 
         if (stage_Select_Level_Num == 0)
@@ -124,14 +130,35 @@ public class GameManager : MonoBehaviour
                     {
                         for (int i = 0; i < index; i++)
                         {
-                            stage_Select_Buttons[i].SetActive(true);
+                            stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                        }
+
+                        if (index == 2)
+                        {
+                            stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        }
+                        else if (index == 3)
+                        {
+                            stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        }
+                        else if (index == 4)
+                        {
+                            stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            stage_Select_Buttons[i].SetActive(true);
+                            stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                        }
+                        
+                        for (int i = 0; i < 8; i++)
+                        {
+                            stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                         }
                     }
                 }
@@ -143,14 +170,35 @@ public class GameManager : MonoBehaviour
                     {
                         for (int i = 0; i < index - 4; i++)
                         {
-                            stage_Select_Buttons[i].SetActive(true);
+                            stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                        }
+                        
+                        if (index == 6)
+                        {
+                            stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        }
+                        else if (index == 7)
+                        {
+                            stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        }
+                        else if (index == 8)
+                        {
+                            stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            stage_Select_Buttons[i].SetActive(true);
+                            stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                        }
+                        
+                        for (int i = 0; i < 8; i++)
+                        {
+                            stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                         }
                     }
                 }
@@ -162,7 +210,25 @@ public class GameManager : MonoBehaviour
                     {
                         for (int i = 0; i < index - 8; i++)
                         {
-                            stage_Select_Buttons[i].SetActive(true);
+                            stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                        }
+                        
+                        if (index == 10)
+                        {
+                            stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        }
+                        else if (index == 11)
+                        {
+                            stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        }
+                        else if (index == 12)
+                        {
+                            stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[6].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                            stage_Road[7].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                         }
                     }
                 }
@@ -249,14 +315,35 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = 0; i < index; i++)
                     {
-                        stage_Select_Buttons[i].SetActive(true);
+                        stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                    }
+                    
+                    if (index == 2)
+                    {
+                        stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    }
+                    else if (index == 3)
+                    {
+                        stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    }
+                    else if (index == 4)
+                    {
+                        stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                     }
                 }
                 else
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        stage_Select_Buttons[i].SetActive(true);
+                        stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                    }
+                    
+                    for (int i = 0; i < 8; i++)
+                    {
+                        stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                     }
                 }
             }
@@ -268,14 +355,35 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = 0; i < index - 4; i++)
                     {
-                        stage_Select_Buttons[i].SetActive(true);
+                        stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                    }
+                    
+                    if (index == 6)
+                    {
+                        stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    }
+                    else if (index == 7)
+                    {
+                        stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    }
+                    else if (index == 8)
+                    {
+                        stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                     }
                 }
                 else
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        stage_Select_Buttons[i].SetActive(true);
+                        stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                    }
+                    
+                    for (int i = 0; i < 8; i++)
+                    {
+                        stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                     }
                 }
             }
@@ -287,7 +395,25 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = 0; i < index - 8; i++)
                     {
-                        stage_Select_Buttons[i].SetActive(true);
+                        stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                    }
+                    
+                    if (index == 10)
+                    {
+                        stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    }
+                    else if (index == 11)
+                    {
+                        stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    }
+                    else if (index == 12)
+                    {
+                        stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[6].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                        stage_Road[7].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                     }
                 }
             }
@@ -469,7 +595,12 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            stage_Select_Buttons[i].SetActive(false);
+            stage_Select_Buttons[i].GetComponent<Button>().interactable = false;
+        }
+        
+        for (int i = 0; i < stage_Road.Count; i++)
+        {
+            stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 100 / 255f);
         }
         
         stage_Select_Level_Num = num;
@@ -486,14 +617,35 @@ public class GameManager : MonoBehaviour
             {
                 for (int i = 0; i < index; i++)
                 {
-                    stage_Select_Buttons[i].SetActive(true);
+                    stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                }
+                
+                if (index == 2)
+                {
+                    stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                }
+                else if (index == 3)
+                {
+                    stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                }
+                else if (index == 4)
+                {
+                    stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                 }
             }
             else
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    stage_Select_Buttons[i].SetActive(true);
+                    stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                }
+                
+                for (int i = 0; i < 8; i++)
+                {
+                    stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                 }
             }
         }
@@ -508,14 +660,35 @@ public class GameManager : MonoBehaviour
             {
                 for (int i = 0; i < index - 4; i++)
                 {
-                    stage_Select_Buttons[i].SetActive(true);
+                    stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                }
+                
+                if (index == 6)
+                {
+                    stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                }
+                else if (index == 7)
+                {
+                    stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                }
+                else if (index == 8)
+                {
+                    stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                 }
             }
             else if (index >= 9)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    stage_Select_Buttons[i].SetActive(true);
+                    stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                }
+                
+                for (int i = 0; i < 8; i++)
+                {
+                    stage_Road[i].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                 }
             }
         }
@@ -530,7 +703,25 @@ public class GameManager : MonoBehaviour
             {
                 for (int i = 0; i < index - 8; i++)
                 {
-                    stage_Select_Buttons[i].SetActive(true);
+                    stage_Select_Buttons[i].GetComponent<Button>().interactable = true;
+                }
+                
+                if (index == 10)
+                {
+                    stage_Road[0].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[1].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                }
+                else if (index == 11)
+                {
+                    stage_Road[2].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[3].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                }
+                else if (index == 12)
+                {
+                    stage_Road[4].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[5].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[6].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+                    stage_Road[7].color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
                 }
             }
         }
