@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public GameObject pause;
     public GameObject pause_Help;
     public GameObject set;
+    public GameObject notice;
     public GameObject quit;
     public GameObject reset_Popup;
     public Slider set_Music;
@@ -732,12 +733,12 @@ public class GameManager : MonoBehaviour
         if (breath.activeSelf == true)
         {
             info_Title.text = "호흡";
-            info_Content.text = "호흡에 집중하게 되면\n주의집중과 심신의 안정이\n자연스럽게 이뤄질 뿐 아니라\n있는 그대로 알아차리는 힘을\n키우게 됩니다";
+            info_Content.text = "호흡에 집중하게 되면\n주의집중과 심신의 안정이\n자연스럽게 이뤄질 뿐 아니라\n있는 그대로 알아차리는 힘을\n키우게 됩니다.";
         }
         else if (smile.activeSelf == true)
         {
             info_Title.text = "빙그레";
-            info_Content.text = "빙그레 웃음 한 번으로 마음의 여유를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다";
+            info_Content.text = "빙그레 웃음 한 번으로 마음의 여유를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
         }
         else if (bodyRecog.activeSelf == true)
         {
@@ -747,17 +748,17 @@ public class GameManager : MonoBehaviour
         else if (emotionRecog.activeSelf == true)
         {
             info_Title.text = "감정자각";
-            info_Content.text = "현재 겪고 있는 고통과 괴로움에서 잠시 벗어나, 좀 더 편안한 상태에서 문제를 해결할 수 있게 됩니다";
+            info_Content.text = "현재 겪고 있는 고통과 괴로움에서 잠시 벗어나, 좀 더 편안한 상태에서 문제를 해결할 수 있게 됩니다.";
         }
         else if (lovely.activeSelf == true)
         {
             info_Title.text = "러블리어텐션";
-            info_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다";
+            info_Content.text = "자신의 심신 상태를 사랑스러운 마음으로 지켜봄으로써, 자기 돌봄의 힘과 여유를 갖게 됩니다.";
         }
         else if (decent.activeSelf == true)
         {
             info_Title.text = "탈중심화";
-            info_Content.text = "자신의 사고와 감정을 객관적으로 바라보고, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다";
+            info_Content.text = "자신의 사고와 감정을 객관적으로 바라보고, 현실을 정확하게 이해하고 지혜롭게 대처하게 됩니다.";
         }
         
         info.SetActive(true);
@@ -830,6 +831,11 @@ public class GameManager : MonoBehaviour
         Application.OpenURL("https://www.youtube.com/watch?v=WC5K4oX-yPc");
     }
     
+    public void NoticeBtn()
+    {
+        notice.SetActive(true);
+    }
+    
     public void Stage_Select_Stage(int num)
     {
         stage_Select_Stage.SetActive(true);
@@ -838,7 +844,7 @@ public class GameManager : MonoBehaviour
         if (stage_Select_Stage_Num == 1)
         {
             stage_Select_Stage_Title.text = "호흡과 빙그레";
-            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>호흡</color></size></b>\n호흡에 집중하게 되면, 주의집중과 심신의 안정이 자연스럽게 이뤄질 뿐 아니라, 있는 그대로 알아차리는 힘을 키우게 됩니다.\n\n<b><size=55><color=#43536C>빙그레</color></size></b>\n빙그레 웃음 한 번으로 마음의 여유를 갖게 되고, 어려운 상황에서도 의연하게 대처하는 힘을 갖게 됩니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>호흡</color></size></b>\n호흡에 집중하게 되면\n주의집중과 심신의 안정이\n자연스럽게 이뤄질 뿐 아니라\n있는 그대로 알아차리는 힘을\n키우게 됩니다.\n\n<b><size=55><color=#43536C>빙그레</color></size></b>\n빙그레 웃음 한 번으로\n마음의 여유를 갖게 되고\n어려운 상황에서도 의연하게 대처하는\n힘을 갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 2)
         {
@@ -848,12 +854,12 @@ public class GameManager : MonoBehaviour
         else if (stage_Select_Stage_Num == 3)
         {
             stage_Select_Stage_Title.text = "러블리어텐션";
-            stage_Select_Stage_Content.text = "자신의 심신 상태를 사랑스러운 마음으로\n지켜봄으로써, 자기 돌봄의 힘과 여유를\n갖게 됩니다.";
+            stage_Select_Stage_Content.text = "자신의 심신 상태를\n사랑스러운 마음으로 지켜봄으로써\n자기 돌봄의 힘과 여유를\n갖게 됩니다.";
         }
         else if (stage_Select_Stage_Num == 4)
         {
             stage_Select_Stage_Title.text = "탈중심화";
-            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을 객관적으로\n바라봄으로써 현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를 있는 그대로\n받아들이고 생활 속에서 더욱 긍정적으로\n살아가게 될 것입니다.";
+            stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을\n객관적으로 바라봄으로써\n현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를\n있는 그대로 받아들이고\n더욱 긍정적으로\n살아가게 될 것입니다.";
         }
         
         Invoke("Stage_Select_Stage_StartBtn", 1.0f);
@@ -929,6 +935,11 @@ public class GameManager : MonoBehaviour
             var animator = set.GetComponent<Animator>();
             animator.Play("Close");
         }
+        else if (notice.activeSelf == true)
+        {
+            var animator = notice.GetComponent<Animator>();
+            animator.Play("Close");
+        }
         
         Invoke("Buttons_Delay", 0.3f);
     }
@@ -946,6 +957,10 @@ public class GameManager : MonoBehaviour
         else if (set.activeSelf == true)
         {
             set.SetActive(false);
+        }
+        else if (notice.activeSelf == true)
+        {
+            notice.SetActive(false);
         }
         else if (stage_Select_Stage.activeSelf == true)
         {

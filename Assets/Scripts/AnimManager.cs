@@ -35,7 +35,6 @@ public class AnimManager : MonoBehaviour
     {
         gameManager.splash.SetActive(false);
         gameManager.main.SetActive(true);
-        //gameManager.main_Logo.GetComponent<Animator>().Play("Main");
         bgmManager.PlayBGM("Main_BGM");
     }
 
@@ -48,17 +47,7 @@ public class AnimManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         gameManager.main_Logo.GetComponent<Animator>().Play("Main_Start2");
-    }
-    
-    public void Main_Start_Finish()
-    {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         gameManager.main_Background.GetComponent<Animator>().Play("Main_Background");
-    }
-
-    public void Main_Background_Middle()
-    {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void Main_Background_Finish()

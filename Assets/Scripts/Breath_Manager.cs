@@ -131,7 +131,7 @@ public class Breath_Manager : MonoBehaviour
     {
         if (tutorial_Notice_Num == 1)
         {
-            tutorial_Notice.text = "안녕하세요\n호흡 연습을 시작합니다.";
+            tutorial_Notice.text = "안녕하세요.\n호흡 연습을 시작합니다.";
             tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
@@ -523,7 +523,7 @@ public class Breath_Manager : MonoBehaviour
 
     public void Reset()
     {
-        tutorial_Notice.text = "안녕하세요\n호흡 연습을 시작합니다.";
+        tutorial_Notice.text = "안녕하세요.\n호흡 연습을 시작합니다.";
         tutorial_Character_Panel.SetActive(false);
         tutorial_Finger.SetActive(false);
         tutorial_Notice_Num = 1;

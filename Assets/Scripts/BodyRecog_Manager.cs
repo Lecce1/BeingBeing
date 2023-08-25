@@ -351,13 +351,13 @@ public class BodyRecog_Manager : MonoBehaviour
                 tutorial_Choices.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
                 tutorial_Choices.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
                 tutorial_Choices.transform.GetChild(1).GetChild(4).GetChild(1).GetComponent<Image>().sprite = choices_Color[5];
-                tutorial_Notice.text = "선택한 감정이 느껴지는 정도를 확인해주세요\n가장 많이 느껴지면 5점\n아주 적게 느껴지면 1점입니다";
+                tutorial_Notice.text = "선택한 감정이 느껴지는 정도를 확인해주세요.\n가장 많이 느껴지면 5점\n아주 적게 느껴지면 1점입니다.";
                 step = 3;
             }
             else if (step == 3)
             {
                 Result(tutorial_Choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
-                tutorial_Notice.text = "잘 하셨습니다\n당신의 전체 몸 상태는 다음과 같습니다\n SKIP 버튼을 누르면 튜토리얼은 마무리 됩니다";
+                tutorial_Notice.text = "잘 하셨습니다.\n당신의 전체 몸 상태는 다음과 같습니다.\n SKIP 버튼을 누르면 튜토리얼은 마무리 됩니다.";
                 tutorial_Choices.SetActive(false);
                 tutorial_Choices.transform.GetChild(1).gameObject.SetActive(false);
                 tutorial_Points.SetActive(false);

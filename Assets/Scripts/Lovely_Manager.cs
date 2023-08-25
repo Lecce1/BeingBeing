@@ -310,7 +310,7 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (isUp == true && isDown == true && isUp2 == true && isDown2 == true)
         {
-            notice.text = "아직 감정과 분리되지 못했어요\n남아있는 감정을 토닥토닥 해주세요";
+            notice.text = "아직 감정과 분리되지 못했어요.\n남아있는 감정을 토닥토닥 해주세요.";
             stage = 3;
             Balloon();
         }
@@ -480,7 +480,7 @@ public class Lovely_Manager : MonoBehaviour
                     stage = 2;
                     isDot = false;
                     dot.SetActive(false);
-                    notice.text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요";
+                    notice.text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요.";
                     
                     dragArea.SetActive(true);
                 
@@ -545,7 +545,7 @@ public class Lovely_Manager : MonoBehaviour
         }
         else if (isTutorial == true)
         {
-            notice.text = "움직이는 포인트를 따라 감정을 따라가주세요";
+            notice.text = "움직이는 포인트를 따라 감정을 따라가주세요.";
             emotionStartTime = Time.time;
             timer.SetActive(true);
             emotionBtn.SetActive(false);

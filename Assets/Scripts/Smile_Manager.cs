@@ -138,7 +138,7 @@ public class Smile_Manager : MonoBehaviour
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "그림과 같이 두 손가락을\n빙빙이의 양 입꼬리를 터치하여\n위로 올려 빙그레 미소를 만들어주세요.";
+            tutorial_Notice.text = "그림과 같이 손가락을\n빙빙이의 입꼬리에 터치하여\n위로 올려 빙그레 미소를 만들어주세요.";
             tutorial_Character.SetActive(true);
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Finger3");
