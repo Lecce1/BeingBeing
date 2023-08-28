@@ -52,6 +52,7 @@ public class Decent_Manager : MonoBehaviour
     private bool stage5_isTutorial_Check2;
     public GameObject stage5_Tutorial_Bar;
     public GameObject stage5_Tutorial_Panel;
+    public Image stage5_Tutorial_Road;
     public GameObject stage5_Count;
     public bool stage5_Count_Finish = false;
     public Text stage5_Notice;
@@ -98,7 +99,7 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Unrest = new List<string> { "긴장된다", "지금 가슴이 뛴다", "호흡이 빠르다", "말을 더듬는다", "무슨 말을 하는지 잘 모르겠다", "불안했구나"};
     private List<string> stage5_Sadness = new List<string> {"슬프다", "눈물이 난다", "아무것도 하고 싶지 않다", "가라앉는다", "귀찮다", "내가 우울했구나"};
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
-    private List<string> stage5_Text = new List<string> { };
+    public List<string> stage5_Text = new List<string> { };
     public List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
     public int count = 0;
     public GameObject tutorial_Notice_Image;
@@ -243,6 +244,7 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (stage1_Notice_Num == 2)
         {
+            stage1_cutToon.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
             stage1_Notice_Image.SetActive(false);
             stage1_Button.SetActive(true);
             stage1_Notice.text = "아래 제시된 9가지 감정 중\n그림에서 경험할 수 있는 감정을\n4가지 선택해보세요.";
@@ -774,9 +776,25 @@ public class Decent_Manager : MonoBehaviour
             {
                 stage5_isTutorial_Check = true;
 
-                if (gameManager.stage_Select_Level_Num == 1 && PlayerPrefs.GetInt("Decent_Stage5_Tutorial") == 0)
+                if (PlayerPrefs.GetInt("Decent_Stage5_Tutorial") == 0)
                 {
                     stage5_isTutorial = false;
+                    
+                    switch (stage2_Emotion)
+                    {
+                        case "Anger":
+                            stage5_Tutorial_Road.sprite = stage5_Road_Image[0];
+                            break;
+                        case "Unrest":
+                            stage5_Tutorial_Road.sprite = stage5_Road_Image[1];
+                            break;
+                        case "Sadness":
+                            stage5_Tutorial_Road.sprite = stage5_Road_Image[2];
+                            break;
+                        case "Remorse":
+                            stage5_Tutorial_Road.sprite = stage5_Road_Image[3];
+                            break;
+                    }
                 }
                 else
                 {
@@ -858,6 +876,25 @@ public class Decent_Manager : MonoBehaviour
         isSentence = false;
         PlayerPrefs.SetInt("Decent_Stage5_Tutorial", 1);
         StartCoroutine(nameof(Stage5_Count));
+        
+        stage5_Text.Clear();
+        
+        if (stage2_Emotion == "Anger")
+        {
+            stage5_Text.AddRange(stage5_Anger);
+        }
+        else if (stage2_Emotion == "Unrest")
+        {
+            stage5_Text.AddRange(stage5_Unrest);
+        }
+        else if (stage2_Emotion == "Sadness")
+        {
+            stage5_Text.AddRange(stage5_Sadness);
+        }
+        else if (stage2_Emotion == "Remorse")
+        {
+            stage5_Text.AddRange(stage5_Remorse);
+        }
     }
 
     private IEnumerator Stage5_Count()
@@ -952,6 +989,29 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(Random.Range(-220, 220), 190);
                 temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                int num = Random.Range(0, stage5_Text.Count);
+                temp.transform.GetChild(0).GetComponent<Text>().text = stage5_Text[num];
+                stage5_Text.RemoveAt(num);
+
+                if (stage5_Text.Count == 0)
+                {
+                    if (stage2_Emotion == "Anger")
+                    {
+                        stage5_Text.AddRange(stage5_Anger);
+                    }
+                    else if (stage2_Emotion == "Unrest")
+                    {
+                        stage5_Text.AddRange(stage5_Unrest);
+                    }
+                    else if (stage2_Emotion == "Sadness")
+                    {
+                        stage5_Text.AddRange(stage5_Sadness);
+                    }
+                    else if (stage2_Emotion == "Remorse")
+                    {
+                        stage5_Text.AddRange(stage5_Remorse);
+                    }
+                }
             }
 
             float delay = 0;
@@ -1336,6 +1396,7 @@ public class Decent_Manager : MonoBehaviour
         stage = 1;
         game.SetActive(false);
         stage1.SetActive(true);
+        stage1_cutToon.GetComponent<RectTransform>().offsetMin = new Vector2(0, -500);
         stage1_Notice_Image.SetActive(true);
         stage1_Button.SetActive(false);
         stage1_Notice_Num = 1;

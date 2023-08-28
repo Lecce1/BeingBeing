@@ -33,9 +33,7 @@ public class AnimManager : MonoBehaviour
     
     void Splash_Finish()
     {
-        gameManager.splash.SetActive(false);
-        gameManager.main.SetActive(true);
-        bgmManager.PlayBGM("Main_BGM");
+        StartCoroutine(gameManager.Server());
     }
 
     void Main_Finish()
@@ -224,7 +222,14 @@ public class AnimManager : MonoBehaviour
             gameManager.loading.SetActive(true);
         }
 
-        Invoke("Loading_Finish", 3.0f);
+        if (gameManager.refresh_Loading.activeSelf == true)
+        {
+            Invoke("Loading_Finish", 5.0f);
+        }
+        else
+        {
+            Invoke("Loading_Finish", 3.0f);
+        }
     }
 
     void Loading_Finish()

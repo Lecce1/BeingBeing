@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BodyRecog_Manager : MonoBehaviour
@@ -13,6 +14,7 @@ public class BodyRecog_Manager : MonoBehaviour
     public Text tutorial_Notice;
     public GameObject tutorial_Line;
     public GameObject tutorial_Choices;
+    public GameObject tutorial_Results;
     public GameObject game;
     public GameObject character_Step1;
     public GameObject character_Step2;
@@ -46,6 +48,7 @@ public class BodyRecog_Manager : MonoBehaviour
     public List<Sprite> step2Line;
     public List<Sprite> step3Line;
     public List<GameObject> results;
+    public List<Sprite> results_Sprite;
     
 
     void Awake()
@@ -362,6 +365,56 @@ public class BodyRecog_Manager : MonoBehaviour
                 tutorial_Choices.transform.GetChild(1).gameObject.SetActive(false);
                 tutorial_Points.SetActive(false);
                 tutorial_Line.SetActive(false);
+                tutorial_Results.SetActive(true);
+                Debug.Log(result.text);
+                string[] temp = result.text.Split(',');
+
+                if (temp[0] == "머리")
+                {
+                    if (temp[1] == "편하다")
+                    {
+                        switch (temp[2])
+                        {
+                            case "1":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[0];
+                                break;
+                            case "2":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[1];
+                                break;
+                            case "3":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[2];
+                                break;
+                            case "4":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[3];
+                                break;
+                            case "5":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[4];
+                                break;
+                        }
+                    }
+                    if (temp[1] == "불편하다")
+                    {
+                        switch (temp[2])
+                        {
+                            case "1":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[5];
+                                break;
+                            case "2":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[6];
+                                break;
+                            case "3":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[7];
+                                break;
+                            case "4":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[8];
+                                break;
+                            case "5":
+                                tutorial_Results.transform.GetChild(0).GetComponent<Image>().sprite = results_Sprite[9];
+                                break;
+                        }
+                    }
+                }
+                
             }
             
             tutorial_Choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
@@ -599,60 +652,48 @@ public class BodyRecog_Manager : MonoBehaviour
 
     void Result(string data)
     {
-        /*for (int i = 0; i < results.Count; i++)
-        {
-            results[i].SetActive(false);
-        }*/
-        
         if (gameManager.stage_Select_Level_Num == 1)
         {
-            /*results[0].SetActive(true);
-            results[5].SetActive(true);
-            results[6].SetActive(true);
-            results[7].SetActive(true);
-            results[11].SetActive(true);
-            results[12].SetActive(true);*/
-            
             if (pointNum == 1)
             {
                 if (step == 1)
                 {
-                    result.text += $"머리 : {data}, ";
+                    result.text += $"머리,{data},";
                 }
             }
             else if (pointNum == 2)
             {
                 if (step == 1)
                 {
-                    result.text += $"어깨 : {data}, ";
+                    result.text += $"어깨,{data},";
                 }
             }
             else if (pointNum == 3)
             {
                 if (step == 1)
                 {
-                    result.text += $"가슴 : {data}, ";
+                    result.text += $"가슴,{data},";
                 }
             }
             else if (pointNum == 4)
             {
                 if (step == 1)
                 {
-                    result.text += $"배 : {data}, ";
+                    result.text += $"배,{data},";
                 }
             }
             else if (pointNum == 5)
             {
                 if (step == 1)
                 {
-                    result.text += $"무릎 : {data}, ";
+                    result.text += $"무릎,{data},";
                 }
             }
             else if (pointNum == 6)
             {
                 if (step == 1)
                 {
-                    result.text += $"발 : {data}, ";
+                    result.text += $"발,{data},";
                 }
             }
         }
@@ -662,63 +703,63 @@ public class BodyRecog_Manager : MonoBehaviour
             {
                 if (step == 1)
                 {
-                    result.text += $"머리 : {data}, ";
+                    result.text += $"머리,{data},";
                 }
             }
             else if (pointNum == 2)
             {
                 if (step == 1)
                 {
-                    result.text += $"눈 : {data}, ";
+                    result.text += $"눈,{data},";
                 }
             }
             else if (pointNum == 3)
             {
                 if (step == 1)
                 {
-                    result.text += $"코 : {data}, ";
+                    result.text += $"코,{data},";
                 }
             }
             else if (pointNum == 4)
             {
                 if (step == 1)
                 {
-                    result.text += $"입 : {data}, ";
+                    result.text += $"입,{data},";
                 }
             }
             else if (pointNum == 5)
             {
                 if (step == 1)
                 {
-                    result.text += $"목 : {data}, ";
+                    result.text += $"목,{data},";
                 }
             }
             else if (pointNum == 6)
             {
                 if (step == 1)
                 {
-                    result.text += $"손 : {data}, ";
+                    result.text += $"손,{data},";
                 }
             }
             else if (pointNum == 7)
             {
                 if (step == 1)
                 {
-                    result.text += $"엉덩이 : {data}, ";
+                    result.text += $"엉덩이,{data},";
                 }
             }
             else if (pointNum == 8)
             {
                 if (step == 1)
                 {
-                    result.text += $"허벅지 : {data}, ";
+                    result.text += $"허벅지,{data},";
                 }
             }
             else if (pointNum == 9)
             {
                 if (step == 1)
                 {
-                    result.text += $"발 : {data}, ";
+                    result.text += $"발,{data},";
                 }
             }
         }
@@ -728,103 +769,99 @@ public class BodyRecog_Manager : MonoBehaviour
             {
                 if (step == 1)
                 {
-                    result.text += $"머리 : {data}, ";
+                    result.text += $"머리,{data},";
                 }
             }
             else if (pointNum == 2)
             {
                 if (step == 1)
                 {
-                    result.text += $"눈 : {data}, ";
+                    result.text += $"눈,{data},";
                 }
             }
             else if (pointNum == 3)
             {
                 if (step == 1)
                 {
-                    result.text += $"코 : {data}, ";
+                    result.text += $"코,{data},";
                 }
             }
             else if (pointNum == 4)
             {
                 if (step == 1)
                 {
-                    result.text += $"입 : {data}, ";
+                    result.text += $"입,{data},";
                 }
             }
             else if (pointNum == 5)
             {
                 if (step == 1)
                 {
-                    result.text += $"목 : {data}, ";
+                    result.text += $"목,{data},";
                 }
             }
             else if (pointNum == 6)
             {
                 if (step == 1)
                 {
-                    result.text += $"어깨 : {data}, ";
+                    result.text += $"어깨,{data},";
                 }
             }
             else if (pointNum == 7)
             {
                 if (step == 1)
                 {
-                    result.text += $"가슴 : {data}, ";
+                    result.text += $"가슴,{data},";
                 }
             }
             else if (pointNum == 8)
             {
                 if (step == 1)
                 {
-                    result.text += $"배 : {data}, ";
+                    result.text += $"배,{data},";
                 }
             }
             else if (pointNum == 9)
             {
                 if (step == 1)
                 {
-                    result.text += $"손 : {data}, ";
+                    result.text += $"손,{data},";
                 }
             }
             else if (pointNum == 10)
             {
                 if (step == 1)
                 {
-                    result.text += $"엉덩이 : {data}, ";
+                    result.text += $"엉덩이,{data},";
                 }
             }
             else if (pointNum == 11)
             {
                 if (step == 1)
                 {
-                    result.text += $"허벅지 : {data}, ";
+                    result.text += $"허벅지,{data},";
                 }
             }
             else if (pointNum == 12)
             {
                 if (step == 1)
                 {
-                    result.text += $"무릎 : {data}, ";
+                    result.text += $"무릎,{data},";
                 }
             }
             else if (pointNum == 13)
             {
                 if (step == 1)
                 {
-                    result.text += $"발 : {data}, ";
+                    result.text += $"발,{data},";
                 }
             }
         }
 
         
-        if (step == 2)
+        if (step == 3)
         {
-            result.text += $"{data}, ";
-        }
-        else if (step == 3)
-        {
-            result.text += $"{data}\n\n";
+            result.text += $"{data},";
         }
     }
 
@@ -886,6 +923,7 @@ public class BodyRecog_Manager : MonoBehaviour
         tutorial_Line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         tutorial_Choices.SetActive(false);
         tutorial_Choices.transform.GetChild(0).gameObject.SetActive(false);
+        tutorial_Results.SetActive(false);
         character_Step1.SetActive(false);
         character_Step2.SetActive(false);
         character_Step3.SetActive(false);

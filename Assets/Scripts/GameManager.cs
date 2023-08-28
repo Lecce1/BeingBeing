@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     public BGMManager bgmManager;
     public List<Sprite> charLevel;
     public int isFirst = 0;
+    private string version = "1.0.0";
 
     void Awake()
     {
@@ -70,6 +71,27 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Quit();
+    }
+    
+    public IEnumerator Server()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("VERSION", version);
+        UnityWebRequest request = UnityWebRequest.Post("enddl2560.dothome.co.kr/BeingBeing/Server.php", form);
+        yield return request.SendWebRequest();
+
+        if (request.downloadHandler.text.Split('|')[0] == "On")
+        {
+            splash.SetActive(false);
+            main.SetActive(true);
+            bgmManager.PlayBGM("Main_BGM");
+        }
+        else
+        {
+            Application.Quit();
+        }
+
+        request.Dispose();
     }
 
     public void Set()
@@ -766,6 +788,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseBtn()
     {
+        Time.timeScale = 0;
         pause.SetActive(true);
 
         if (lovely.activeSelf == true)
@@ -887,6 +910,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Time.timeScale = 1;
             var animator = pause.GetComponent<Animator>();
             animator.Play("Close");
             Invoke("Back_Delay", 0.3f);
@@ -927,6 +951,7 @@ public class GameManager : MonoBehaviour
         }
         else if (pause.activeSelf == true)
         {
+            Time.timeScale = 1;
             var animator = pause.GetComponent<Animator>();
             animator.Play("Close");
         }
@@ -974,6 +999,8 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        Time.timeScale = 1;
+        
         if (breath.activeSelf == true)
         {
             breath.transform.GetChild(0).GetComponent<Breath_Manager>().ReStart();
@@ -1002,6 +1029,8 @@ public class GameManager : MonoBehaviour
 
     public void Help()
     {
+        Time.timeScale = 1;
+        
         if (breath.activeSelf == true)
         {
             breath.transform.GetChild(0).GetComponent<Breath_Manager>().Help();

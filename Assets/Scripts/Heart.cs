@@ -24,6 +24,24 @@ public class Heart : MonoBehaviour
     void Start()
     {
         stage = lovely_Manager.stage;
+        
+        if (lovely_Manager.stage == 5)
+        {
+            if (transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "고마워" ||
+                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "힘이나" ||
+                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "편안해" ||
+                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "기분이 좋아" ||
+                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "사랑해" ||
+                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "잘했어" ||
+                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "최고야")
+            {
+                isPositive = true;
+            }
+            else
+            {
+                isPositive = false;
+            }
+        }
     }
 
     void Update()
@@ -80,24 +98,6 @@ public class Heart : MonoBehaviour
 
     public void Touch()
     {
-        if (lovely_Manager.stage == 5)
-        {
-            if (transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "고마워" ||
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "힘이나" ||
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "편안해" ||
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "기분이 좋아" ||
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "사랑해" ||
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "잘했어" ||
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == "최고야")
-            {
-                isPositive = true;
-            }
-            else
-            {
-                isPositive = false;
-            }
-        }
-
         transform.GetComponent<Button>().enabled = false;
         lovely_Manager.heartNum++;
         isTouch = true;
@@ -201,6 +201,55 @@ public class Heart : MonoBehaviour
     {
         if (isTouch == false && other.name == "Line")
         {
+            if (lovely_Manager.stage == 4)
+            {
+                lovely_Manager.heart_Fail++;
+                lovely_Manager.lifes[lovely_Manager.heart_Fail - 1].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+                
+                if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
+                {
+                    if (lovely_Manager.heart_Fail >= 2)
+                    {
+                        lovely_Manager.shadow.SetActive(true);
+                        lovely_Manager.fail.SetActive(true);
+                    }
+                }
+                else if (gameManager.stage_Select_Level_Num == 3)
+                {
+                    if (lovely_Manager.heart_Fail >= 3)
+                    {
+                        lovely_Manager.shadow.SetActive(true);
+                        lovely_Manager.fail.SetActive(true);
+                    }
+                }
+            }
+            else if (lovely_Manager.stage == 5)
+            {
+                if (isPositive == true)
+                {
+                    lovely_Manager.heart_Fail++;
+                
+                    lovely_Manager.lifes[lovely_Manager.heart_Fail - 1].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+
+                    if (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2)
+                    {
+                        if (lovely_Manager.heart_Fail >= 2)
+                        {
+                            lovely_Manager.shadow.SetActive(true);
+                            lovely_Manager.fail.SetActive(true);
+                        }
+                    }
+                    else if (gameManager.stage_Select_Level_Num == 3)
+                    {
+                        if (lovely_Manager.heart_Fail >= 3)
+                        {
+                            lovely_Manager.shadow.SetActive(true);
+                            lovely_Manager.fail.SetActive(true);
+                        }
+                    }
+                }
+            }
+            
             Destroy(gameObject);
         }
     }
