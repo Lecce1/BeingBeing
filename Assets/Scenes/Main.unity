@@ -29802,9 +29802,9 @@ MonoBehaviour:
   tutorial_DragArea: {fileID: 532247712}
   emotionColor_Sprite:
   - {fileID: 21300000, guid: c816d3e2964b94428896cf16cb0c37df, type: 3}
-  - {fileID: 21300000, guid: aeb7ba807671b4b9c982670922dc4324, type: 3}
-  - {fileID: 21300000, guid: db56c31a050ba4951a9c0bfa51cba4a1, type: 3}
   - {fileID: 21300000, guid: 7eee919cf8cbc40cc8c7e77b42840581, type: 3}
+  - {fileID: 21300000, guid: db56c31a050ba4951a9c0bfa51cba4a1, type: 3}
+  - {fileID: 21300000, guid: aeb7ba807671b4b9c982670922dc4324, type: 3}
   game: {fileID: 1326768337}
   character: {fileID: 43210400}
   character_Step1: {fileID: 1034960807}
@@ -31251,7 +31251,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -81.9077}
+  m_AnchoredPosition: {x: 540, y: -81.90769}
   m_SizeDelta: {x: 1080, y: 163.81538}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &706338133
@@ -75358,7 +75358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -240.72302}
+  m_AnchoredPosition: {x: 540, y: -240.72307}
   m_SizeDelta: {x: 1080, y: 481.44614}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647641996
