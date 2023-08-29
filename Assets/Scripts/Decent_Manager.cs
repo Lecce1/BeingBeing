@@ -100,7 +100,7 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Sadness = new List<string> {"슬프다", "눈물이 난다", "아무것도 하고 싶지 않다", "가라앉는다", "귀찮다", "내가 우울했구나"};
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     public List<string> stage5_Text = new List<string> { };
-    public List<string> stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
+    public List<string> stage6_Text = new List<string> {"너도 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
     public int count = 0;
     public GameObject tutorial_Notice_Image;
     public List<Sprite> cutToon;
@@ -1114,7 +1114,7 @@ public class Decent_Manager : MonoBehaviour
         temp.transform.SetParent(stage6.transform.GetChild(2));
         temp.transform.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(Random.Range(-250, 400), 300);
-        temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        temp.transform.localScale = new Vector3(1f, 1f, 1f);
         int num = Random.Range(0, stage6_Text.Count);
         temp.transform.GetChild(0).GetComponent<Text>().text = stage6_Text[num];
         stage6_Text.RemoveAt(num);
