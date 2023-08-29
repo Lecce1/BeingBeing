@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,8 +23,11 @@ public class Refresh_Manager : MonoBehaviour
     private bool isFirst = false;
     public GameObject smile;
     public GameObject smile_Character_Step1;
+    public Sprite smile_Character_Step1_Default;
     public GameObject smile_Character_Step2;
+    public Sprite smile_Character_Step2_Default;
     public GameObject smile_Character_Step3;
+    public Sprite smile_Character_Step3_Default;
     public GameObject backGlow;
     public GameObject lightEffect;
     public GameObject check;
@@ -43,7 +44,6 @@ public class Refresh_Manager : MonoBehaviour
     {
         animManager = GameObject.Find("AnimManager").GetComponent<AnimManager>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        Invoke(nameof(First_Text), 5f);
     }
 
     void OnEnable()
@@ -60,6 +60,8 @@ public class Refresh_Manager : MonoBehaviour
         {
             breath_Character_Step3.SetActive(true);
         }
+
+        Invoke(nameof(First_Text), 5f);
     }
 
     void Update()
@@ -389,5 +391,8 @@ public class Refresh_Manager : MonoBehaviour
         success.SetActive(false);
         gameManager.buttons.SetActive(true);
         check.transform.GetChild(0).gameObject.SetActive(false);
+        smile_Character_Step1.GetComponent<Image>().sprite = smile_Character_Step1_Default;
+        smile_Character_Step2.GetComponent<Image>().sprite = smile_Character_Step2_Default;
+        smile_Character_Step3.GetComponent<Image>().sprite = smile_Character_Step3_Default;
     }
 }

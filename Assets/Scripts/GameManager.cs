@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+		//PlayerPrefs.DeleteAll();
         Application.targetFrameRate = 120;
     }
 
