@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Line : MonoBehaviour
 {
     BodyRecog_Manager bodyRecog_Manager;
     GameManager gameManager;
+    GameObject results;
     
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -23,7 +25,9 @@ public class Line : MonoBehaviour
         {
             if (gameManager.stage_Select_Level_Num == 1)
             {
-                if (other.gameObject.name == "Head" || other.gameObject.name == "Shoulder" || other.gameObject.name == "Chest" || other.gameObject.name == "Stomach" || other.gameObject.name == "Knee" || other.gameObject.name == "Foot")
+                if (other.gameObject.name == "Head" || other.gameObject.name == "Shoulder" ||
+                    other.gameObject.name == "Chest" || other.gameObject.name == "Stomach" ||
+                    other.gameObject.name == "Knee" || other.gameObject.name == "Foot")
                 {
                     switch (other.gameObject.name)
                     {
@@ -46,7 +50,7 @@ public class Line : MonoBehaviour
                             bodyRecog_Manager.notice.text = "발";
                             break;
                     }
-                    
+
                     bodyRecog_Manager.GetComponent<AudioSource>().Play();
                     bodyRecog_Manager.isStop = true;
                     bodyRecog_Manager.Point();
@@ -54,14 +58,17 @@ public class Line : MonoBehaviour
                 else if (other.gameObject.name == "Finish")
                 {
                     bodyRecog_Manager.isStop = true;
-                    bodyRecog_Manager.result.gameObject.SetActive(true);
-                    bodyRecog_Manager.shadow.SetActive(true);
                     bodyRecog_Manager.success.SetActive(true);
+                    Result();
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 2)
             {
-                if (other.gameObject.name == "Head" || other.gameObject.name == "Eye" || other.gameObject.name == "Nose" || other.gameObject.name == "Mouse" || other.gameObject.name == "Neck" || other.gameObject.name == "Hand" || other.gameObject.name == "Hip" || other.gameObject.name == "Thigh" || other.gameObject.name == "Foot")
+                if (other.gameObject.name == "Head" || other.gameObject.name == "Eye" ||
+                    other.gameObject.name == "Nose" || other.gameObject.name == "Mouse" ||
+                    other.gameObject.name == "Neck" || other.gameObject.name == "Hand" ||
+                    other.gameObject.name == "Hip" || other.gameObject.name == "Thigh" ||
+                    other.gameObject.name == "Foot")
                 {
                     switch (other.gameObject.name)
                     {
@@ -93,7 +100,7 @@ public class Line : MonoBehaviour
                             bodyRecog_Manager.notice.text = "발";
                             break;
                     }
-                    
+
                     bodyRecog_Manager.GetComponent<AudioSource>().Play();
                     bodyRecog_Manager.isStop = true;
                     bodyRecog_Manager.Point();
@@ -101,14 +108,19 @@ public class Line : MonoBehaviour
                 else if (other.gameObject.name == "Finish")
                 {
                     bodyRecog_Manager.isStop = true;
-                    bodyRecog_Manager.result.gameObject.SetActive(true);
-                    bodyRecog_Manager.shadow.SetActive(true);
                     bodyRecog_Manager.success.SetActive(true);
+                    Result();
                 }
             }
             else if (gameManager.stage_Select_Level_Num == 3)
             {
-                if (other.gameObject.name == "Head" || other.gameObject.name == "Eye" || other.gameObject.name == "Nose" || other.gameObject.name == "Mouse" || other.gameObject.name == "Neck" || other.gameObject.name == "Shoulder" || other.gameObject.name == "Chest" || other.gameObject.name == "Stomach" || other.gameObject.name == "Hand" || other.gameObject.name == "Hip" || other.gameObject.name == "Thigh" || other.gameObject.name == "Knee" || other.gameObject.name == "Foot")
+                if (other.gameObject.name == "Head" || other.gameObject.name == "Eye" ||
+                    other.gameObject.name == "Nose" || other.gameObject.name == "Mouse" ||
+                    other.gameObject.name == "Neck" || other.gameObject.name == "Shoulder" ||
+                    other.gameObject.name == "Chest" || other.gameObject.name == "Stomach" ||
+                    other.gameObject.name == "Hand" || other.gameObject.name == "Hip" ||
+                    other.gameObject.name == "Thigh" || other.gameObject.name == "Knee" ||
+                    other.gameObject.name == "Foot")
                 {
                     switch (other.gameObject.name)
                     {
@@ -152,7 +164,7 @@ public class Line : MonoBehaviour
                             bodyRecog_Manager.notice.text = "발";
                             break;
                     }
-                    
+
                     bodyRecog_Manager.GetComponent<AudioSource>().Play();
                     bodyRecog_Manager.isStop = true;
                     bodyRecog_Manager.Point();
@@ -160,12 +172,138 @@ public class Line : MonoBehaviour
                 else if (other.gameObject.name == "Finish")
                 {
                     bodyRecog_Manager.isStop = true;
-                    bodyRecog_Manager.result.gameObject.SetActive(true);
-                    bodyRecog_Manager.shadow.SetActive(true);
                     bodyRecog_Manager.success.SetActive(true);
+                    Result();
+                }
+            }
+        }
+    }
+
+    private void Result()
+    {
+        bodyRecog_Manager.success_Results_Step1.gameObject.SetActive(false);
+        bodyRecog_Manager.success_Results_Step2.gameObject.SetActive(false);
+        bodyRecog_Manager.success_Results_Step3.gameObject.SetActive(false);
+        string[] temp = bodyRecog_Manager.result.Split(',');
+
+        if (gameManager.stage_Select_Level_Num == 1)
+        {
+            bodyRecog_Manager.success_Results_Step1.gameObject.SetActive(true);
+            results = bodyRecog_Manager.success_Results_Step1;
+        }
+        else if(gameManager.stage_Select_Level_Num == 2)
+        {
+            bodyRecog_Manager.success_Results_Step2.gameObject.SetActive(true);
+            results = bodyRecog_Manager.success_Results_Step2;
+        }
+        else if(gameManager.stage_Select_Level_Num == 3)
+        {
+            bodyRecog_Manager.success_Results_Step3.gameObject.SetActive(true);
+            results = bodyRecog_Manager.success_Results_Step3;
+        }
+        
+        int count = 0;
+
+        for (int i = 0; i < temp.Length; i += 3)
+        {
+            if (temp[i + 1] == "편하다")
+            {
+                int num = int.Parse(temp[i + 2]);
+
+                switch (num)
+                {
+                    case 1:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[0];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[0];
+                        }
+                        break;
+                    case 2:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[1];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[1];
+                        }
+                        break;
+                    case 3:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[2];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[2];
+                        }
+                        break;
+                    case 4:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[3];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[3];
+                        }
+                        break;
+                    case 5:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[4];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[4];
+                        }
+                        break;
+                }
+            }
+            else if (temp[i + 1] == "불편하다")
+            {
+                int num = int.Parse(temp[i + 2]);
+
+                switch (num)
+                {
+                    case 1:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[5];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[5];
+                        }
+                        break;
+                    case 2:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[6];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[6];
+                        }
+                        break;
+                    case 3:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[7];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[7];
+                        }
+                        break;
+                    case 4:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[8];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[8];
+                        }
+                        break;
+                    case 5:
+                        results.transform.GetChild(count).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[9];
+                        
+                        if (results.transform.GetChild(count).childCount >= 1)
+                        {
+                            results.transform.GetChild(count).GetChild(0).GetComponent<Image>().sprite = bodyRecog_Manager.results_Sprite[9];
+                        }
+                        break;
                 }
             }
 
+            count++;
         }
     }
 }
