@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -73,6 +70,8 @@ public class Decent_Manager : MonoBehaviour
     public Sprite stage6_Background;
     public GameObject stage6_Bar;
     public GameObject stage6_Ment;
+    public GameObject stage7;
+    public GameObject stage7_Character;
     public GameObject shadow;
     public GameObject success;
     public GameObject fail;
@@ -1193,10 +1192,35 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (stage == 6)
             {
-                shadow.SetActive(true);
-                success.SetActive(true);
+                if (gameManager.stage_Select_Level_Num == 3)
+                {
+                    shadow.SetActive(true);
+                    success.SetActive(true);
+                    
+                    return;
+                }
+                
+                stage6.SetActive(false);
+                stage7.SetActive(true);
+
+                if (gameManager.stage_Select_Level_Num == 1)
+                {
+                    stage7_Character.GetComponent<Animator>().Play("Step1");
+                    Invoke("Stage7_Finish", 9.0f);
+                }
+                else if (gameManager.stage_Select_Level_Num == 2)
+                {
+                    stage7_Character.GetComponent<Animator>().Play("Step2");
+                    Invoke("Stage7_Finish", 9.0f);
+                }
             }
         }
+    }
+
+    public void Stage7_Finish()
+    {
+        shadow.SetActive(true);
+        success.SetActive(true);
     }
 
     void Sentence()
@@ -1460,6 +1484,7 @@ public class Decent_Manager : MonoBehaviour
         stage6_Char_Step2.SetActive(false);
         stage6_Char_Step3.SetActive(false);
         stage6_Bar.GetComponent<Slider>().value = 0;
+        stage7.SetActive(false);
         isSentence = false;
         sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘요 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};
         stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
