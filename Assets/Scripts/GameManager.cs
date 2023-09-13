@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("VERSION", version);
-        UnityWebRequest request = UnityWebRequest.Post("enddl2560.dothome.co.kr/BeingBeing/Server.php", form);
+        UnityWebRequest request = UnityWebRequest.Post("http://enddl2560.dothome.co.kr/BeingBeing/Server.php", form);
         yield return request.SendWebRequest();
 
         if (request.downloadHandler.text.Split('|')[0] == "On")
