@@ -27,6 +27,7 @@ public class BodyRecog_Manager : MonoBehaviour
     public Sprite[] choices_Color = new Sprite[6];
     public GameObject shadow;
     public GameObject success;
+    public GameObject success2;
     public GameObject success_Results_Step1;
     public GameObject success_Results_Step2;
     public GameObject success_Results_Step3;
@@ -904,6 +905,7 @@ public class BodyRecog_Manager : MonoBehaviour
     void Success_Close()
     {
         success.SetActive(false);
+        success2.SetActive(false);
     }
 
     void Pause_Close()
@@ -930,6 +932,12 @@ public class BodyRecog_Manager : MonoBehaviour
         character_Step1_Points.SetActive(false);
         character_Step2_Points.SetActive(false);
         character_Step3_Points.SetActive(false);
+
+        if (!line.activeSelf)
+        {
+            line.SetActive(true);
+        }
+
         line.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 200);
         character_Step1_Points.transform.GetChild(0).gameObject.SetActive(true);
         character_Step1_Points.transform.GetChild(1).gameObject.SetActive(false);

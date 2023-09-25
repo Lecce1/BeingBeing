@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public GameObject refresh;
     public GameObject lovely;
     public GameObject decent;
+    public GameObject upgrade;
+    public GameObject upgrade_Character;
     public GameObject info;
     public Text info_Title;
     public Text info_Content;
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
 		//PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("level", 4);
         Application.targetFrameRate = 120;
     }
 
@@ -972,7 +975,7 @@ public class GameManager : MonoBehaviour
         }
         else if (stage_Select_Stage_Num == 4)
         {
-            stage_Select_Stage_Title.text = "탈중심화";
+            stage_Select_Stage_Title.text = "탈중심화와 수용";
             stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을\n객관적으로 바라봄으로써\n현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를\n있는 그대로 받아들이고\n더욱 긍정적으로\n살아가게 될 것입니다.";
         }
         

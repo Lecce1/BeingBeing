@@ -354,6 +354,12 @@ public class AnimManager : MonoBehaviour
             
             if (decent_Manager.isNext == false)
             {
+                if (decent_Manager.isFinish == true && (gameManager.stage_Select_Level_Num == 1 || gameManager.stage_Select_Level_Num == 2))
+                {
+                    gameManager.upgrade.SetActive(true);
+                    Upgrade();
+                }
+                
                 decent_Manager.Reset();
                 gameManager.stage.SetActive(true);
                 gameManager.decent.SetActive(false);
@@ -413,5 +419,24 @@ public class AnimManager : MonoBehaviour
         gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
         gameManager.loading.SetActive(false);
         gameManager.refresh_Loading.SetActive(false);
+    }
+
+    void Upgrade()
+    {
+        if (gameManager.stage_Select_Level_Num == 1)
+        {
+            gameManager.upgrade_Character.GetComponent<Animator>().Play("Step1");
+        }
+        else if (gameManager.stage_Select_Level_Num == 2)
+        {
+            gameManager.upgrade_Character.GetComponent<Animator>().Play("Step2");
+        }
+        
+        Invoke("Upgrade_Finish", 11.0f);
+    }
+
+    void Upgrade_Finish()
+    {
+        gameManager.upgrade.SetActive(false);
     }
 }

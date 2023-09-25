@@ -70,8 +70,6 @@ public class Decent_Manager : MonoBehaviour
     public Sprite stage6_Background;
     public GameObject stage6_Bar;
     public GameObject stage6_Ment;
-    public GameObject stage7;
-    public GameObject stage7_Character;
     public GameObject shadow;
     public GameObject success;
     public GameObject fail;
@@ -87,23 +85,24 @@ public class Decent_Manager : MonoBehaviour
     public int tutorial_Notice_Num = 1;
     public List<string> sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다.", "오늘 아침에 내 짝이 나를 보고 미소를 지었다.", "나는 생각하고 느끼는 존재이다.", "우리 엄마는 잔소리를 많이 한다.", "우리 아빠는 집안일을 잘 하지 않는다.", "내 동생은 다소 이기적이다.", "우리 반 친구들은 나를 싫어한다.", "내 친구들은 나를 보고도 모른 체 한다.", "내 초등학교 절친은 사회성이 부족하다.", "선생님들은 우리를 힘들게 한다.", "우리 회사의 사장님은 권위적이다.", "공부든 일이든 모두 나를 위한 것이다.", "적성을 아는 것이 진로 선택에 도움이 된다.", "나는 타인의 눈치를 많이 본다.", "나는 왕따이다.", "나는 자신감이 부족하다.", "운전하면서 중간에 끼어들면 안 된다.", "운전하면서 중간에 끼어들어도 괜찮다.", "경상도 남자들은 말이 별로 없다.", "안중근 의사는 애국자이다."};
     private List<string> stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
-    private List<string> stage2_Anger = new List<string> { "나는 잘못이 없어", "이 친구는 나쁜 놈이야", "참으면 나를 무시할 거야", "일부러 나를 힘들게 해"};
-    private List<string> stage2_Unrest = new List<string> { "앞으로도 계속 괴롭히겠지", "언제 또 당할지 몰라", "모두 나를 바보처럼 보겠지", "이제 학교생활은 끝이야"};
-    private List<string> stage2_Sadness = new List<string> {"내 편은 아무도 없어", "언제나 나는 혼자야", "아무런 희망이 안 보여", "아무도 도와주지 않아"};
-    private List<string> stage2_Remorse = new List<string> {"나는 바보같아", "내가 잘 못했어", "다 나 떄문이야", "원래 나는 비호감이야"};
+    private List<string> stage2_Anger = new List<string> { "나는 잘못이 없어.", "이 친구는 나쁜 놈이야.", "참으면 나를 무시할 거야.", "일부러 나를 힘들게 해."};
+    private List<string> stage2_Unrest = new List<string> { "앞으로도 계속 괴롭히겠지.", "언제 또 당할지 몰라.", "모두 나를 바보처럼 보겠지.", "이제 학교생활은 끝이야."};
+    private List<string> stage2_Sadness = new List<string> {"내 편은 아무도 없어.", "언제나 나는 혼자야.", "아무런 희망이 안 보여.", "아무도 도와주지 않아."};
+    private List<string> stage2_Remorse = new List<string> {"나는 바보같아.", "내가 잘 못했어.", "다 나 때문이야.", "원래 나는 비호감이야."};
     private List<string> stage2_Text = new List<string> { };
-    private List<string> stage3_True = new List<string> {"저 애가 나를 쳐다보고 있어", "지금 엄마가 생각나", "반 친구들이 여기를 보고 있네", "나는 현재 긴장된 상태야", "지금 어떻게 해야할지 고민이야", "친구들이 가만히 있기만 하네", "손에 힘이 들어가고 있어", "목이 마르고 열이 나네"};
+    private List<string> stage3_True = new List<string> {"저 애가 나를 쳐다보고 있어.", "지금 엄마가 생각나.", "반 친구들이 여기를 보고 있네.", "나는 현재 긴장된 상태야.", "지금 어떻게 해야할지 고민이야.", "친구들이 가만히 있기만 하네.", "손에 힘이 들어가고 있어.", "목이 마르고 열이 나네."};
     private List<string> stage3_Text = new List<string> { };
     private List<string> stage5_Anger = new List<string> { "에이, 열받아", "머리에 열이 나는구나", "목 뒤쪽이 뻣뻣하다", "목소리가 커진다", "호흡이 빨라진다", "화가 올라왔다가 사라지는구나"};
     private List<string> stage5_Unrest = new List<string> { "긴장된다", "지금 가슴이 뛴다", "호흡이 빠르다", "말을 더듬는다", "무슨 말을 하는지 잘 모르겠다", "불안했구나"};
     private List<string> stage5_Sadness = new List<string> {"슬프다", "눈물이 난다", "아무것도 하고 싶지 않다", "가라앉는다", "귀찮다", "내가 우울했구나"};
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     public List<string> stage5_Text = new List<string> { };
-    public List<string> stage6_Text = new List<string> {"너도 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
+    public List<string> stage6_Text = new List<string> {"너도 나름 최선을 다했잖아.", "잘했어.", "잘 하려고 한 거잖아.", "누구나 잘 하고 싶지.", "못하고 싶은 사람은 아무도 없어.", "네가 한 것은 다 잘 한거야.", "너도 좋은 사람이려고 한 거잖아."};
     public int count = 0;
     public GameObject tutorial_Notice_Image;
     public List<Sprite> cutToon;
     public List<Sprite> stage5_Road_Image;
+    public bool isFinish = false;
 
     void Awake()
     {
@@ -298,25 +297,73 @@ public class Decent_Manager : MonoBehaviour
         {
             stage2_Emotion_Btn.transform.GetChild(0).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
-            stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+
+            switch (gameManager.stage_Select_Level_Num)
+            {
+                case 1:
+                    stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    break;
+                case 2:
+                    stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    break;
+                case 3:
+                    stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    break;
+            }
         }
         else if (type == "Unrest")
         {
             stage2_Emotion_Btn.transform.GetChild(1).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
-            stage2_Notice.text = "불안이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
+            
+            switch (gameManager.stage_Select_Level_Num)
+            {
+                case 1:
+                    stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    break;
+                case 2:
+                    stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    break;
+                case 3:
+                    stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    break;
+            }
         }
         else if (type == "Sadness")
         {
             stage2_Emotion_Btn.transform.GetChild(2).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
-            stage2_Notice.text = "슬픔이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
+
+            switch (gameManager.stage_Select_Level_Num)
+            {
+                case 1:
+                    stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    break;
+                case 2:
+                    stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    break;
+                case 3:
+                    stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    break;
+            }
         }
         else if (type == "Remorse")
         {
             stage2_Emotion_Btn.transform.GetChild(3).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
-            stage2_Notice.text = "자책이 느껴질 때 할 수 있는 생각 2개를 골라보세요.";
+
+            switch (gameManager.stage_Select_Level_Num)
+            {
+                case 1:
+                    stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    break;
+                case 2:
+                    stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    break;
+                case 3:
+                    stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    break;
+            }
         }
 
         if (gameManager.stage_Select_Level_Num == 1)
@@ -358,19 +405,19 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.GetChild(0).GetComponent<Text>().text = stage2_Text[num];
                 stage2_Text.RemoveAt(num);
                 
-                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해")
+                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어." || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야." || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야." || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Anger"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지." || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라." || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지." || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Unrest"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어." || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야." || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여." || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아." || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어." || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야." || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -520,7 +567,7 @@ public class Decent_Manager : MonoBehaviour
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -670,7 +717,7 @@ public class Decent_Manager : MonoBehaviour
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 떄문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -1192,35 +1239,11 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (stage == 6)
             {
-                if (gameManager.stage_Select_Level_Num == 3)
-                {
-                    shadow.SetActive(true);
-                    success.SetActive(true);
-                    
-                    return;
-                }
-                
-                stage6.SetActive(false);
-                stage7.SetActive(true);
-
-                if (gameManager.stage_Select_Level_Num == 1)
-                {
-                    stage7_Character.GetComponent<Animator>().Play("Step1");
-                    Invoke("Stage7_Finish", 9.0f);
-                }
-                else if (gameManager.stage_Select_Level_Num == 2)
-                {
-                    stage7_Character.GetComponent<Animator>().Play("Step2");
-                    Invoke("Stage7_Finish", 9.0f);
-                }
+                shadow.SetActive(true);
+                success.SetActive(true);
+                isFinish = true;
             }
         }
-    }
-
-    public void Stage7_Finish()
-    {
-        shadow.SetActive(true);
-        success.SetActive(true);
     }
 
     void Sentence()
@@ -1317,10 +1340,11 @@ public class Decent_Manager : MonoBehaviour
                 var animator = fail.GetComponent<Animator>();
                 animator.Play("Close");
             }
-
-            Reset();
+            
             Invoke("Success_Fail_Close", 0.5f);
         }
+        
+        Reset();
     }
     
     public void Next()
@@ -1484,27 +1508,27 @@ public class Decent_Manager : MonoBehaviour
         stage6_Char_Step2.SetActive(false);
         stage6_Char_Step3.SetActive(false);
         stage6_Bar.GetComponent<Slider>().value = 0;
-        stage7.SetActive(false);
         isSentence = false;
-        sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다", "오늘 아침에 내 짝이 나를 보고 미소를 지었다", "나는 생각하고 느끼는 존재이다", "우리 엄마는 잔소리를 많이 한다", "우리 아빠는 집안일을 잘요 하지 않는다", "내 동생은 다소 이기적이다", "우리 반 친구들은 나를 싫어한다", "내 친구들은 나를 보고도 모른 체 한다", "내 초등학교 절친은 사회성이 부족하다", "선생님들은 우리를 힘들게 한다", "우리 회사의 사장님은 권위적이다", "공부든 일이든 모두 나를 위한 것이다", "적성을 아는 거이 진로 선택에 도움이 된다", "나는 타인의 눈치를 많이 본다", "나는 왕따이다", "나는 자신감이 부족하다", "운전하면서 중간에 끼어들면 안 된다", "운전하면서 중간에 끼어들어도 괜찮다", "경상도 남자들은 말이 별로 없다", "안중근 의사는 애국자이다"};
+        sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다.", "오늘 아침에 내 짝이 나를 보고 미소를 지었다.", "나는 생각하고 느끼는 존재이다.", "우리 엄마는 잔소리를 많이 한다.", "우리 아빠는 집안일을 잘 하지 않는다.", "내 동생은 다소 이기적이다.", "우리 반 친구들은 나를 싫어한다.", "내 친구들은 나를 보고도 모른 체 한다.", "내 초등학교 절친은 사회성이 부족하다.", "선생님들은 우리를 힘들게 한다.", "우리 회사의 사장님은 권위적이다.", "공부든 일이든 모두 나를 위한 것이다.", "적성을 아는 것이 진로 선택에 도움이 된다.", "나는 타인의 눈치를 많이 본다.", "나는 왕따이다.", "나는 자신감이 부족하다.", "운전하면서 중간에 끼어들면 안 된다.", "운전하면서 중간에 끼어들어도 괜찮다.", "경상도 남자들은 말이 별로 없다.", "안중근 의사는 애국자이다."};
         stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
         stage2_Anger = new List<string>
-        { "나는 잘못이 없어", "이 친구는 나쁜 놈이야", "참으면 나를 무시할 거야", "일부러 나를 힘들게 해" };
+        { "나는 잘못이 없어.", "이 친구는 나쁜 놈이야.", "참으면 나를 무시할 거야.", "일부러 나를 힘들게 해." };
 
         stage2_Unrest = new List<string>
-        { "앞으로도 계속 괴롭히겠지", "언제 또 당할지 몰라", "모두 나를 바보처럼 보겠지", "이제 학교생활은 끝이야" };
+        { "앞으로도 계속 괴롭히겠지.", "언제 또 당할지 몰라.", "모두 나를 바보처럼 보겠지.", "이제 학교생활은 끝이야." };
 
-        stage2_Sadness = new List<string> {"내 편은 아무도 없어", "언제나 나는 혼자야", "아무런 희망이 안 보여", "아무도 도와주지 않아"};
-        stage2_Remorse = new List<string> {"나는 바보같아", "내가 잘 못했어", "다 나 때문이야", "원래 나는 비호감이야"};
+        stage2_Sadness = new List<string> {"내 편은 아무도 없어.", "언제나 나는 혼자야.", "아무런 희망이 안 보여.", "아무도 도와주지 않아."};
+        stage2_Remorse = new List<string> {"나는 바보같아.", "내가 잘 못했어.", "다 나 때문이야.", "원래 나는 비호감이야."};
         stage2_Text = new List<string> { };
-        stage3_True = new List<string> {"저 애가 나를 쳐다보고 있어", "지금 엄마가 생각나", "반 친구들이 여기를 보고 있네", "나는 현재 긴장된 상태야", "지금 어떻게 해야할지 고민이야", "친구들이 가만히 있기만 하네", "손에 힘이 들어가고 있어", "목이 마르고 열이 나네"};
+        stage3_True = new List<string> {"저 애가 나를 쳐다보고 있어.", "지금 엄마가 생각나.", "반 친구들이 여기를 보고 있네.", "나는 현재 긴장된 상태야.", "지금 어떻게 해야할지 고민이야.", "친구들이 가만히 있기만 하네.", "손에 힘이 들어가고 있어.", "목이 마르고 열이 나네."};
         stage3_Text = new List<string> { };
         stage5_Text = new List<string> { };
-        stage6_Text = new List<string> {"너로 나름 최선을 다했잖아", "잘했어", "잘 하려고 한 거잖아", "누구나 잘 하고 싶지", "못하고 싶은 사람은 아무도 없어", "네가 한 것은 다 잘 한거야", "너도 좋은 사람이려고 한 거잖아"};
+        stage6_Text = new List<string> {"너로 나름 최선을 다했잖아.", "잘했어.", "잘 하려고 한 거잖아.", "누구나 잘 하고 싶지.", "못하고 싶은 사람은 아무도 없어.", "네가 한 것은 다 잘 한거야.", "너도 좋은 사람이려고 한 거잖아."};
         isNext = false;
         shadow.SetActive(false);
         success.SetActive(false);
         fail.SetActive(false);
         tutorial_Notice_Image.SetActive(true);
+        isFinish = false;
     }
 }

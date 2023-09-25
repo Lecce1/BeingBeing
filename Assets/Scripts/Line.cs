@@ -59,6 +59,8 @@ public class Line : MonoBehaviour
                 {
                     bodyRecog_Manager.isStop = true;
                     bodyRecog_Manager.success.SetActive(true);
+                    bodyRecog_Manager.success2.SetActive(true);
+                    bodyRecog_Manager.line.SetActive(false);
                     Result();
                 }
             }
@@ -109,6 +111,8 @@ public class Line : MonoBehaviour
                 {
                     bodyRecog_Manager.isStop = true;
                     bodyRecog_Manager.success.SetActive(true);
+                    bodyRecog_Manager.success2.SetActive(true);
+                    bodyRecog_Manager.line.SetActive(false);
                     Result();
                 }
             }
@@ -173,6 +177,8 @@ public class Line : MonoBehaviour
                 {
                     bodyRecog_Manager.isStop = true;
                     bodyRecog_Manager.success.SetActive(true);
+                    bodyRecog_Manager.success2.SetActive(true);
+                    bodyRecog_Manager.line.SetActive(false);
                     Result();
                 }
             }

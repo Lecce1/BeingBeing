@@ -575,9 +575,10 @@ public class Lovely_Manager : MonoBehaviour
                 animator.Play("Close");
             }
 
-            Reset();
             Invoke("Success_Fail_Close", 0.5f);
         }
+        
+        Reset();
     }
     
     public void Next()
