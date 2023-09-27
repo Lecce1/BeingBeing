@@ -103,6 +103,7 @@ public class Decent_Manager : MonoBehaviour
     public List<Sprite> cutToon;
     public List<Sprite> stage5_Road_Image;
     public bool isFinish = false;
+    public BGMManager bgmManager;
 
     void Awake()
     {
@@ -918,6 +919,7 @@ public class Decent_Manager : MonoBehaviour
 
     void Stage5_Check()
     {
+        bgmManager.StopBGM();
         stage5_isTutorial = true;
         isSentence = false;
         PlayerPrefs.SetInt("Decent_Stage5_Tutorial", 1);
@@ -945,6 +947,25 @@ public class Decent_Manager : MonoBehaviour
 
     private IEnumerator Stage5_Count()
     {
+        switch (stage2_Emotion)
+        {
+            case "Anger":
+                bgmManager.PlayBGM("Decent_Anger");
+                break;
+            
+            case "Unrest":
+                bgmManager.PlayBGM("Decent_Unrest");
+                break;
+            
+            case "Sadness":
+                bgmManager.PlayBGM("Decent_Sadness");
+                break;
+            
+            case "Remorse":
+                bgmManager.PlayBGM("Decent_Remorse");
+                break;
+        }
+
         float time = 3;
 
         while (time >= 0)
@@ -1220,6 +1241,8 @@ public class Decent_Manager : MonoBehaviour
                     stage5_Car.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 150);
                     count++;
                     stage5.SetActive(false);
+                    bgmManager.StopBGM();
+                    bgmManager.PlayBGM("Stage_BGM");
 
                     if (count != 4)
                     {

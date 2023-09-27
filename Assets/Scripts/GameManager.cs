@@ -61,8 +61,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-		//PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("level", 4);
         Application.targetFrameRate = 120;
     }
 
@@ -523,7 +521,11 @@ public class GameManager : MonoBehaviour
 
     void Splash()
     {
-        animManager.Splash();
+        if (splash.activeSelf == true)
+        {
+            animManager.Splash();
+        }
+
         Data();
     }
 
