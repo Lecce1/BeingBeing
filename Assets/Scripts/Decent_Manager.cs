@@ -1180,15 +1180,15 @@ public class Decent_Manager : MonoBehaviour
         GameObject temp = Instantiate(stage6_Ment);
         temp.transform.SetParent(stage6.transform.GetChild(2));
         temp.transform.GetComponent<RectTransform>().anchoredPosition =
-            new Vector2(Random.Range(-250, 400), 300);
-        temp.transform.localScale = new Vector3(1f, 1f, 1f);
+            new Vector2(0, 300);
+        temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         int num = Random.Range(0, stage6_Text.Count);
-        temp.transform.GetChild(0).GetComponent<Text>().text = stage6_Text[num];
+        temp.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = stage6_Text[num];
         stage6_Text.RemoveAt(num);
 
         float delay = 0;
 
-        while (delay < 1.5f)
+        while (delay < 3f)
         {
             delay += Time.deltaTime;
             yield return waitForSeconds;
