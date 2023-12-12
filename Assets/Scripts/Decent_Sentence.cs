@@ -108,8 +108,18 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         if (isTouch == false && other.name == "True")
         {
-            decent_Manager.sentence_Text.Add(transform.GetChild(0).GetComponent<Text>().text);
-            Destroy(gameObject);
+            if (!decent_Manager.isTutorial)
+            {
+                decent_Manager.sentence_Text.Add(transform.GetChild(0).GetComponent<Text>().text);
+                Destroy(gameObject);
+            }
+            else
+            {
+                decent_Manager.shadow.SetActive(true);
+                decent_Manager.fail.SetActive(true);
+                Time.timeScale = 0;
+            }
+
         }
     }
 }

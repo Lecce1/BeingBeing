@@ -43,9 +43,9 @@ public class Decent_Leaf : MonoBehaviour
         }
         else if (isTouch == true)
         {
-            transform.GetComponent<RectTransform>().anchoredPosition = Vector2.MoveTowards(transform.GetComponent<RectTransform>().anchoredPosition, new Vector2(0, -1600), 1000 * Time.deltaTime);
+            transform.parent.GetComponent<RectTransform>().anchoredPosition = Vector2.MoveTowards(transform.parent.GetComponent<RectTransform>().anchoredPosition, new Vector2(0, -1600), 1000 * Time.deltaTime);
 
-            if (transform.GetComponent<RectTransform>().anchoredPosition.y == -1600)
+            if (transform.parent.GetComponent<RectTransform>().anchoredPosition.y <= -1600)
             {
                 Destroy(gameObject);
             }

@@ -257,9 +257,7 @@ public class Lovely_Manager : MonoBehaviour
             {
                 if (Input.GetMouseButtonUp(0))
                 {
-                    touch++;
-
-                    if (touch >= 3)
+                    if (touch >= 2)
                     {
                         stage = 4;
                         balloon.SetActive(false);
@@ -268,6 +266,14 @@ public class Lovely_Manager : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void TouchCount()
+    {
+        if (stage == 3)
+        {
+            touch++; 
         }
     }
 
@@ -580,46 +586,7 @@ public class Lovely_Manager : MonoBehaviour
         
         Reset();
     }
-    
-    public void Next()
-    {
-        if (success.activeSelf == true)
-        {
-            var animator = success.GetComponent<Animator>();
-            animator.Play("Close");
-            
-            if (gameManager.stage_Select_Level_Num == 1)
-            {
-                if (PlayerPrefs.GetInt("level") <= 3)
-                {
-                    PlayerPrefs.SetInt("level", 4);
-                }
-            }
-            else if (gameManager.stage_Select_Level_Num == 2)
-            {
-                if (PlayerPrefs.GetInt("level") <= 6)
-                {
-                    PlayerPrefs.SetInt("level", 7);
-                }
-            }
-            else if (gameManager.stage_Select_Level_Num == 3)
-            {
-                if (PlayerPrefs.GetInt("level") <= 9)
-                {
-                    PlayerPrefs.SetInt("level", 9);
-                }
-            }
-        }
-        else if (fail.activeSelf == true)
-        {
-            var animator = fail.GetComponent<Animator>();
-            animator.Play("Close");
-        }
-        
-        animManager.Fade_Out();
-        Invoke("Success_Fail_Close", 0.5f);
-    }
-    
+
     public void Help()
     {
         PlayerPrefs.SetInt("Lovely_Tutorial", 0);

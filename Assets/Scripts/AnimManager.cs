@@ -423,11 +423,11 @@ public class AnimManager : MonoBehaviour
 
     void Upgrade()
     {
-        if (gameManager.stage_Select_Level_Num == 1)
+        if (gameManager.stage_Select_Level_Num == 2)
         {
             gameManager.upgrade_Character.GetComponent<Animator>().Play("Step1");
         }
-        else if (gameManager.stage_Select_Level_Num == 2)
+        else if (gameManager.stage_Select_Level_Num == 3)
         {
             gameManager.upgrade_Character.GetComponent<Animator>().Play("Step2");
         }

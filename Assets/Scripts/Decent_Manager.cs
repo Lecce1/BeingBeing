@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -36,12 +37,15 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage3;
     public GameObject stage3_Sentence;
     public GameObject stage4;
+    public GameObject stage4_Zero;
+    public TMP_Text stage4_Zero_Text;
     public GameObject stage4_One;
     public GameObject stage4_Two;
     public GameObject stage4_Three;
     public GameObject stage4_Four;
     public GameObject stage4_Five;
-    private int stage4_Count = 1;
+    public GameObject stage4_Btn;
+    private int stage4_Count = 0;
     public GameObject stage5;
     public GameObject stage5_Tutorial;
     public bool stage5_isTutorial = false;
@@ -556,19 +560,19 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.GetChild(0).GetComponent<Text>().text = stage2_Text[num];
                 stage2_Text.RemoveAt(num);
                 
-                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해")
+                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어." || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야." || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야." || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Anger"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지." || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라." || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지." || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Unrest"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어." || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야." || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여." || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아." || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어." || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야." || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -706,19 +710,19 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.GetChild(0).GetComponent<Text>().text = stage2_Text[num];
                 stage2_Text.RemoveAt(num);
 
-                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야" || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해")
+                if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 잘못이 없어." || temp.transform.GetChild(0).GetComponent<Text>().text == "이 친구는 나쁜 놈이야." || temp.transform.GetChild(0).GetComponent<Text>().text == "참으면 나를 무시할 거야." || temp.transform.GetChild(0).GetComponent<Text>().text == "일부러 나를 힘들게 해.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Anger"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라" || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지" || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "앞으로도 계속 괴롭히겠지." || temp.transform.GetChild(0).GetComponent<Text>().text == "언제 또 당할지 몰라." || temp.transform.GetChild(0).GetComponent<Text>().text == "모두 나를 바보처럼 보겠지." || temp.transform.GetChild(0).GetComponent<Text>().text == "이제 학교생활은 끝이야.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Unrest"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어" || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여" || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "내 편은 아무도 없어." || temp.transform.GetChild(0).GetComponent<Text>().text == "언제나 나는 혼자야." || temp.transform.GetChild(0).GetComponent<Text>().text == "아무런 희망이 안 보여." || temp.transform.GetChild(0).GetComponent<Text>().text == "아무도 도와주지 않아.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Sadness"));
                 }
-                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아" || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어" || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야" || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야")
+                else if (temp.transform.GetChild(0).GetComponent<Text>().text == "나는 바보같아." || temp.transform.GetChild(0).GetComponent<Text>().text == "내가 잘 못했어." || temp.transform.GetChild(0).GetComponent<Text>().text == "다 나 때문이야." || temp.transform.GetChild(0).GetComponent<Text>().text == "원래 나는 비호감이야.")
                 {
                     temp.GetComponent<Button>().onClick.AddListener(() => Stage2_Check("Remorse"));
                 }
@@ -784,7 +788,13 @@ public class Decent_Manager : MonoBehaviour
 
     public void Stage4_Btn()
     {
-        if (stage4_Count == 1)
+        if (stage4_Count == 0)
+        {
+            stage4_Zero.SetActive(false);
+            stage4_One.SetActive(true);
+            stage4_Btn.SetActive(true);
+        }
+        else if (stage4_Count == 1)
         {
             stage4_One.SetActive(false);
             stage4_Two.SetActive(true);
@@ -815,7 +825,196 @@ public class Decent_Manager : MonoBehaviour
         stage4_Count++;
     }
     
-     void Stage5_Tutorial()
+    void Stage4_Anim()
+    {
+        if (stage4_Btn.activeSelf)
+        {
+            stage4_Btn.SetActive(false);
+        }
+        
+        StartCoroutine("Stage4_Anim_Coroutine");
+    }
+
+    IEnumerator Stage4_Anim_Coroutine()
+    {
+        stage4_Zero_Text.text = "조망하기를 통해";
+
+        float delay = 0;
+
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g,
+                stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g,
+                stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+
+        stage4_Zero_Text.text = "상황을 점점 멀리";
+
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g,
+                stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g,
+                stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+
+        stage4_Zero_Text.text = "심리적인 거리두기를 하면서";
+
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+        
+        stage4_Zero_Text.text = "바라보는 능력을 기름으로써";
+        
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+        
+        stage4_Zero_Text.text = "우리 자신이 가지고 있는";
+        
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+        
+        stage4_Zero_Text.text = "생각이나 고정 관념을";
+        
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+        
+        stage4_Zero_Text.text = "보다 넓은 관점에서";
+        
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
+            yield return null;
+        }
+
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+
+        delay = 0;
+        
+        while (stage4_Zero_Text.color.a > 0)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
+            yield return null;
+        }
+        
+        stage4_Zero_Text.text = "조망할 수 있을 것 입니다.";
+        
+        while (stage4_Zero_Text.color.a < 1)
+        {
+            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + (Time.deltaTime * 0.5f));
+            yield return null;
+        }
+        
+        while (delay < 2)
+        {
+            delay += Time.deltaTime;
+            yield return null;
+        }
+        
+        Stage4_Btn();
+    }
+    
+    void Stage5_Tutorial()
     {
         if (isTutorial == true && stage == 5 && stage5_isTutorial == false)
         {
@@ -1227,6 +1426,7 @@ public class Decent_Manager : MonoBehaviour
                 
                 stage3.SetActive(false);
                 stage4.SetActive(true);
+                Stage4_Anim();
                 stage = 4;
             }
             else if (stage == 5)
@@ -1442,6 +1642,7 @@ public class Decent_Manager : MonoBehaviour
 
     public void Reset()
     {
+        Time.timeScale = 1;
         background.sprite = main_Background;
         blur.SetActive(true);
         tutorial.SetActive(true);
@@ -1480,12 +1681,14 @@ public class Decent_Manager : MonoBehaviour
         stage2_ScrollView.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         stage3.SetActive(false);
         stage4.SetActive(false);
-        stage4_One.SetActive(true);
+        stage4_Zero.SetActive(true);
+        stage4_One.SetActive(false);
         stage4_Two.SetActive(false);
         stage4_Three.SetActive(false);
         stage4_Four.SetActive(false);
         stage4_Five.SetActive(false);
-        stage4_Count = 1;
+        stage4_Btn.SetActive(false);
+        stage4_Count = 0;
 
         for (int i = 0; i < stage2_ScrollView.transform.GetChild(0).GetChild(0).childCount; i++)
         {

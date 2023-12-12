@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        //PlayerPrefs.SetInt("level", 4);
         Application.targetFrameRate = 120;
     }
 
@@ -1177,6 +1178,11 @@ public class GameManager : MonoBehaviour
     public void Reset_Popup()
     {
         reset_Popup.SetActive(true);
+    }
+    
+    public void Policy_Popup()
+    {
+        Application.OpenURL("http://yeppi.kr/?pn=portfolio&p_id=1");
     }
     
     public void Reset_Cancel()
