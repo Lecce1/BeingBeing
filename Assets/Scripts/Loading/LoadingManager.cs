@@ -26,6 +26,7 @@ public class LoadingManager : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        BGMManager.instance.StopBGM();
         AsyncOperation operation = SceneManager.LoadSceneAsync(DBManager.instance.currentStage);
         operation.allowSceneActivation = false;
         float timer = 0.0f;

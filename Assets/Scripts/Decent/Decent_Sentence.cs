@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,20 +7,20 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     private Vector2 mousePosition;
     private Vector2 begin;
-    private bool isTrue = false;
-    public bool isTouch = false;
+    private bool isTrue;
+    public bool isTouch;
     private float yPos;
     private List<RaycastResult> results = new List<RaycastResult>();
     private Decent_Manager decent_Manager;
 
     void Awake()
     {
-        decent_Manager = GameObject.Find("Decent_Manager").GetComponent<Decent_Manager>();
+        decent_Manager = GameObject.Find("DecentManager").GetComponent<Decent_Manager>();
     }
     
     void Start()
     {
-        if (decent_Manager.isTutorial == false)
+        if (!decent_Manager.isTutorial)
         {
             if (transform.GetChild(0).GetComponent<Text>().text == "우리 할머니의 머리는 점점 백발이 되고 있다." ||
                 transform.GetChild(0).GetComponent<Text>().text == "오늘 아침에 내 짝이 나를 보고 미소를 지었다." ||
@@ -34,7 +33,7 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                 isTrue = false;
             }
         }
-        else if (decent_Manager.isTutorial == true)
+        else if (decent_Manager.isTutorial)
         {
             if (transform.GetChild(0).GetComponent<Text>().text == "저 애가 나를 쳐다보고 있어." ||
                 transform.GetChild(0).GetComponent<Text>().text == "지금 엄마가 생각나." ||
@@ -61,7 +60,7 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         yPos -= (100f * Time.deltaTime);
         
-        if (isTouch == false)
+        if (!isTouch)
         {
             transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, transform.GetComponent<RectTransform>().anchoredPosition.y - (100f * Time.deltaTime));
         }
@@ -104,9 +103,9 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         transform.GetComponent<RectTransform>().anchoredPosition += mousePosition;
     }
     
-    private void OnTriggerStay2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
-        if (isTouch == false && other.name == "True")
+        if (!isTouch && other.name == "True")
         {
             if (!decent_Manager.isTutorial)
             {
@@ -119,7 +118,6 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                 decent_Manager.fail.SetActive(true);
                 Time.timeScale = 0;
             }
-
         }
     }
 }

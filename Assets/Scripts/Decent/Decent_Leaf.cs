@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -14,15 +13,14 @@ public class Decent_Leaf : MonoBehaviour
     private bool direction;
 
     private Rigidbody2D rigid;
-    
-    private bool isTouch = false;
+    private bool isTouch;
     Decent_Manager decent_Manager;
     AnimManager animManager;
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    WaitForSeconds waitForSeconds = new (0.01f);
     
     void Awake()
     {
-        decent_Manager = GameObject.Find("Decent_Manager").GetComponent<Decent_Manager>();
+        decent_Manager = GameObject.Find("DecentManager").GetComponent<Decent_Manager>();
     }
 
     private void Start()
@@ -36,12 +34,12 @@ public class Decent_Leaf : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isTouch == false)
+        if (!isTouch)
         {
             float data = Mathf.Sin(Time.time * length) * speed;
             rigid.velocity = direction ? Vector3.right * data : Vector3.left * data;
         }
-        else if (isTouch == true)
+        else if (isTouch)
         {
             transform.parent.GetComponent<RectTransform>().anchoredPosition = Vector2.MoveTowards(transform.parent.GetComponent<RectTransform>().anchoredPosition, new Vector2(0, -1600), 1000 * Time.deltaTime);
 
@@ -85,7 +83,7 @@ public class Decent_Leaf : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (isTouch == false && other.name == "Line")
+        if (!isTouch && other.name == "Line")
         {
             decent_Manager.stage6_Text.Add(transform.GetChild(0).GetComponent<Text>().text);
             Destroy(gameObject);

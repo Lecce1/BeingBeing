@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour
 {   
     public GameObject info;
+    public Text info_Title;
+    public Text info_Content;
     public GameObject pause;
     public GameObject set;
     public GameObject set_Reset;
@@ -17,9 +20,8 @@ public class ButtonManager : MonoBehaviour
     public Image set_Voice_Image;
     public Sprite toggleOn;
     public Sprite toggleOff;
-    public Text info_Title;
-    public Text info_Content;
-
+    public GameObject quit;
+    
     public void Init(string type)
     {
         switch (type)
@@ -81,17 +83,23 @@ public class ButtonManager : MonoBehaviour
     public void Back()
     {
         Animator animator;
-        
-        if (info.activeSelf)
+
+        if (info != null)
         {
-            animator = info.GetComponent<Animator>();
-            animator.Play("Close");
+            if (info.activeSelf)
+            {
+                animator = info.GetComponent<Animator>();
+                animator.Play("Close");
+            }
         }
-        else if (pause.activeSelf)
+        else if (pause != null)
         {
-            Time.timeScale = 1;
-            animator = pause.GetComponent<Animator>();
-            animator.Play("Close");
+            if (pause.activeSelf)
+            {
+                Time.timeScale = 1;
+                animator = pause.GetComponent<Animator>();
+                animator.Play("Close");
+            }
         }
         else if (set.activeSelf)
         {
@@ -107,19 +115,33 @@ public class ButtonManager : MonoBehaviour
             
             animator.Play("Close");
         }
-        
+        else if (pause != null)
+        {
+            if(quit.activeSelf)
+            {
+                animator = quit.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+        }
+
         Invoke("Delay", 0.3f);
     }
 
     void Delay()
     {
-        if (info.activeSelf)
+        if (info != null)
         {
-            info.SetActive(false);
+            if (info.activeSelf)
+            {
+                info.SetActive(false);
+            }
         }
-        else if (pause.activeSelf)
+        else if (info != null)
         {
-            pause.SetActive(false);
+            if (pause.activeSelf)
+            {
+                pause.SetActive(false);
+            }
         }
         else if (set.activeSelf)
         {
@@ -132,12 +154,24 @@ public class ButtonManager : MonoBehaviour
                 set.SetActive(false);
             }
         }
+        else if (pause != null)
+        {
+            if(quit.activeSelf)
+            {
+                quit.SetActive(false);
+            }
+        }
     }
     
     public void Pause(string type)
     {
         Time.timeScale = 1;
-        pause.GetComponent<Animator>().Play("Close");
+
+        if (pause != null)
+        {
+            pause.GetComponent<Animator>().Play("Close");
+        }
+
         StartCoroutine("PauseCoroutine", type);
     }
 
@@ -183,7 +217,7 @@ public class ButtonManager : MonoBehaviour
                         break;
             
                     case "Decent":
-                        GameObject.Find("DecentManager").GetComponent<Decent_Manager>().Help();
+                        PlayerPrefs.SetInt("Decent_Tutorial", 0);
                         break;
                 }
                 
@@ -201,7 +235,11 @@ public class ButtonManager : MonoBehaviour
             
             case "Reset_Accept":
                 PlayerPrefs.DeleteAll();
-                SceneManager.LoadScene("Main");
+                Application.Quit();
+                break;
+            
+            case "Quit":
+                Application.Quit();
                 break;
         }
     }
@@ -209,6 +247,16 @@ public class ButtonManager : MonoBehaviour
     public void Set_Music()
     {
         PlayerPrefs.SetInt("Music", (int)set_Music.value);
+        StartCoroutine(nameof(Exception));
+    }
+
+    IEnumerator Exception()
+    {
+        while (BGMManager.instance == null)
+        {
+            yield return null;
+        }
+        
         BGMManager.instance.bgmAudioSource.volume = set_Music.value;
 
         if (set_Music.value == 0)
@@ -237,7 +285,7 @@ public class ButtonManager : MonoBehaviour
     
     public void Set_Voice()
     {
-        PlayerPrefs.SetInt("Voice", (int)set_Vibrate.value);
+        PlayerPrefs.SetInt("Voice", (int)set_Voice.value);
         
         if (set_Voice.value == 0)
         {

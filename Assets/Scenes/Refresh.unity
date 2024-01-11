@@ -9848,7 +9848,14 @@ MonoBehaviour:
   musicValue: 0
   vibrateValue: 0
   soundValue: 0
-  refresh_PrevStage: EmotionRecog
+  refresh_PrevStage: Decent
+  decent_Count: 0
+  decent_Again: 0
+  decent_Anger: 0
+  decent_Unrest: 0
+  decent_Sadness: 0
+  decent_Remorse: 0
+  decent_IsRefresh: 1
   isLoaded: 0
 --- !u!4 &1448364036
 Transform:

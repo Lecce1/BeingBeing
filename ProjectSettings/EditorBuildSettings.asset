@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Refresh.unity
     guid: b1c623a99495240cf8a9443a1010307e
+  - enabled: 1
+    path: Assets/Scenes/Decent.unity
+    guid: 112f2eadc71f54d50bd8a04e339e74d0
   m_configObjects: {}

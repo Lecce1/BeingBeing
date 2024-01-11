@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject splash;
-    public GameObject buttons;
     public GameObject main;
     public GameObject main_Background;
     public GameObject main_Logo;
@@ -16,29 +15,16 @@ public class GameManager : MonoBehaviour
     public GameObject stage;
     public Image stage_Char;
     public GameObject[] stage_Select_Step;
-    public int stage_Select_Step_Num = 0;
+    public int stage_Select_Step_Num;
     public GameObject[] stage_Select_Buttons;
     public GameObject stage_Select_Stage;
     public Text stage_Select_Stage_Title;
     public Text stage_Select_Stage_Content;
     public GameObject stage_Select_Stage_Start;
-    public int stage_Select_Stage_Num;
     public List<GameObject> stage_Road;
-    public GameObject breath;
-    public GameObject smile;
-    public GameObject bodyRecog;
-    public GameObject emotionRecog;
-    public GameObject refresh;
-    public GameObject lovely;
-    public GameObject decent;
-    public GameObject upgrade;
-    public GameObject upgrade_Character;
-    public GameObject pause;
-    public GameObject pause_Help;
     public GameObject set;
     public GameObject notice;
     public GameObject quit;
-    public GameObject reset_Popup;
     public Slider set_Music;
     public Image set_Music_Image;
     public Slider set_Vibrate;
@@ -48,7 +34,6 @@ public class GameManager : MonoBehaviour
     public Sprite toggleOn;
     public Sprite toggleOff;
     public GameObject loading;
-    public GameObject refresh_Loading;
     public AnimManager animManager;
     public BGMManager bgmManager;
     public List<Sprite> charLevel;
@@ -65,15 +50,23 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Init()
     {
-        Application.targetFrameRate = 120;
-        
         while (!DBManager.instance.isLoaded)
         {
             yield return null;
         }
         
         Set();
-        Splash();
+        Data();
+
+        if (!DBManager.instance.isStageFirst)
+        {
+            DBManager.instance.isStageFirst = true;
+            Splash();
+        }
+        else
+        {
+            GotoStage();
+        }
     }
 
     public void Set()
@@ -481,34 +474,19 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        
-        Set2();
     }
-
-    public void Set2()
-    {
-        if (breath.activeSelf || smile.activeSelf || bodyRecog.activeSelf || emotionRecog.activeSelf || refresh.activeSelf || lovely.activeSelf || decent.activeSelf)
-        {
-            buttons.SetActive(true);
-        }
-        else
-        {
-            buttons.SetActive(false);
-        }
-    }
-
+    
     void Splash()
     {
         if (splash.activeSelf)
         {
             animManager.Splash();
         }
-
-        Data();
     }
 
     void Data()
     {
+        DBManager.instance.level = PlayerPrefs.GetInt("level");
         set_Music.value = DBManager.instance.musicValue;
 
         if (set_Music.value == 0)
@@ -545,15 +523,9 @@ public class GameManager : MonoBehaviour
         }
             
         bgmManager.voiceAudioSource.volume = set_Voice.value;
-        buttons.SetActive(false);
     }
 
-    public void Main_Text()
-    {
-        StartCoroutine("Main_Text_Anim");
-    }
-
-    IEnumerator Main_Text_Anim()
+    IEnumerator Main_Text()
     {
         main_Text.text = "반갑습니다!";
         
@@ -637,17 +609,23 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        delay = 0;
-        
         while (main_Text.color.a > 0)
         {
             main_Text.color = new Color(main_Text.color.r, main_Text.color.g, main_Text.color.b, main_Text.color.a - (Time.deltaTime * 0.5f));
             yield return null;
         }
         
-        animManager.Fade_Out();
+        loading.SetActive(true);
+        Invoke(nameof(GotoStage), 3f);
     }
 
+    void GotoStage()
+    {
+        main.SetActive(false);
+        stage.SetActive(true);
+        loading.SetActive(false);
+    }
+    
     public void Stage_Select_Buttons(int num)
     {
         for (int i = 0; i < 4; i++)
@@ -815,70 +793,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PauseBtn()
-    {
-        Time.timeScale = 0;
-        pause.SetActive(true);
-
-        if (lovely.activeSelf == true)
-        {
-            pause_Help.SetActive(false);
-        }
-        else
-        {
-            pause_Help.SetActive(true);
-        }
-    }
-
     public void SetBtn()
     {
         set.SetActive(true);
     }
-
-    public void Set_Music()
-    {
-        PlayerPrefs.SetInt("Music", (int)set_Music.value);
-        bgmManager.bgmAudioSource.volume = set_Music.value;
-
-        if (set_Music.value == 0)
-        {
-            set_Music_Image.sprite = toggleOff;
-        }
-        else if (set_Music.value == 1)
-        {
-            set_Music_Image.sprite = toggleOn;
-        }
-    }
     
-    public void Set_Vibrate()
-    {
-        PlayerPrefs.SetInt("Vibrate", (int)set_Vibrate.value);
-        
-        if (set_Vibrate.value == 0)
-        {
-            set_Vibrate_Image.sprite = toggleOff;
-        }
-        else if (set_Vibrate.value == 1)
-        {
-            set_Vibrate_Image.sprite = toggleOn;
-        }
-    }
-    
-    public void Set_Voice()
-    {
-        PlayerPrefs.SetInt("Voice", (int)set_Vibrate.value);
-        
-        if (set_Voice.value == 0)
-        {
-            set_Voice_Image.sprite = toggleOff;
-        }
-        else if (set_Voice.value == 1)
-        {
-            set_Voice_Image.sprite = toggleOn;
-        }
-    }
-
-    public void Set_Youtube()
+    public void Community()
     {
         Application.OpenURL("https://www.youtube.com/watch?v=WC5K4oX-yPc");
     }
@@ -911,6 +831,13 @@ public class GameManager : MonoBehaviour
                 break;
             
             case "Decent":
+                DBManager.instance.decent_Count = 0;
+                DBManager.instance.decent_Again = false;
+                DBManager.instance.decent_Anger = false;
+                DBManager.instance.decent_Sadness = false;
+                DBManager.instance.decent_Unrest = false;
+                DBManager.instance.decent_Remorse = false;
+                DBManager.instance.decent_IsRefresh = false;
                 stage_Select_Stage_Title.text = "탈중심화와 수용";
                 stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>탈중심화</color></size></b>\n자신의 사고와 감정을\n객관적으로 바라봄으로써\n현실을 정확하게 이해하고\n지혜롭게 대처하게 됩니다.\n\n<b><size=55><color=#43536C>수용</color></size></b>\n자신과 자신의 문제를\n있는 그대로 받아들이고\n더욱 긍정적으로\n살아가게 될 것입니다.";
                 break;
@@ -933,60 +860,34 @@ public class GameManager : MonoBehaviour
 
     public void Back()
     {
-        if (stage_Select_Stage.activeSelf == true)
+        if (stage_Select_Stage.activeSelf)
         {
             CancelInvoke("Stage_Select_Stage_StartBtn");
             stage_Select_Stage.GetComponent<Animator>().Play("Close");
-            Invoke("Back_Delay", 0.3f);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            var animator = pause.GetComponent<Animator>();
-            animator.Play("Close");
             Invoke("Back_Delay", 0.3f);
         }
     }
     
     void Back_Delay()
     {
-        if (main.activeSelf == true)
+        if (stage.activeSelf)
         {
-            pause.SetActive(false);
-        }
-        else if (stage.activeSelf == true)
-        {
-            if (stage_Select_Stage.activeSelf == true)
+            if (stage_Select_Stage.activeSelf)
             {
                 stage_Select_Stage.SetActive(false);
                 stage_Select_Stage_Start.SetActive(false);
             }
-            else
-            {
-                pause.SetActive(false);
-            }
-        }
-        else
-        {
-            pause.SetActive(false);
-            animManager.Fade_Out();
         }
     }
     
     public void Buttons_Back()
     {
-        if (pause.activeSelf == true)
-        {
-            Time.timeScale = 1;
-            var animator = pause.GetComponent<Animator>();
-            animator.Play("Close");
-        }
-        else if (set.activeSelf == true)
+        if (set.activeSelf)
         {
             var animator = set.GetComponent<Animator>();
             animator.Play("Close");
         }
-        else if (notice.activeSelf == true)
+        else if (notice.activeSelf)
         {
             var animator = notice.GetComponent<Animator>();
             animator.Play("Close");
@@ -997,85 +898,17 @@ public class GameManager : MonoBehaviour
 
     void Buttons_Delay()
     {
-        if (pause.activeSelf == true)
-        {
-            pause.SetActive(false);
-        }
-        else if (set.activeSelf == true)
+        if (set.activeSelf)
         {
             set.SetActive(false);
         }
-        else if (notice.activeSelf == true)
+        else if (notice.activeSelf)
         {
             notice.SetActive(false);
         }
-        else if (stage_Select_Stage.activeSelf == true)
+        else if (stage_Select_Stage.activeSelf)
         {
             stage_Select_Stage.SetActive(false);
-        }
-        
-        buttons.transform.GetChild(0).gameObject.SetActive(false);
-        buttons.transform.GetChild(1).gameObject.SetActive(true);
-        buttons.transform.GetChild(2).gameObject.SetActive(false);
-    }
-
-    public void Restart()
-    {
-        Time.timeScale = 1;
-        
-        if (breath.activeSelf == true)
-        {
-           
-        }
-        else if (smile.activeSelf == true)
-        {
-
-        }
-        else if (bodyRecog.activeSelf == true)
-        {
-
-        }
-        else if (emotionRecog.activeSelf == true)
-        {
-
-        }
-        else if (lovely.activeSelf == true)
-        {
-            
-        }
-        else if (decent.activeSelf == true)
-        {
-            decent.transform.GetChild(0).GetComponent<Decent_Manager>().ReStart();
-        }
-    }
-
-    public void Help()
-    {
-        Time.timeScale = 1;
-        
-        if (breath.activeSelf == true)
-        {
-            
-        }
-        else if (smile.activeSelf == true)
-        {
-            
-        }
-        else if (bodyRecog.activeSelf == true)
-        {
-
-        }
-        else if (emotionRecog.activeSelf == true)
-        {
-
-        }
-        else if (lovely.activeSelf == true)
-        {
-            
-        }
-        else if (decent.activeSelf == true)
-        {
-            decent.transform.GetChild(0).GetComponent<Decent_Manager>().Help();
         }
     }
 
@@ -1093,31 +926,5 @@ public class GameManager : MonoBehaviour
     public void Quit_Cancel()
     {
         quit.SetActive(false);
-    }
-
-    public void Quit_Accept()
-    {
-        Application.Quit();
-    }
-
-    public void Reset_Popup()
-    {
-        reset_Popup.SetActive(true);
-    }
-    
-    public void Policy_Popup()
-    {
-        Application.OpenURL("http://yeppi.kr/?pn=portfolio&p_id=1");
-    }
-    
-    public void Reset_Cancel()
-    {
-        reset_Popup.SetActive(false);
-    }
-    
-    public void Reset_Accept()
-    {
-        PlayerPrefs.DeleteAll();
-        SceneManager.LoadScene("Main");
     }
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Decent_Manager : MonoBehaviour
 {
     public Image background;
-    public Sprite main_Background;
     public GameObject blur;
     public GameObject tutorial;
     public Text tutorial_Notice;
@@ -33,7 +33,7 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage2_Main_Panel;
     public GameObject stage2_ScrollView;
     public GameObject stage2_Button;
-    private int stage2_Answer = 0;
+    private int stage2_Answer;
     public GameObject stage3;
     public GameObject stage3_Sentence;
     public GameObject stage4;
@@ -45,17 +45,17 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage4_Four;
     public GameObject stage4_Five;
     public GameObject stage4_Btn;
-    private int stage4_Count = 0;
+    private int stage4_Count;
     public GameObject stage5;
     public GameObject stage5_Tutorial;
-    public bool stage5_isTutorial = false;
+    public bool stage5_isTutorial;
     private bool stage5_isTutorial_Check;
     private bool stage5_isTutorial_Check2;
     public GameObject stage5_Tutorial_Bar;
     public GameObject stage5_Tutorial_Panel;
     public Image stage5_Tutorial_Road;
     public GameObject stage5_Count;
-    public bool stage5_Count_Finish = false;
+    public bool stage5_Count_Finish;
     public Text stage5_Notice;
     public GameObject stage5_Notice_Image;
     public int stage5_Notice_Num = 1;
@@ -77,12 +77,10 @@ public class Decent_Manager : MonoBehaviour
     public GameObject shadow;
     public GameObject success;
     public GameObject fail;
-    public bool isNext = false;
-    public bool isSentence = false;
+    public bool isNext;
+    public bool isSentence;
     public int stage = 1;
-    GameManager gameManager;
-    AnimManager animManager;
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    WaitForSeconds waitForSeconds = new (0.01f);
     public bool isTutorial;
     private bool isTutorial_Check;
     private bool isTutorial_Check2;
@@ -102,17 +100,26 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     public List<string> stage5_Text = new List<string> { };
     public List<string> stage6_Text = new List<string> {"너도 나름 최선을 다했잖아.", "잘했어.", "잘 하려고 한 거잖아.", "누구나 잘 하고 싶지.", "못하고 싶은 사람은 아무도 없어.", "네가 한 것은 다 잘 한거야.", "너도 좋은 사람이려고 한 거잖아."};
-    public int count = 0;
+    public int count;
     public GameObject tutorial_Notice_Image;
     public List<Sprite> cutToon;
     public List<Sprite> stage5_Road_Image;
-    public bool isFinish = false;
+    public bool isFinish;
+    public GameObject upgrade;
+    public GameObject upgrade_Character;
     public BGMManager bgmManager;
 
-    void Awake()
+    void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        animManager = GameObject.Find("AnimManager").GetComponent<AnimManager>();
+        if (DBManager.instance.decent_Again)
+        {
+            DBManager.instance.decent_Again = false;
+            Reset_Stage2();
+        }
+        else if(DBManager.instance.decent_IsRefresh)
+        {
+            Reset_Stage6();
+        }
     }
 
     void Update()
@@ -127,16 +134,14 @@ public class Decent_Manager : MonoBehaviour
     
     void Tutorial()
     {
-        if (isTutorial == false)
+        if (!isTutorial)
         {
-            if (isTutorial_Check == false)
+            if (!isTutorial_Check)
             {
                 isTutorial_Check = true;
-                gameManager.Set2();
-                
+
                 if (PlayerPrefs.GetInt("Decent_Tutorial") == 0)
                 {
-                    gameManager.buttons.SetActive(false);
                     isTutorial = false;
                     Tutorial_Notice();
                 }
@@ -158,7 +163,7 @@ public class Decent_Manager : MonoBehaviour
                 }
             }
         }
-        else if (isTutorial == true && isTutorial_Check2 == false)
+        else if (isTutorial && !isTutorial_Check2)
         {
             isTutorial_Check2 = true;
             
@@ -184,14 +189,13 @@ public class Decent_Manager : MonoBehaviour
             tutorial.SetActive(false);
             game.SetActive(true);
             stage1_Notice_Image.GetComponent<Animator>().Play("Text");
-            gameManager.buttons.SetActive(true);
 
-            if (gameManager.stage_Select_Step_Num == 1 || gameManager.stage_Select_Step_Num == 2)
+            if (DBManager.instance.currentStep == 1 || DBManager.instance.currentStep == 2)
             {
                 stage1_cutToon.sprite = cutToon[0];
                 stage2_cutToon.sprite = cutToon[0];
             }
-            else if (gameManager.stage_Select_Step_Num == 3)
+            else if (DBManager.instance.currentStep == 3)
             {
                 stage1_cutToon.sprite = cutToon[1];
                 stage2_cutToon.sprite = cutToon[1];
@@ -225,7 +229,7 @@ public class Decent_Manager : MonoBehaviour
 
     void Stage1()
     {
-        if (isTutorial == true && stage == 1)
+        if (isTutorial && stage == 1)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -257,14 +261,6 @@ public class Decent_Manager : MonoBehaviour
     public void Stage1_Btn(int num)
     {
         count = 0;
-        /*stage2.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;
-        stage2.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
-        stage2.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
-        stage2.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
-        stage2.transform.GetChild(0).GetChild(2).GetComponent<Button>().interactable = true;
-        stage2.transform.GetChild(0).GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);
-        stage2.transform.GetChild(0).GetChild(3).GetComponent<Button>().interactable = true;
-        stage2.transform.GetChild(0).GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 1);*/
         
         if (num == 0)
         {
@@ -300,10 +296,11 @@ public class Decent_Manager : MonoBehaviour
 
         if (type == "Anger")
         {
+            DBManager.instance.decent_Anger = true;
             stage2_Emotion_Btn.transform.GetChild(0).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
 
-            switch (gameManager.stage_Select_Step_Num)
+            switch (DBManager.instance.currentStep)
             {
                 case 1:
                     stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
@@ -318,10 +315,11 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (type == "Unrest")
         {
+            DBManager.instance.decent_Unrest = true;
             stage2_Emotion_Btn.transform.GetChild(1).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
             
-            switch (gameManager.stage_Select_Step_Num)
+            switch (DBManager.instance.currentStep)
             {
                 case 1:
                     stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
@@ -336,10 +334,11 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (type == "Sadness")
         {
+            DBManager.instance.decent_Sadness = true;
             stage2_Emotion_Btn.transform.GetChild(2).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
 
-            switch (gameManager.stage_Select_Step_Num)
+            switch (DBManager.instance.currentStep)
             {
                 case 1:
                     stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
@@ -354,10 +353,11 @@ public class Decent_Manager : MonoBehaviour
         }
         else if (type == "Remorse")
         {
+            DBManager.instance.decent_Remorse = true;
             stage2_Emotion_Btn.transform.GetChild(3).GetComponent<Button>().interactable = false;
             stage2_Emotion_Btn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
 
-            switch (gameManager.stage_Select_Step_Num)
+            switch (DBManager.instance.currentStep)
             {
                 case 1:
                     stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
@@ -371,7 +371,7 @@ public class Decent_Manager : MonoBehaviour
             }
         }
 
-        if (gameManager.stage_Select_Step_Num == 1)
+        if (DBManager.instance.currentStep == 1)
         {
             for (int i = 0; i < 2; i++)
             {
@@ -428,7 +428,7 @@ public class Decent_Manager : MonoBehaviour
                 }
             }
         }
-        else if (gameManager.stage_Select_Step_Num == 2)
+        else if (DBManager.instance.currentStep == 2)
         {
             if (stage2_Emotion == "Anger")
             {
@@ -578,7 +578,7 @@ public class Decent_Manager : MonoBehaviour
                 }
             }
         }
-        else if (gameManager.stage_Select_Step_Num == 3)
+        else if (DBManager.instance.currentStep == 3)
         {
             if (stage2_Emotion == "Anger")
             {
@@ -743,7 +743,7 @@ public class Decent_Manager : MonoBehaviour
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
             stage2_Answer++;
 
-            if (gameManager.stage_Select_Step_Num == 1)
+            if (DBManager.instance.currentStep == 1)
             {
                 if (stage2_Answer >= 2)
                 {
@@ -757,7 +757,7 @@ public class Decent_Manager : MonoBehaviour
                     Invoke("Stage2_Delay", 1.5f);
                 }
             }
-            else if (gameManager.stage_Select_Step_Num == 2 || gameManager.stage_Select_Step_Num == 3)
+            else if (DBManager.instance.currentStep == 2 || DBManager.instance.currentStep == 3)
             {
                 if (stage2_Answer >= 4)
                 {
@@ -1016,9 +1016,9 @@ public class Decent_Manager : MonoBehaviour
     
     void Stage5_Tutorial()
     {
-        if (isTutorial == true && stage == 5 && stage5_isTutorial == false)
+        if (isTutorial && stage == 5 && !stage5_isTutorial)
         {
-            if (stage5_isTutorial_Check == false)
+            if (!stage5_isTutorial_Check)
             {
                 stage5_isTutorial_Check = true;
 
@@ -1060,7 +1060,7 @@ public class Decent_Manager : MonoBehaviour
                 }
             }
         }
-        else if (isTutorial == true && stage5_isTutorial == true && stage5_isTutorial_Check2 == false)
+        else if (isTutorial && stage5_isTutorial && !stage5_isTutorial_Check2)
         {
             stage5_isTutorial_Check2 = true;
             stage5_Tutorial.SetActive(false);
@@ -1144,7 +1144,7 @@ public class Decent_Manager : MonoBehaviour
         }
     }
 
-    private IEnumerator Stage5_Count()
+    IEnumerator Stage5_Count()
     {
         switch (stage2_Emotion)
         {
@@ -1179,7 +1179,6 @@ public class Decent_Manager : MonoBehaviour
             }
             
             time -= 1;
-            
             yield return new WaitForSeconds(1f);
         }
 
@@ -1189,7 +1188,7 @@ public class Decent_Manager : MonoBehaviour
     
     void Fuel()
     {
-        if (isTutorial == true && stage == 5 && isSentence == false && stage5_isTutorial == false && stage5_Notice_Num >= 6)
+        if (isTutorial && stage == 5 && !isSentence && !stage5_isTutorial && stage5_Notice_Num >= 6)
         {
             isSentence = true;
             
@@ -1204,7 +1203,7 @@ public class Decent_Manager : MonoBehaviour
                 Invoke("Stage5_Check", 3f);
             }
         }
-        else if (isTutorial == true && stage == 5 && isSentence == false && stage5_isTutorial == true && stage5_Count_Finish == true)
+        else if (isTutorial && stage == 5 && !isSentence && stage5_isTutorial && stage5_Count_Finish)
         {
             isSentence = true;
             
@@ -1221,7 +1220,7 @@ public class Decent_Manager : MonoBehaviour
     
     IEnumerator FuelGenerator()
     {
-        if (stage5_isTutorial == false)
+        if (!stage5_isTutorial)
         {
             int rand1 = Random.Range(0, 2);
 
@@ -1290,7 +1289,7 @@ public class Decent_Manager : MonoBehaviour
     
             isSentence = false;
         }
-        else if (stage5_isTutorial == true)
+        else if (stage5_isTutorial)
         {
             int rand1 = Random.Range(0, 2);
 
@@ -1363,7 +1362,7 @@ public class Decent_Manager : MonoBehaviour
     
     void Stage6()
     {
-        if (isTutorial == true && stage == 6 && isSentence == false)
+        if (isTutorial && stage == 6 && !isSentence)
         {
             isSentence = true;
 
@@ -1398,12 +1397,12 @@ public class Decent_Manager : MonoBehaviour
 
     public void Check()
     {
-        if (isTutorial == false)
+        if (!isTutorial)
         {
             isTutorial = true;
             PlayerPrefs.SetInt("Decent_Tutorial", 1);
         }
-        else if (isTutorial == true)
+        else if (isTutorial)
         {
             if (stage == 3)
             {
@@ -1431,7 +1430,7 @@ public class Decent_Manager : MonoBehaviour
             }
             else if (stage == 5)
             {
-                if (stage5_isTutorial == false)
+                if (!stage5_isTutorial)
                 {
                     Stage5_Check();
                 }
@@ -1446,17 +1445,16 @@ public class Decent_Manager : MonoBehaviour
 
                     if (count != 4)
                     {
-                        Reset();
-                        isTutorial = true;
-                        stage1.SetActive(false);
-                        stage2.SetActive(true);
-                        stage = 2;
-                        stage2_Notice.text = "앞서 선택한 4가지 감정 중 한 가지를 선택해주세요.";
+                        DBManager.instance.decent_Count = count;
+                        DBManager.instance.decent_Again = true;
+                        SceneManager.LoadScene("Decent");
                     }
                     else if (count == 4)
                     {
                         isNext = true;
-                        animManager.Fade_Out();
+                        DBManager.instance.refresh_PrevStage = "Decent";
+                        DBManager.instance.currentStage = "Refresh";
+                        SceneManager.LoadScene("Loading");
                     }
                 }
             }
@@ -1469,9 +1467,64 @@ public class Decent_Manager : MonoBehaviour
         }
     }
 
+    void Reset_Stage2()
+    {
+        if (DBManager.instance.decent_Anger)
+        {
+            stage2_Emotion_Btn.transform.GetChild(0).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+        }
+        
+        if (DBManager.instance.decent_Unrest)
+        {
+            stage2_Emotion_Btn.transform.GetChild(1).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(1).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+        }
+        
+        if (DBManager.instance.decent_Sadness)
+        {
+            stage2_Emotion_Btn.transform.GetChild(2).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(2).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+        }
+        
+        if (DBManager.instance.decent_Remorse)
+        {
+            stage2_Emotion_Btn.transform.GetChild(3).GetComponent<Button>().interactable = false;
+            stage2_Emotion_Btn.transform.GetChild(3).GetChild(1).GetComponent<Image>().color = new Color(255, 255, 255, 0.3f);
+        }
+        
+        isTutorial = true;
+        stage1.SetActive(false);
+        stage2.SetActive(true);
+        stage = 2;
+        stage2_Notice.text = "앞서 선택한 4가지 감정 중 한 가지를 선택해주세요.";
+        count = DBManager.instance.decent_Count;
+    }
+
+    void Reset_Stage6()
+    {
+        isTutorial = true;
+        stage1.SetActive(false);
+        stage6.SetActive(true);
+        stage = 6;
+        
+        if (DBManager.instance.currentStep == 1)
+        {
+            stage6_Char_Step1.SetActive(true);
+        }
+        else if (DBManager.instance.currentStep == 2)
+        {
+            stage6_Char_Step2.SetActive(true);
+        }
+        else if (DBManager.instance.currentStep == 3)
+        {
+            stage6_Char_Step3.SetActive(true);
+        }
+    }
+
     void Sentence()
     {
-        if (isTutorial == false && isSentence == false && tutorial_Notice_Num >= 4)
+        if (!isTutorial && !isSentence && tutorial_Notice_Num >= 4)
         {
             if (sentence_Text.Count != 0)
             {
@@ -1489,7 +1542,7 @@ public class Decent_Manager : MonoBehaviour
                 }
             }
         }
-        else if (isTutorial == true && stage == 3 && isSentence == false)
+        else if (isTutorial && stage == 3 && !isSentence)
         {
             if (stage3_Text.Count != 0)
             {
@@ -1510,7 +1563,7 @@ public class Decent_Manager : MonoBehaviour
     {
         bool test = isTutorial;
 
-        if (test == false)
+        if (!test)
         {
             GameObject temp = Instantiate(sentence);
             temp.transform.SetParent(tutorial_Sentence.transform);
@@ -1521,7 +1574,7 @@ public class Decent_Manager : MonoBehaviour
             temp.transform.GetChild(0).GetComponent<Text>().text = sentence_Text[num];
             sentence_Text.RemoveAt(num);
         }
-        else if (test == true)
+        else if (test)
         {
             GameObject temp = Instantiate(sentence);
             temp.transform.SetParent(stage3_Sentence.transform);
@@ -1534,7 +1587,6 @@ public class Decent_Manager : MonoBehaviour
         }
         
         yield return new WaitForSeconds(3.0f);
-
         isSentence = false;
     }
 
@@ -1543,54 +1595,27 @@ public class Decent_Manager : MonoBehaviour
         Check();
     }
 
-    public void ReStart()
-    {
-        if (gameManager.pause.activeSelf == true)
-        {
-            var animator = gameManager.pause.GetComponent<Animator>();
-            animator.Play("Close");
-            Invoke("Pause_Close", 0.5f);
-        }
-        else
-        {
-            if (success.activeSelf == true)
-            {
-                var animator = success.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            else if (fail.activeSelf == true)
-            {
-                var animator = fail.GetComponent<Animator>();
-                animator.Play("Close");
-            }
-            
-            Invoke("Success_Fail_Close", 0.5f);
-        }
-        
-        Reset();
-    }
-    
     public void Next()
     {
-        if (success.activeSelf == true)
+        if (success.activeSelf)
         {
-            if (gameManager.stage_Select_Step_Num == 1)
+            if (DBManager.instance.currentStep == 1)
             {
                 if (PlayerPrefs.GetInt("level") <= 4)
                 {
                     PlayerPrefs.SetInt("level", 5);
-                    gameManager.stage_Select_Step_Num = 2;
+                    DBManager.instance.currentStep = 2;
                 }
             }
-            else if (gameManager.stage_Select_Step_Num == 2)
+            else if (DBManager.instance.currentStep == 2)
             {
                 if (PlayerPrefs.GetInt("level") <= 8)
                 {
                     PlayerPrefs.SetInt("level", 9);
-                    gameManager.stage_Select_Step_Num = 3;
+                    DBManager.instance.currentStep = 3;
                 }
             }
-            else if (gameManager.stage_Select_Step_Num == 3)
+            else if (DBManager.instance.currentStep == 3)
             {
                 if (PlayerPrefs.GetInt("level") <= 12)
                 {
@@ -1601,160 +1626,55 @@ public class Decent_Manager : MonoBehaviour
             var animator = success.GetComponent<Animator>();
             animator.Play("Close");
         }
-        else if (fail.activeSelf == true)
+        else if (fail.activeSelf)
         {
             var animator = fail.GetComponent<Animator>();
             animator.Play("Close");
         }
         
-        animManager.Fade_Out();
         Invoke("Success_Fail_Close", 0.5f);
-    }
-    
-    public void Help()
-    {
-        PlayerPrefs.SetInt("Decent_Tutorial", 0);
-        var animator = gameManager.pause.GetComponent<Animator>();
-        animator.Play("Close");
-        Reset();
-        Invoke("Pause_Close", 0.5f);
     }
     
     void Success_Fail_Close()
     {
-        if (success.activeSelf == true)
+        if (success.activeSelf)
         {
             success.SetActive(false);
         }
-        else if (fail.activeSelf == true)
+        else if (fail.activeSelf)
         {
             fail.SetActive(false);
         }
+        
+        if (isFinish && ((DBManager.instance.currentStep == 2 && DBManager.instance.level <= 5) || (DBManager.instance.currentStep == 3 && DBManager.instance.level <= 9)))
+        {
+            upgrade.SetActive(true);
+            Upgrade();
+        }
+        else
+        {
+            DBManager.instance.currentStage = "Main";
+            SceneManager.LoadScene("Loading");
+        }
     }
     
-    void Pause_Close()
+    void Upgrade()
     {
-        gameManager.buttons.transform.GetChild(0).gameObject.SetActive(false);
-        gameManager.buttons.transform.GetChild(1).gameObject.SetActive(true);
-        gameManager.buttons.transform.GetChild(2).gameObject.SetActive(false);
-        gameManager.pause.SetActive(false);
+        if (DBManager.instance.currentStep == 2)
+        {
+            upgrade_Character.GetComponent<Animator>().Play("Step1");
+        }
+        else if (DBManager.instance.currentStep == 3)
+        {
+            upgrade_Character.GetComponent<Animator>().Play("Step2");
+        }
+        
+        Invoke("Upgrade_Finish", 11.0f);
     }
-
-    public void Reset()
+    
+    void Upgrade_Finish()
     {
-        Time.timeScale = 1;
-        background.sprite = main_Background;
-        blur.SetActive(true);
-        tutorial.SetActive(true);
-        isTutorial = false;
-        isTutorial_Check = false;
-        isTutorial_Check2 = false;
-        tutorial_Notice_Num = 1;
-        tutorial_True.SetActive(false);
-        tutorial_Interpret.SetActive(false);
-        tutorial_Notice.text = "탈중심화 연습을 시작합니다.";
-
-        for (int i = 0; i < tutorial_Sentence.transform.childCount; i++)
-        {
-            Destroy(tutorial_Sentence.transform.GetChild(i).gameObject);
-        }
-        
-        for (int i = 0; i < stage1_Buttons.Length; i++)
-        {
-            stage1_Buttons[i].GetComponent<Button>().interactable = true;
-            stage1_Buttons[i].GetComponent<Button>().onClick.RemoveAllListeners();
-        }
-
-        stage = 1;
-        game.SetActive(false);
-        stage1.SetActive(true);
-        stage1_cutToon.GetComponent<RectTransform>().offsetMin = new Vector2(0, -500);
-        stage1_Notice_Image.SetActive(true);
-        stage1_Button.SetActive(false);
-        stage1_Notice_Num = 1;
-        stage1_Notice.text = "아래 그림을 자세히 살펴봐주세요.";
-        stage2.SetActive(false);
-        stage2_Answer = 0;
-        stage2_Notice.text = "아래의 앞서 선택한 4가지 감정이 있습니다.\n이 중 한 가지를 선택해주세요.";
-        stage2_Emotion_Btn.SetActive(true);
-        stage2_Main_Panel.SetActive(false);
-        stage2_ScrollView.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-        stage3.SetActive(false);
-        stage4.SetActive(false);
-        stage4_Zero.SetActive(true);
-        stage4_One.SetActive(false);
-        stage4_Two.SetActive(false);
-        stage4_Three.SetActive(false);
-        stage4_Four.SetActive(false);
-        stage4_Five.SetActive(false);
-        stage4_Btn.SetActive(false);
-        stage4_Count = 0;
-
-        for (int i = 0; i < stage2_ScrollView.transform.GetChild(0).GetChild(0).childCount; i++)
-        {
-            Destroy(stage2_ScrollView.transform.GetChild(0).GetChild(0).GetChild(i).gameObject);
-        }
-        
-        for (int i = 0; i < stage3_Sentence.transform.childCount; i++)
-        {
-            Destroy(stage3_Sentence.transform.GetChild(i).gameObject);
-        }
-        
-        for (int i = 0; i < stage5_Tutorial_Panel.transform.GetChild(2).childCount; i++)
-        {
-            Destroy(stage5_Tutorial.transform.GetChild(6).GetChild(i).gameObject);
-        }
-        
-        for (int i = 0; i < stage5_Game.transform.GetChild(3).childCount; i++)
-        {
-            Destroy(stage5_Game.transform.GetChild(3).GetChild(i).gameObject);
-        }
-        
-        stage5_Bar.GetComponent<Slider>().value = 0;
-        stage5_Car.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 150);
-        stage5.SetActive(false);
-        stage5_Tutorial.SetActive(true);
-        stage5_isTutorial = false;
-        stage5_isTutorial_Check = false;
-        stage5_isTutorial_Check2 = false;
-        stage5_Notice.text = "수용 연습을 시작합니다.";
-        stage5_Notice_Num = 1;
-        stage5_Game.SetActive(false);
-        stage5_isTutorial = false;
-        stage5_Tutorial_Panel.SetActive(false);
-        stage5_Tutorial_Bar.GetComponent<Slider>().value = 0;
-        stage5_Tutorial_Panel.SetActive(false);
-        stage5_Count.SetActive(true);
-        stage5_Count.GetComponent<Text>().text = "3";
-        stage5_Count_Finish = false;
-        stage5_Notice_Image.SetActive(true);
-        stage5_Bar.GetComponent<Slider>().value = 0;
-        stage6.SetActive(false);
-        stage6_Char_Step1.SetActive(false);
-        stage6_Char_Step2.SetActive(false);
-        stage6_Char_Step3.SetActive(false);
-        stage6_Bar.GetComponent<Slider>().value = 0;
-        isSentence = false;
-        sentence_Text = new List<string> {"우리 할머니의 머리는 점점 백발이 되고 있다.", "오늘 아침에 내 짝이 나를 보고 미소를 지었다.", "나는 생각하고 느끼는 존재이다.", "우리 엄마는 잔소리를 많이 한다.", "우리 아빠는 집안일을 잘 하지 않는다.", "내 동생은 다소 이기적이다.", "우리 반 친구들은 나를 싫어한다.", "내 친구들은 나를 보고도 모른 체 한다.", "내 초등학교 절친은 사회성이 부족하다.", "선생님들은 우리를 힘들게 한다.", "우리 회사의 사장님은 권위적이다.", "공부든 일이든 모두 나를 위한 것이다.", "적성을 아는 것이 진로 선택에 도움이 된다.", "나는 타인의 눈치를 많이 본다.", "나는 왕따이다.", "나는 자신감이 부족하다.", "운전하면서 중간에 끼어들면 안 된다.", "운전하면서 중간에 끼어들어도 괜찮다.", "경상도 남자들은 말이 별로 없다.", "안중근 의사는 애국자이다."};
-        stage1_Text = new List<string> { "화난", "그리운", "불안한", "사랑스러운", "슬픈", "뿌듯한", "든든한", "괴로운", "열정적인" };
-        stage2_Anger = new List<string>
-        { "나는 잘못이 없어.", "이 친구는 나쁜 놈이야.", "참으면 나를 무시할 거야.", "일부러 나를 힘들게 해." };
-
-        stage2_Unrest = new List<string>
-        { "앞으로도 계속 괴롭히겠지.", "언제 또 당할지 몰라.", "모두 나를 바보처럼 보겠지.", "이제 학교생활은 끝이야." };
-
-        stage2_Sadness = new List<string> {"내 편은 아무도 없어.", "언제나 나는 혼자야.", "아무런 희망이 안 보여.", "아무도 도와주지 않아."};
-        stage2_Remorse = new List<string> {"나는 바보같아.", "내가 잘 못했어.", "다 나 때문이야.", "원래 나는 비호감이야."};
-        stage2_Text = new List<string> { };
-        stage3_True = new List<string> {"저 애가 나를 쳐다보고 있어.", "지금 엄마가 생각나.", "반 친구들이 여기를 보고 있네.", "나는 현재 긴장된 상태야.", "지금 어떻게 해야할지 고민이야.", "친구들이 가만히 있기만 하네.", "손에 힘이 들어가고 있어.", "목이 마르고 열이 나네."};
-        stage3_Text = new List<string> { };
-        stage5_Text = new List<string> { };
-        stage6_Text = new List<string> {"너로 나름 최선을 다했잖아.", "잘했어.", "잘 하려고 한 거잖아.", "누구나 잘 하고 싶지.", "못하고 싶은 사람은 아무도 없어.", "네가 한 것은 다 잘 한거야.", "너도 좋은 사람이려고 한 거잖아."};
-        isNext = false;
-        shadow.SetActive(false);
-        success.SetActive(false);
-        fail.SetActive(false);
-        tutorial_Notice_Image.SetActive(true);
-        isFinish = false;
+        DBManager.instance.currentStage = "Main";
+        SceneManager.LoadScene("Loading");
     }
 }

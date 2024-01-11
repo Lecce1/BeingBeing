@@ -6,25 +6,25 @@ public class Decent_Fuel : MonoBehaviour
 {
     public bool isObstacle;
     Decent_Manager decent_Manager;
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+    WaitForSeconds waitForSeconds = new (0.01f);
 
     void Awake()
     {
-        decent_Manager = GameObject.Find("Decent_Manager").GetComponent<Decent_Manager>();
+        decent_Manager = GameObject.Find("DecentManager").GetComponent<Decent_Manager>();
     }
     
     void Update()
     {
         transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, transform.GetComponent<RectTransform>().anchoredPosition.y - (700f * Time.deltaTime));
 
-        if (decent_Manager.stage5_isTutorial == false)
+        if (!decent_Manager.stage5_isTutorial)
         {
             if (decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value == 1)
             {
                 Destroy(gameObject);
             }
         }
-        else if (decent_Manager.stage5_isTutorial == true)
+        else if (decent_Manager.stage5_isTutorial)
         {
             if (decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value == 1)
             {
@@ -37,7 +37,7 @@ public class Decent_Fuel : MonoBehaviour
     {
         transform.GetComponent<Image>().enabled = false;
         
-        if (decent_Manager.stage5_isTutorial == false)
+        if (!decent_Manager.stage5_isTutorial)
         {
             float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value;
 
@@ -60,7 +60,7 @@ public class Decent_Fuel : MonoBehaviour
         
             Destroy(gameObject);
         }
-        else if (decent_Manager.stage5_isTutorial == true)
+        else if (decent_Manager.stage5_isTutorial)
         {
             float fill = decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value;
 
@@ -89,7 +89,7 @@ public class Decent_Fuel : MonoBehaviour
     {
         transform.GetComponent<Image>().enabled = false;
         
-        if (decent_Manager.stage5_isTutorial == false)
+        if (!decent_Manager.stage5_isTutorial)
         {
             float fill = decent_Manager.stage5_Tutorial_Bar.transform.GetComponent<Slider>().value;
 
@@ -112,7 +112,7 @@ public class Decent_Fuel : MonoBehaviour
         
             Destroy(gameObject);
         }
-        else if (decent_Manager.stage5_isTutorial == true)
+        else if (decent_Manager.stage5_isTutorial)
         {
             float fill = decent_Manager.stage5_Bar.transform.GetComponent<Slider>().value;
 
@@ -141,7 +141,7 @@ public class Decent_Fuel : MonoBehaviour
     {
         if (other.name == "Car")
         {
-            if (isObstacle == false)
+            if (!isObstacle)
             {
                 StartCoroutine("Bar_Success");
             }
@@ -149,7 +149,6 @@ public class Decent_Fuel : MonoBehaviour
             {
                 StartCoroutine("Bar_Fail");
             }
-
         }
     }
 }

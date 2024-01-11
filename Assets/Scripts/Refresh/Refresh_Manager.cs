@@ -37,6 +37,8 @@ public class Refresh_Manager : MonoBehaviour
 
     void Start()
     {
+        prevStage = DBManager.instance.refresh_PrevStage;
+        
         if (DBManager.instance.currentStep == 1)
         {
             breath_Character_Step1.SetActive(true);
@@ -304,8 +306,9 @@ public class Refresh_Manager : MonoBehaviour
         if (prevStage == "Decent")
         {
             backGlow.SetActive(false);
+            DBManager.instance.decent_IsRefresh = true;
             DBManager.instance.currentStage = "Decent";
-            SceneManager.LoadScene(DBManager.instance.currentStage);
+            SceneManager.LoadScene("Loading");
         }
         else
         {
