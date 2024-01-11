@@ -8,4 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 9a554f981e0894c8e8a47b7cc17a3346
+  - enabled: 1
+    path: Assets/Scenes/Loading.unity
+    guid: e78bd754a5966430b854409e0c268b56
+  - enabled: 1
+    path: Assets/Scenes/Breath.unity
+    guid: 70fd1426c22a549f2a837188b1b833ad
+  - enabled: 1
+    path: Assets/Scenes/Smile.unity
+    guid: 2c64c59703f074b9994b9ab2c493a355
+  - enabled: 1
+    path: Assets/Scenes/BodyRecog.unity
+    guid: 0906c540e8906408299bda57463daada
+  - enabled: 1
+    path: Assets/Scenes/EmotionRecog.unity
+    guid: f192edd4d685341eabaf491c3fe6be07
+  - enabled: 1
+    path: Assets/Scenes/Refresh.unity
+    guid: b1c623a99495240cf8a9443a1010307e
   m_configObjects: {}
