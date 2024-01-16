@@ -15,12 +15,12 @@ public class GameManager : MonoBehaviour
     public GameObject stage;
     public Image stage_Char;
     public GameObject[] stage_Select_Step;
-    public int stage_Select_Step_Num;
     public GameObject[] stage_Select_Buttons;
     public GameObject stage_Select_Stage;
     public Text stage_Select_Stage_Title;
     public Text stage_Select_Stage_Content;
     public GameObject stage_Select_Stage_Start;
+    public GameObject stage_Select_Stage_Recog_Start;
     public List<GameObject> stage_Road;
     public GameObject set;
     public GameObject notice;
@@ -41,11 +41,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine("Init");
-    }
-
-    void Update()
-    {
-        Quit();
     }
 
     IEnumerator Init()
@@ -71,6 +66,8 @@ public class GameManager : MonoBehaviour
 
     public void Set()
     {
+        DBManager.instance.Renewal();
+        
         for (int i = 0; i < 4; i++)
         {
             stage_Select_Buttons[i].SetActive(false);
@@ -83,203 +80,24 @@ public class GameManager : MonoBehaviour
 
         if (DBManager.instance.level == 0)
         {
-            if (PlayerPrefs.HasKey("level"))
+            PlayerPrefs.SetInt("level", 1);
+            int index = PlayerPrefs.GetInt("level");
+
+            for (int i = 0; i < index; i++)
             {
-                int index = DBManager.instance.level;
-                
-                if (index <= 4)
-                {
-                    stage_Select_Step_Num = 1;
-                    stage_Select_Step[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
-                    stage_Select_Step[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                    stage_Select_Step[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                    stage_Select_Step[0].GetComponent<Button>().interactable = true;
-                    stage_Select_Step[1].GetComponent<Button>().interactable = false;
-                    stage_Select_Step[2].GetComponent<Button>().interactable = false;
-                }
-                else if (index >= 5 && index <= 8)
-                {
-                    stage_Select_Step_Num = 2;
-                    stage_Select_Step[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                    stage_Select_Step[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
-                    stage_Select_Step[2].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                    stage_Select_Step[0].GetComponent<Button>().interactable = true;
-                    stage_Select_Step[1].GetComponent<Button>().interactable = true;
-                    stage_Select_Step[2].GetComponent<Button>().interactable = false;
-                }
-                else if (index >= 9 && index <= 12)
-                {
-                    stage_Select_Step_Num = 3;
-                    stage_Select_Step[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                    stage_Select_Step[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
-                    stage_Select_Step[2].transform.GetChild(1).GetComponent<Image>().enabled = true;
-                    stage_Select_Step[0].GetComponent<Button>().interactable = true;
-                    stage_Select_Step[1].GetComponent<Button>().interactable = true;
-                    stage_Select_Step[2].GetComponent<Button>().interactable = true;
-                }
-
-                if (stage_Select_Step_Num == 1)
-                {
-                    stage_Char.sprite = charLevel[0];
-                    
-                    if (index <= 4)
-                    {
-                        for (int i = 0; i < index; i++)
-                        {
-                            stage_Select_Buttons[i].SetActive(true);
-                        }
-
-                        if (index == 2)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                        }
-                        else if (index == 3)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                            stage_Road[2].SetActive(true);
-                            stage_Road[3].SetActive(true);
-                        }
-                        else if (index == 4)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                            stage_Road[2].SetActive(true);
-                            stage_Road[3].SetActive(true);
-                            stage_Road[4].SetActive(true);
-                            stage_Road[5].SetActive(true);
-                            stage_Road[6].SetActive(true);
-                            stage_Road[7].SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            stage_Select_Buttons[i].SetActive(true);
-                        }
-                        
-                        stage_Road[0].SetActive(true);
-                        stage_Road[1].SetActive(true);
-                        stage_Road[2].SetActive(true);
-                        stage_Road[3].SetActive(true);
-                        stage_Road[4].SetActive(true);
-                        stage_Road[5].SetActive(true);
-                        stage_Road[6].SetActive(true);
-                        stage_Road[7].SetActive(true);
-                    }
-                }
-                else if (stage_Select_Step_Num == 2)
-                {
-                    stage_Char.sprite = charLevel[1];
-                    
-                    if (index >= 5 && index <= 8)
-                    {
-                        for (int i = 0; i < index - 4; i++)
-                        {
-                            stage_Select_Buttons[i].SetActive(true);
-                        }
-                        
-                        if (index == 6)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                        }
-                        else if (index == 7)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                            stage_Road[2].SetActive(true);
-                            stage_Road[3].SetActive(true);
-                        }
-                        else if (index == 8)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                            stage_Road[2].SetActive(true);
-                            stage_Road[3].SetActive(true);
-                            stage_Road[4].SetActive(true);
-                            stage_Road[5].SetActive(true);
-                            stage_Road[6].SetActive(true);
-                            stage_Road[7].SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            stage_Select_Buttons[i].SetActive(true);
-                        }
-                        
-                        stage_Road[0].SetActive(true);
-                        stage_Road[1].SetActive(true);
-                        stage_Road[2].SetActive(true);
-                        stage_Road[3].SetActive(true);
-                        stage_Road[4].SetActive(true);
-                        stage_Road[5].SetActive(true);
-                        stage_Road[6].SetActive(true);
-                        stage_Road[7].SetActive(true);
-                    }
-                }
-                else if (stage_Select_Step_Num == 3)
-                {
-                    stage_Char.sprite = charLevel[2];
-                    
-                    if (index >= 9)
-                    {
-                        for (int i = 0; i < index - 8; i++)
-                        {
-                            stage_Select_Buttons[i].SetActive(true);
-                        }
-                        
-                        if (index == 10)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                        }
-                        else if (index == 11)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                            stage_Road[2].SetActive(true);
-                            stage_Road[3].SetActive(true);
-                        }
-                        else if (index == 12)
-                        {
-                            stage_Road[0].SetActive(true);
-                            stage_Road[1].SetActive(true);
-                            stage_Road[2].SetActive(true);
-                            stage_Road[3].SetActive(true);
-                            stage_Road[4].SetActive(true);
-                            stage_Road[5].SetActive(true);
-                            stage_Road[6].SetActive(true);
-                            stage_Road[7].SetActive(true);
-                        }
-                    }
-                }
+                stage_Select_Buttons[i].SetActive(true);
             }
-            else
-            {
-                PlayerPrefs.SetInt("level", 1);
-                int index = PlayerPrefs.GetInt("level");
-
-                for (int i = 0; i < index; i++)
-                {
-                    stage_Select_Buttons[i].SetActive(true);
-                }
                 
-                stage_Select_Step[0].GetComponent<Button>().interactable = true;
-                stage_Select_Step[1].GetComponent<Button>().interactable = false;
-                stage_Select_Step[2].GetComponent<Button>().interactable = false;
-                stage_Char.sprite = charLevel[0];
-            }
+            stage_Select_Step[0].GetComponent<Button>().interactable = true;
+            stage_Select_Step[1].GetComponent<Button>().interactable = false;
+            stage_Select_Step[2].GetComponent<Button>().interactable = false;
+            stage_Char.sprite = charLevel[0];
         }
         else
         {
             int index = PlayerPrefs.GetInt("level");
 
-            if (stage_Select_Step_Num == 1)
+            if (DBManager.instance.currentStep == 1)
             {
                 stage_Select_Step[0].transform.GetChild(1).GetComponent<Image>().enabled = true;
                 stage_Select_Step[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
@@ -304,7 +122,7 @@ public class GameManager : MonoBehaviour
                     stage_Select_Step[2].GetComponent<Button>().interactable = true;
                 }
             }
-            else if (stage_Select_Step_Num == 2)
+            else if (DBManager.instance.currentStep == 2)
             {
                 stage_Select_Step[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Step[1].transform.GetChild(1).GetComponent<Image>().enabled = true;
@@ -323,7 +141,7 @@ public class GameManager : MonoBehaviour
                     stage_Select_Step[2].GetComponent<Button>().interactable = true;
                 }
             }
-            else if (stage_Select_Step_Num == 3)
+            else if (DBManager.instance.currentStep == 3)
             {
                 stage_Select_Step[0].transform.GetChild(1).GetComponent<Image>().enabled = false;
                 stage_Select_Step[1].transform.GetChild(1).GetComponent<Image>().enabled = false;
@@ -333,7 +151,7 @@ public class GameManager : MonoBehaviour
                 stage_Select_Step[2].GetComponent<Button>().interactable = true;
             }
             
-            if (stage_Select_Step_Num == 1)
+            if (DBManager.instance.currentStep == 1)
             {
                 stage_Char.sprite = charLevel[0];
                 
@@ -385,7 +203,7 @@ public class GameManager : MonoBehaviour
                     stage_Road[7].SetActive(true);
                 }
             }
-            else if (stage_Select_Step_Num == 2)
+            else if (DBManager.instance.currentStep == 2)
             {
                 stage_Char.sprite = charLevel[1];
                 
@@ -437,7 +255,7 @@ public class GameManager : MonoBehaviour
                     stage_Road[7].SetActive(true);
                 }
             }
-            else if (stage_Select_Step_Num == 3)
+            else if (DBManager.instance.currentStep == 3)
             {
                 stage_Char.sprite = charLevel[2];
                 
@@ -524,7 +342,7 @@ public class GameManager : MonoBehaviour
             
         bgmManager.voiceAudioSource.volume = set_Voice.value;
     }
-
+    
     IEnumerator Main_Text()
     {
         main_Text.text = "반갑습니다!";
@@ -639,7 +457,6 @@ public class GameManager : MonoBehaviour
         }
 
         DBManager.instance.currentStep = num;
-        stage_Select_Step_Num = num;
         int index = PlayerPrefs.GetInt("level");
 
         if (num == 1)
@@ -820,7 +637,7 @@ public class GameManager : MonoBehaviour
                 stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>호흡</color></size></b>\n호흡에 집중하게 되면\n주의집중과 심신의 안정이\n자연스럽게 이뤄질 뿐 아니라\n있는 그대로 알아차리는 힘을\n키우게 됩니다.\n\n<b><size=55><color=#43536C>빙그레</color></size></b>\n빙그레 웃음 한 번으로\n마음의 여유를 갖게 되고\n어려운 상황에서도 의연하게 대처하는\n힘을 갖게 됩니다.";
                 break;
             
-            case "Recog":
+            case "BodyRecog":
                 stage_Select_Stage_Title.text = "자각";
                 stage_Select_Stage_Content.text = "<b><size=55><color=#43536C>신체자각</color></size></b>\n긴장 이완 및 주의 집중 효과와 함께\n자신의 현재 상태를 정확하게\n이해할 수 있게 됩니다.\n\n<b><size=55><color=#43536C>감정자각</color></size></b>\n현재 겪고 있는 고통과 괴로움에서\n잠시 벗어나 보다 편안한 상태에서\n문제를 해결할 수 있게 됩니다.";
                 break;
@@ -848,11 +665,57 @@ public class GameManager : MonoBehaviour
 
     void Stage_Select_Stage_StartBtn()
     {
-        stage_Select_Stage_Start.SetActive(true);
+        if (DBManager.instance.currentStage == "Recog")
+        {
+            switch (DBManager.instance.currentStep)
+            {
+                case 1:
+                    if (DBManager.instance.recog_Step1_Clear)
+                    {
+                        stage_Select_Stage_Recog_Start.SetActive(true);
+                    }
+                    else
+                    {
+                        stage_Select_Stage_Start.SetActive(true);
+                    }
+                    break;
+                
+                case 2:
+                    if (DBManager.instance.recog_Step2_Clear)
+                    {
+                        stage_Select_Stage_Recog_Start.SetActive(true);
+                    }
+                    else
+                    {
+                        stage_Select_Stage_Start.SetActive(true);
+                    }
+                    break;
+                
+                case 3:
+                    if (DBManager.instance.recog_Step3_Clear)
+                    {
+                        stage_Select_Stage_Recog_Start.SetActive(true);
+                    }
+                    else
+                    {
+                        stage_Select_Stage_Start.SetActive(true);
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            stage_Select_Stage_Start.SetActive(true);
+        }
     }
 
-    public void stage_Select_Stage_StartBtn()
+    public void stage_Select_Stage_StartBtn(string type)
     {
+        if (type != "")
+        {
+            DBManager.instance.currentStage = type;
+        }
+
         stage_Select_Stage.GetComponent<Animator>().Play("Close");
         Invoke("Back_Delay", 0.5f);
         SceneManager.LoadScene("Loading");
@@ -912,19 +775,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Quit()
+    public void Quit()
     {
-        if(Application.platform == RuntimePlatform.Android)
-        {
-            if(Input.GetKey(KeyCode.Escape))
-            {
-                quit.SetActive(true);
-            }
-        }
-    }
-
-    public void Quit_Cancel()
-    {
-        quit.SetActive(false);
+        quit.SetActive(true);
     }
 }

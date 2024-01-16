@@ -31,6 +31,7 @@ public class EmotionRecog_Manager : MonoBehaviour
     public GameObject fail;
     private string emotionFeel;
     private float emotionStartTime;
+    [SerializeField]
     private float emotionTime;
     private bool isTimer;
     private bool isComing;
@@ -505,6 +506,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                         emotionColor.SetActive(false);
                         emotionBtn.SetActive(true);
                         dragArea.SetActive(false);
+                        emotionTimer.SetActive(false);
                     }
                     else if (isDot2)
                     {
@@ -628,6 +630,7 @@ public class EmotionRecog_Manager : MonoBehaviour
             else if (isDot)
             {
                 emotionStartTime = Time.time;
+                emotionTimer.SetActive(true);
                 isComing = false;
                 isCloud = false;
                 cloud_Text = new List<string> {"너 때문이야", "다 부숴버릴거야", "잘못되면 끝이야", "다른 사람이 알면 큰일인데", "나 때문이야", "내가 원망스러워", "좋은 사람은 다 가버리네", "내 편은 아무도 없어"};

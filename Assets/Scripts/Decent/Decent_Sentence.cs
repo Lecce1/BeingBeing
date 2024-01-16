@@ -60,7 +60,7 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         yPos -= (100f * Time.deltaTime);
         
-        if (!isTouch)
+        if (!isTouch && !decent_Manager.fail.activeSelf)
         {
             transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(transform.GetComponent<RectTransform>().anchoredPosition.x, transform.GetComponent<RectTransform>().anchoredPosition.y - (100f * Time.deltaTime));
         }
@@ -116,7 +116,6 @@ public class Decent_Sentence : MonoBehaviour, IBeginDragHandler, IEndDragHandler
             {
                 decent_Manager.shadow.SetActive(true);
                 decent_Manager.fail.SetActive(true);
-                Time.timeScale = 0;
             }
         }
     }

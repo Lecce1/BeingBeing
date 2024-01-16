@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -71,7 +72,6 @@ public class Decent_Manager : MonoBehaviour
     public GameObject stage6_Char_Step1;
     public GameObject stage6_Char_Step2;
     public GameObject stage6_Char_Step3;
-    public Sprite stage6_Background;
     public GameObject stage6_Bar;
     public GameObject stage6_Ment;
     public GameObject shadow;
@@ -99,7 +99,7 @@ public class Decent_Manager : MonoBehaviour
     private List<string> stage5_Sadness = new List<string> {"슬프다", "눈물이 난다", "아무것도 하고 싶지 않다", "가라앉는다", "귀찮다", "내가 우울했구나"};
     private List<string> stage5_Remorse = new List<string> {"실망스럽다", "내가 지금 어깨가 쳐지는구나", "목소리가 힘이 없다", "쪼그라든다", "주저앉고싶다", "애썼는데 아쉽네"};
     public List<string> stage5_Text = new List<string> { };
-    public List<string> stage6_Text = new List<string> {"너도 나름 최선을 다했잖아.", "잘했어.", "잘 하려고 한 거잖아.", "누구나 잘 하고 싶지.", "못하고 싶은 사람은 아무도 없어.", "네가 한 것은 다 잘 한거야.", "너도 좋은 사람이려고 한 거잖아."};
+    public List<string> stage6_Text = new List<string> {"너도 나름 최선을 다했잖아.", "잘했어.", "잘 하려고\n한 거잖아.", "누구나\n잘 하고 싶지.", "못하고 싶은 사람은 아무도 없어.", "네가 한 것은\n다 잘 한거야.", "너도 좋은 사람이려고 한 거잖아."};
     public int count;
     public GameObject tutorial_Notice_Image;
     public List<Sprite> cutToon;
@@ -120,6 +120,8 @@ public class Decent_Manager : MonoBehaviour
         {
             Reset_Stage6();
         }
+
+        bgmManager = GameObject.Find("BGMManager").GetComponent<BGMManager>();
     }
 
     void Update()
@@ -309,7 +311,7 @@ public class Decent_Manager : MonoBehaviour
                     stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
                 case 3:
-                    stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
             }
         }
@@ -328,7 +330,7 @@ public class Decent_Manager : MonoBehaviour
                     stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
                 case 3:
-                    stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
             }
         }
@@ -347,7 +349,7 @@ public class Decent_Manager : MonoBehaviour
                     stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
                 case 3:
-                    stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
             }
         }
@@ -366,7 +368,7 @@ public class Decent_Manager : MonoBehaviour
                     stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
                 case 3:
-                    stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 6개를 골라보세요.";
+                    stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
                     break;
             }
         }
@@ -735,6 +737,21 @@ public class Decent_Manager : MonoBehaviour
 
     public void Stage2_Check(string type)
     {
+        if (DBManager.instance.currentStep == 1)
+        {
+            if (stage2_Answer >= 2)
+            {
+                return;
+            }
+        }
+        else if (DBManager.instance.currentStep == 2 || DBManager.instance.currentStep == 3)
+        {
+            if (stage2_Answer >= 4)
+            {
+                return;
+            }
+        }
+
         if (stage2_Emotion == type)
         {
             stage3_Text.Add(EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<Text>().text);
@@ -837,7 +854,7 @@ public class Decent_Manager : MonoBehaviour
 
     IEnumerator Stage4_Anim_Coroutine()
     {
-        stage4_Zero_Text.text = "조망하기를 통해";
+        stage4_Zero_Text.text = "조망하기를 통해 상황을 점점 멀리\n심리적인 거리두기를 하면서";
 
         float delay = 0;
 
@@ -862,54 +879,8 @@ public class Decent_Manager : MonoBehaviour
                 stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
             yield return null;
         }
-
-        stage4_Zero_Text.text = "상황을 점점 멀리";
-
-        while (stage4_Zero_Text.color.a < 1)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g,
-                stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
-            yield return null;
-        }
-
-        while (delay < 2)
-        {
-            delay += Time.deltaTime;
-            yield return null;
-        }
-
-        delay = 0;
-
-        while (stage4_Zero_Text.color.a > 0)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g,
-                stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
-            yield return null;
-        }
-
-        stage4_Zero_Text.text = "심리적인 거리두기를 하면서";
-
-        while (stage4_Zero_Text.color.a < 1)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
-            yield return null;
-        }
-
-        while (delay < 2)
-        {
-            delay += Time.deltaTime;
-            yield return null;
-        }
-
-        delay = 0;
         
-        while (stage4_Zero_Text.color.a > 0)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
-            yield return null;
-        }
-        
-        stage4_Zero_Text.text = "바라보는 능력을 기름으로써";
+        stage4_Zero_Text.text = "바라보는 능력을 기름으로써\n우리 자신이 가지고 있는\n생각이나 고정 관념을";
         
         while (stage4_Zero_Text.color.a < 1)
         {
@@ -930,8 +901,8 @@ public class Decent_Manager : MonoBehaviour
             stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
             yield return null;
         }
-        
-        stage4_Zero_Text.text = "우리 자신이 가지고 있는";
+
+        stage4_Zero_Text.text = "보다 넓은 관점에서\n조망할 수 있을 것 입니다.";
         
         while (stage4_Zero_Text.color.a < 1)
         {
@@ -945,72 +916,12 @@ public class Decent_Manager : MonoBehaviour
             yield return null;
         }
 
-        delay = 0;
-        
         while (stage4_Zero_Text.color.a > 0)
         {
             stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
             yield return null;
         }
-        
-        stage4_Zero_Text.text = "생각이나 고정 관념을";
-        
-        while (stage4_Zero_Text.color.a < 1)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
-            yield return null;
-        }
 
-        while (delay < 2)
-        {
-            delay += Time.deltaTime;
-            yield return null;
-        }
-
-        delay = 0;
-        
-        while (stage4_Zero_Text.color.a > 0)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
-            yield return null;
-        }
-        
-        stage4_Zero_Text.text = "보다 넓은 관점에서";
-        
-        while (stage4_Zero_Text.color.a < 1)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + Time.deltaTime);
-            yield return null;
-        }
-
-        while (delay < 2)
-        {
-            delay += Time.deltaTime;
-            yield return null;
-        }
-
-        delay = 0;
-        
-        while (stage4_Zero_Text.color.a > 0)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a - Time.deltaTime);
-            yield return null;
-        }
-        
-        stage4_Zero_Text.text = "조망할 수 있을 것 입니다.";
-        
-        while (stage4_Zero_Text.color.a < 1)
-        {
-            stage4_Zero_Text.color = new Color(stage4_Zero_Text.color.r, stage4_Zero_Text.color.g, stage4_Zero_Text.color.b, stage4_Zero_Text.color.a + (Time.deltaTime * 0.5f));
-            yield return null;
-        }
-        
-        while (delay < 2)
-        {
-            delay += Time.deltaTime;
-            yield return null;
-        }
-        
         Stage4_Btn();
     }
     
@@ -1314,7 +1225,7 @@ public class Decent_Manager : MonoBehaviour
                 temp.transform.SetParent(stage5_Game.transform.GetChild(2));
                 temp.transform.GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(Random.Range(-230, 230), 200);
-                temp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                temp.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             }
             else
             {
@@ -1379,7 +1290,7 @@ public class Decent_Manager : MonoBehaviour
         temp.transform.SetParent(stage6.transform.GetChild(2));
         temp.transform.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(0, 300);
-        temp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        temp.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         int num = Random.Range(0, stage6_Text.Count);
         temp.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = stage6_Text[num];
         stage6_Text.RemoveAt(num);

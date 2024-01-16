@@ -230,7 +230,7 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (isTutorial)
         {
-            if (balloon.activeSelf && stage == 3)
+            if (stage == 3)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -293,8 +293,6 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (isUp && isDown && isUp2 && isDown2)
         {
-            notice.text = "아직 감정과 분리되지 못했어요.\n남아있는 감정을 토닥토닥 해주세요.";
-            stage = 3;
             Balloon();
         }
         
@@ -306,20 +304,26 @@ public class Lovely_Manager : MonoBehaviour
 
     void Balloon()
     {
+        dragArea.SetActive(false);
+        
         if (emotionFeel == "Anger")
         {
+            notice.text = "\"그래도 화가 나\" 문구를 터치해주세요.";
             balloon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "그래도 화가 나";
         }
         else if (emotionFeel == "Unrest")
         {
+            notice.text = "\"아직도 무서워\" 문구를 터치해주세요.";
             balloon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "아직도 무서워";
         }
         else if (emotionFeel == "Sadness")
         {
+            notice.text = "\"그래도 우울해\" 문구를 터치해주세요.";
             balloon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "그래도 우울해";
         }
         else if (emotionFeel == "Remorse")
         {
+            notice.text = "\"여전히 내 탓인 것 같아\" 문구를 터치해주세요.";
             balloon.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "여전히 내 탓인 것 같아";
         }
         
@@ -329,6 +333,14 @@ public class Lovely_Manager : MonoBehaviour
         }
         
         balloon.SetActive(true);
+    }
+
+    public void BalloonClick()
+    {
+        notice.text = "아직 감정과 분리되지 못했어요.\n남아있는 감정을 토닥토닥 해주세요.";
+        stage = 3;
+        balloon.SetActive(false);
+        dragArea.SetActive(true);
     }
 
     void Cursor()
@@ -451,8 +463,7 @@ public class Lovely_Manager : MonoBehaviour
                     stage = 2;
                     isDot = false;
                     dot.SetActive(false);
-                    notice.text = "남아있는 감정을 쓰담쓰담하며 어루 만져 주세요.";
-                    
+                    notice.text = "남아있는 감정을 쓰담쓰담하며 어루만져 주세요.";
                     dragArea.SetActive(true);
                 
                     switch (DBManager.instance.currentStep)

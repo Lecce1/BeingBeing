@@ -23,10 +23,8 @@ public class BodyRecog_Manager : MonoBehaviour
     public GameObject character_Step3_Points;
     public GameObject line;
     public Text notice;
-    public GameObject points;
     public GameObject choices;
     public Sprite[] choices_Color = new Sprite[6];
-    public GameObject shadow;
     public GameObject success;
     public GameObject success2;
     public GameObject success_Results_Step1;
@@ -340,7 +338,7 @@ public class BodyRecog_Manager : MonoBehaviour
             else if (step == 3)
             {
                 Result(tutorial_Choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
-                tutorial_Notice.text = "잘 하셨습니다.\n당신의 전체 몸 상태는 다음과 같습니다.\n SKIP 버튼을 누르면 튜토리얼은 마무리 됩니다.";
+                tutorial_Notice.text = "잘 하셨습니다.\n당신의 전체 몸 상태는 다음과 같습니다.";
                 tutorial_Choices.SetActive(false);
                 tutorial_Choices.transform.GetChild(1).gameObject.SetActive(false);
                 tutorial_Points.SetActive(false);
@@ -394,6 +392,8 @@ public class BodyRecog_Manager : MonoBehaviour
                         }
                     }
                 }
+                
+                Invoke(nameof(Skip), 4.0f);
             }
             
             tutorial_Choices.transform.GetChild(0).GetChild(0).GetComponent<Button>().interactable = true;

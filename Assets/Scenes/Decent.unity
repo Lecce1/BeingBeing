@@ -9127,8 +9127,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uB798\uC758 \uC55E\uC11C \uC120\uD0DD\uD55C 4\uAC00\uC9C0 \uAC10\uC815\uC774
-    \uC788\uC2B5\uB2C8\uB2E4.\r\n\uC774 \uC911 \uD55C \uAC00\uC9C0\uB97C \uC120\uD0DD\uD574\uC8FC\uC138\uC694.\r\r\r\n"
+  m_Text: "\uC544\uB798 \uAC10\uC815 \uC911 \uD558\uB098\uB97C \uC120\uD0DD\uD574\uC8FC\uC138\uC694.\r\n4\uAC00\uC9C0
+    \uAC10\uC815\uC744 \uBAA8\uB450 \uC9C4\uD589\uD574\uC57C \uC2A4\uD14C\uC774\uC9C0\uAC00
+    \uC644\uB8CC\uB429\uB2C8\uB2E4.\n"
 --- !u!1 &741756859
 GameObject:
   m_ObjectHideFlags: 0
@@ -15177,7 +15178,6 @@ MonoBehaviour:
   stage6_Char_Step1: {fileID: 928463563}
   stage6_Char_Step2: {fileID: 1133047003}
   stage6_Char_Step3: {fileID: 498238232}
-  stage6_Background: {fileID: 21300000, guid: a69ae99ac91784697b9b60650bc406e7, type: 3}
   stage6_Bar: {fileID: 2092625443}
   stage6_Ment: {fileID: 2582172628224899316, guid: 3771ef7a41edf476282299d414beac4c, type: 3}
   shadow: {fileID: 2118673680}
@@ -15239,7 +15239,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cb1354f3757c6491398219a76159acfd, type: 3}
   isFinish: 0
   upgrade: {fileID: 20360257}
-  upgrade_Character: {fileID: 0}
+  upgrade_Character: {fileID: 1903953137}
   bgmManager: {fileID: 1865166765}
 --- !u!4 &1223464383
 Transform:
@@ -15286,6 +15286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 1637914919}
+  info_Title: {fileID: 709364426}
+  info_Content: {fileID: 333102416}
   pause: {fileID: 1816224721}
   set: {fileID: 1281041836}
   set_Reset: {fileID: 145193698}
@@ -15297,8 +15299,7 @@ MonoBehaviour:
   set_Voice_Image: {fileID: 60430039}
   toggleOn: {fileID: 21300000, guid: 4eef810cf73234c36a6bccf21d63f596, type: 3}
   toggleOff: {fileID: 21300000, guid: 4ebdc63287d2a4eeda547bc92377ba53, type: 3}
-  info_Title: {fileID: 709364426}
-  info_Content: {fileID: 333102416}
+  quit: {fileID: 0}
 --- !u!224 &1225713920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17930,6 +17931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFirst: 0
+  isStageFirst: 0
   level: 0
   currentStep: 1
   currentStage: Decent
@@ -17937,6 +17939,9 @@ MonoBehaviour:
   vibrateValue: 0
   soundValue: 0
   refresh_PrevStage: 
+  recog_Step1_Clear: 0
+  recog_Step2_Clear: 0
+  recog_Step3_Clear: 0
   decent_Count: 0
   decent_Again: 0
   decent_Anger: 0
@@ -26836,7 +26841,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 2092858000}
   m_HandleRect: {fileID: 0}

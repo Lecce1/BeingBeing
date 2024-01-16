@@ -115,13 +115,10 @@ public class ButtonManager : MonoBehaviour
             
             animator.Play("Close");
         }
-        else if (pause != null)
+        else if (quit.activeSelf)
         {
-            if(quit.activeSelf)
-            {
-                animator = quit.GetComponent<Animator>();
-                animator.Play("Close");
-            }
+            animator = quit.GetComponent<Animator>();
+            animator.Play("Close");
         }
 
         Invoke("Delay", 0.3f);
@@ -136,7 +133,7 @@ public class ButtonManager : MonoBehaviour
                 info.SetActive(false);
             }
         }
-        else if (info != null)
+        else if (pause != null)
         {
             if (pause.activeSelf)
             {
@@ -154,12 +151,9 @@ public class ButtonManager : MonoBehaviour
                 set.SetActive(false);
             }
         }
-        else if (pause != null)
+        else if(quit.activeSelf)
         {
-            if(quit.activeSelf)
-            {
-                quit.SetActive(false);
-            }
+            quit.SetActive(false);
         }
     }
     

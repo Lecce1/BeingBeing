@@ -15065,6 +15065,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 1637914919}
+  info_Title: {fileID: 709364426}
+  info_Content: {fileID: 333102416}
   pause: {fileID: 1816224721}
   set: {fileID: 1281041836}
   set_Reset: {fileID: 145193698}
@@ -15076,8 +15078,7 @@ MonoBehaviour:
   set_Voice_Image: {fileID: 60430039}
   toggleOn: {fileID: 21300000, guid: 4eef810cf73234c36a6bccf21d63f596, type: 3}
   toggleOff: {fileID: 21300000, guid: 4ebdc63287d2a4eeda547bc92377ba53, type: 3}
-  info_Title: {fileID: 709364426}
-  info_Content: {fileID: 333102416}
+  quit: {fileID: 0}
 --- !u!224 &1225713920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18412,12 +18413,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFirst: 0
+  isStageFirst: 0
   level: 0
   currentStep: 1
   currentStage: EmotionRecog
   musicValue: 0
   vibrateValue: 0
   soundValue: 0
+  refresh_PrevStage: 
+  decent_Count: 0
+  decent_Again: 0
+  decent_Anger: 0
+  decent_Unrest: 0
+  decent_Sadness: 0
+  decent_Remorse: 0
+  decent_IsRefresh: 0
   isLoaded: 0
 --- !u!4 &1448364036
 Transform:
@@ -19340,7 +19350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 190}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1522885681
@@ -27727,6 +27737,7 @@ MonoBehaviour:
   shadow: {fileID: 2063962358}
   success: {fileID: 1202783345}
   fail: {fileID: 1684677836}
+  emotionTime: 0
   isNext: 0
   count: 0
   isTutorial: 0

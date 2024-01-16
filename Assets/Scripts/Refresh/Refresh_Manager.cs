@@ -14,14 +14,20 @@ public class Refresh_Manager : MonoBehaviour
     public GameObject game_Notice;
     public GameObject shadow;
     public GameObject success;
+    [SerializeField]
     private int count;
+    [SerializeField]
     private float time;
+    [SerializeField]
     private bool isLimit;
     public bool isCheck;
     public bool isUp;
     public bool isDown;
     public bool isBreathe;
+    [SerializeField]
     private bool isFirst;
+    [SerializeField]
+    private bool isFirstFinish;
     public GameObject smile;
     public GameObject smile_Character_Step1;
     public GameObject smile_Character_Step2;
@@ -76,7 +82,7 @@ public class Refresh_Manager : MonoBehaviour
     {
         if (!isFirst)
         {
-            if (gameObject.GetComponent<Touch>().result == Result.down && !isLimit)
+            if (!isBreathe && gameObject.GetComponent<Touch>().result == Result.down && !isLimit)
             {
                 isDown = true;
                 gameObject.GetComponent<Touch>().result = Result.none;
@@ -144,8 +150,11 @@ public class Refresh_Manager : MonoBehaviour
             {
                 yield return null;
             }
-            
-            game_Notice.GetComponent<Text>().text = "내쉬고";
+
+            if (circle.fillAmount != 1)
+            {
+                game_Notice.GetComponent<Text>().text = "내쉬고";
+            }
         }
         else if (!isBreathe)
         {
@@ -168,8 +177,11 @@ public class Refresh_Manager : MonoBehaviour
             {
                 yield return null;
             }
-            
-            game_Notice.GetComponent<Text>().text = "들이쉬고";
+
+            if (circle.fillAmount != 1)
+            {
+                game_Notice.GetComponent<Text>().text = "들이쉬고";
+            }
         }
 
         yield return null;
@@ -204,26 +216,12 @@ public class Refresh_Manager : MonoBehaviour
             circle.fillAmount += 0.5f * Time.deltaTime;
         }
 
-        if (circle.fillAmount >= 0.996f)
+        if (count >= 6)
         {
-            isFirst = true;
-            breath.SetActive(false);
-            smile.SetActive(true);
-            
-            if (DBManager.instance.currentStep == 1)
-            {
-                smile_Character_Step1.SetActive(true);
-            }
-            else if (DBManager.instance.currentStep == 2)
-            {
-                smile_Character_Step2.SetActive(true);
-            }
-            else if (DBManager.instance.currentStep == 3)
-            {
-                smile_Character_Step3.SetActive(true);
-            }
+            circle.fillAmount = 1;
+            isFirstFinish = true;
         }
-        
+
         isCheck = true;
 
         yield return null;
@@ -244,6 +242,26 @@ public class Refresh_Manager : MonoBehaviour
                 circle_Timer.fillAmount = 0;
                 time = 0;
                 isLimit = false;
+                
+                if (isFirstFinish)
+                {
+                    isFirst = true;
+                    breath.SetActive(false);
+                    smile.SetActive(true);
+            
+                    if (DBManager.instance.currentStep == 1)
+                    {
+                        smile_Character_Step1.SetActive(true);
+                    }
+                    else if (DBManager.instance.currentStep == 2)
+                    {
+                        smile_Character_Step2.SetActive(true);
+                    }
+                    else if (DBManager.instance.currentStep == 3)
+                    {
+                        smile_Character_Step3.SetActive(true);
+                    }
+                }
             }
         }
         else if (isFirst)
@@ -327,6 +345,7 @@ public class Refresh_Manager : MonoBehaviour
                 if (PlayerPrefs.GetInt("level") <= 2)
                 {
                     PlayerPrefs.SetInt("level", 3);
+                    PlayerPrefs.SetInt("Recog_Step1_Clear", 1);
                 }
             }
             else if (DBManager.instance.currentStep == 2)
@@ -334,6 +353,7 @@ public class Refresh_Manager : MonoBehaviour
                 if (PlayerPrefs.GetInt("level") <= 6)
                 {
                     PlayerPrefs.SetInt("level", 7);
+                    PlayerPrefs.SetInt("Recog_Step2_Clear", 1);
                 }
             }
             else if (DBManager.instance.currentStep == 3)
@@ -341,6 +361,7 @@ public class Refresh_Manager : MonoBehaviour
                 if (PlayerPrefs.GetInt("level") <= 10)
                 {
                     PlayerPrefs.SetInt("level", 11);
+                    PlayerPrefs.SetInt("Recog_Step3_Clear", 1);
                 }
             }
         }
