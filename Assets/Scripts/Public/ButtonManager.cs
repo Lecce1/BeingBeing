@@ -92,7 +92,8 @@ public class ButtonManager : MonoBehaviour
                 animator.Play("Close");
             }
         }
-        else if (pause != null)
+        
+        if (pause != null)
         {
             if (pause.activeSelf)
             {
@@ -101,26 +102,34 @@ public class ButtonManager : MonoBehaviour
                 animator.Play("Close");
             }
         }
-        else if (set.activeSelf)
+
+        if (set != null)
         {
-            if (set_Reset.activeSelf)
+            if (set.activeSelf)
             {
-                animator = set_Reset.GetComponent<Animator>();
-            }
-            else
-            {
-                Time.timeScale = 1;
-                animator = set.GetComponent<Animator>();
-            }
+                if (set_Reset.activeSelf)
+                {
+                    animator = set_Reset.GetComponent<Animator>();
+                }
+                else
+                {
+                    Time.timeScale = 1;
+                    animator = set.GetComponent<Animator>();
+                }
             
-            animator.Play("Close");
-        }
-        else if (quit.activeSelf)
-        {
-            animator = quit.GetComponent<Animator>();
-            animator.Play("Close");
+                animator.Play("Close");
+            }
         }
 
+        if (quit != null)
+        {
+            if (quit.activeSelf)
+            {
+                animator = quit.GetComponent<Animator>();
+                animator.Play("Close");
+            }
+        }
+        
         Invoke("Delay", 0.3f);
     }
 
@@ -133,27 +142,36 @@ public class ButtonManager : MonoBehaviour
                 info.SetActive(false);
             }
         }
-        else if (pause != null)
+        
+        if (pause != null)
         {
             if (pause.activeSelf)
             {
                 pause.SetActive(false);
             }
         }
-        else if (set.activeSelf)
+
+        if (set != null)
         {
-            if (set_Reset.activeSelf)
+            if (set.activeSelf)
             {
-                set_Reset.SetActive(false);
-            }
-            else
-            {
-                set.SetActive(false);
+                if (set_Reset.activeSelf)
+                {
+                    set_Reset.SetActive(false);
+                }
+                else
+                {
+                    set.SetActive(false);
+                }
             }
         }
-        else if(quit.activeSelf)
+
+        if (quit != null)
         {
-            quit.SetActive(false);
+            if(quit.activeSelf)
+            {
+                quit.SetActive(false);
+            }
         }
     }
     

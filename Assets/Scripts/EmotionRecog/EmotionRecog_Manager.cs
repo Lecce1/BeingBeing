@@ -119,17 +119,20 @@ public class EmotionRecog_Manager : MonoBehaviour
     {
         if (tutorial_Notice_Num == 1)
         {
-            tutorial_Notice.text = "이번에는 감정자각 연습을 시작합니다.";
+            tutorial_Notice.text = "이제는 감정자각 연습을 시작합니다.";
+            BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_1");
             tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "사람이 경험하는 대표적인 감정은\n분노, 불안, 슬픔, 자책 4가지입니다.";
+            tutorial_Notice.text = "사람이 경험하는 대표적인 감정은\n분노, 불안, 슬픔, 자책의 4가지 입니다.";
+            BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_2");
         }
         else if (tutorial_Notice_Num == 3)
         {
             tutorial_Notice_Image.SetActive(false);
-            tutorial_Notice.text = "아래 4가지 감정 중 하나를 선택해봅시다.";
+            tutorial_Notice.text = "이 4가지 감정 중 하나를 선택해보세요.";
+            BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_3");
             tutorial_EmotionBtn.SetActive(true);
         }
     }
@@ -193,6 +196,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                         tutorial_EmotionComingBtn.SetActive(true);
                         tutorial_EmotionComingBtn.GetComponent<Animator>().Play("Emotion_Tutorial_Coming");
                         tutorial_Notice.text = "감정이 다 차오르기 전에\n“그분이 오셨네＂를 터치해주세요.";
+                        BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_4");
                     }
 
                     if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y >= 5f)
@@ -291,6 +295,7 @@ public class EmotionRecog_Manager : MonoBehaviour
         if (!isTutorial)
         {
             tutorial_Notice.text = "감정과 만들어내는 생각을 누르면\n감정이 줄어들고 가슴 부위에 머무르게 됩니다.\n아래 부위에 손가락을 대고\n가만히 감정의 느낌을 느껴주세요.";
+            BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_6");
             tutorial_DragArea.SetActive(true);
             isDot = true;
         }
@@ -358,18 +363,20 @@ public class EmotionRecog_Manager : MonoBehaviour
             switch (emotionFeel)
             {
                 case "Anger":
-                    tutorial_Notice.text = "아래 보기의 여러 생각 중에\n분노를 만들어내는 생각 2개를 찾아서 눌러주세요.";
+                    tutorial_Notice.text = "여러 생각 중에\n분노를 만들어내는 생각을 2개 찾아서 터치해주세요.";
                     break;
                 case "Unrest":
-                    tutorial_Notice.text = "아래 보기의 여러 생각 중에\n불안을 만들어내는 생각 2개를 찾아서 눌러주세요.";
+                    tutorial_Notice.text = "여러 생각 중에\n불안을 만들어내는 생각을 2개 찾아서 터치해주세요.";
                     break;
                 case "Sadness":
-                    tutorial_Notice.text = "아래 보기의 여러 생각 중에\n슬픔을 만들어내는 생각 2개를 찾아서 눌러주세요.";
+                    tutorial_Notice.text = "여러 생각 중에\n슬픔을 만들어내는 생각을 2개 찾아서 터치해주세요.";
                     break;
                 case "Remorse":
-                    tutorial_Notice.text = "아래 보기의 여러 생각 중에\n자책을 만들어내는 생각 2개를 찾아서 눌러주세요.";
+                    tutorial_Notice.text = "여러 생각 중에\n자책을 만들어내는 생각을 2개 찾아서 터치해주세요.";
                     break;
             }
+            
+            BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_5");
             
         }
         else if (isTutorial)
@@ -484,6 +491,7 @@ public class EmotionRecog_Manager : MonoBehaviour
                 if (tutorial_EmotionColor.GetComponent<RectTransform>().localScale.y <= 0f)
                 {
                     tutorial_Notice.text = "잘 하셨습니다.\n감정자각 연습을 마칩니다.";
+                    BGMManager.instance.PlayBGM("EmotionRecog_Tutorial_7");
                     Invoke("Skip", 3.0f);
                 }
             }

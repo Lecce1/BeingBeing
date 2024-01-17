@@ -6,6 +6,7 @@ public class BGMManager : MonoBehaviour
     public struct BgmType
     {
         public string name;
+        public string type;
         public AudioClip audio; 
     }
     
@@ -33,8 +34,18 @@ public class BGMManager : MonoBehaviour
         {
             if (BGMList[i].name.Equals(name))
             {
-                bgmAudioSource.clip = BGMList[i].audio;
-                bgmAudioSource.Play();
+                switch (BGMList[i].type)
+                {
+                    case "BGM":
+                        bgmAudioSource.clip = BGMList[i].audio;
+                        bgmAudioSource.Play();
+                        break;
+                    
+                    case "Voice":
+                        voiceAudioSource.clip = BGMList[i].audio;
+                        voiceAudioSource.Play();
+                        break;
+                }
             }
         }
     }

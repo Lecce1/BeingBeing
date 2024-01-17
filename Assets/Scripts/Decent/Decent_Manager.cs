@@ -210,15 +210,18 @@ public class Decent_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "탈중심화 연습을 시작합니다.";
+            BGMManager.instance.PlayBGM("Decent_Tutorial_1");
             tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "잠시 후 나타나는 문장을 보고\n사실과 해석으로 구분하여\n드래그 해주세요.";
+            tutorial_Notice.text = "다음에 제시된 문장을\n사실과 해석으로 구분하여\n상자로 드래그 해주세요.";
+            BGMManager.instance.PlayBGM("Decent_Tutorial_2");
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "사실이란 있는 그대로 설명한 것이며\n해석이란 자신의 생각을 거쳐 나온 이야기입니다.";
+            tutorial_Notice.text = "사실이란 상황이나 사물에 대한 일차적인 성격을 기술하는 것이며\n해석이란 자신의 의견이나 생각을 반영한 내용 입니다.";
+            BGMManager.instance.PlayBGM("Decent_Tutorial_3");
         }
         else if (tutorial_Notice_Num == 4)
         {
@@ -250,13 +253,15 @@ public class Decent_Manager : MonoBehaviour
         if (stage1_Notice_Num == 1)
         {
             stage1_Notice.text = "다음 그림을 자세히 살펴봐주세요.";
+            BGMManager.instance.PlayBGM("Decent_Stage1_1");
         }
         else if (stage1_Notice_Num == 2)
         {
             stage1_cutToon.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
             stage1_Notice_Image.SetActive(false);
             stage1_Button.SetActive(true);
-            stage1_Notice.text = "아래 제시된 9가지 감정 중\n그림에서 경험할 수 있는 감정을\n4가지 선택해보세요.";
+            stage1_Notice.text = "아래 9가지 보기 중\n그림에서 참석자들이 느낄 수 있는 감정을\n4가지만 선택해 보세요.";
+            BGMManager.instance.PlayBGM("Decent_Stage1_2");
         }
     }
     
@@ -306,12 +311,15 @@ public class Decent_Manager : MonoBehaviour
             {
                 case 1:
                     stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_2");
                     break;
                 case 2:
                     stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
                 case 3:
                     stage2_Notice.text = "분노가 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
             }
         }
@@ -325,12 +333,15 @@ public class Decent_Manager : MonoBehaviour
             {
                 case 1:
                     stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_2");
                     break;
                 case 2:
                     stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
                 case 3:
                     stage2_Notice.text = "불안이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
             }
         }
@@ -344,12 +355,15 @@ public class Decent_Manager : MonoBehaviour
             {
                 case 1:
                     stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_2");
                     break;
                 case 2:
                     stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
                 case 3:
                     stage2_Notice.text = "슬픔이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
             }
         }
@@ -363,12 +377,15 @@ public class Decent_Manager : MonoBehaviour
             {
                 case 1:
                     stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 2개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_2");
                     break;
                 case 2:
                     stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
                 case 3:
                     stage2_Notice.text = "자책이 느껴질 때 들 수 있는 생각 4개를 골라보세요.";
+                    BGMManager.instance.PlayBGM("Decent_Stage2_3");
                     break;
             }
         }
@@ -855,6 +872,7 @@ public class Decent_Manager : MonoBehaviour
     IEnumerator Stage4_Anim_Coroutine()
     {
         stage4_Zero_Text.text = "조망하기를 통해 상황을 점점 멀리\n심리적인 거리두기를 하면서";
+        BGMManager.instance.PlayBGM("Decent_Stage4_1");
 
         float delay = 0;
 
@@ -865,7 +883,7 @@ public class Decent_Manager : MonoBehaviour
             yield return null;
         }
 
-        while (delay < 2)
+        while (delay < 6)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -881,6 +899,7 @@ public class Decent_Manager : MonoBehaviour
         }
         
         stage4_Zero_Text.text = "바라보는 능력을 기름으로써\n우리 자신이 가지고 있는\n생각이나 고정 관념을";
+        BGMManager.instance.PlayBGM("Decent_Stage4_2");
         
         while (stage4_Zero_Text.color.a < 1)
         {
@@ -888,7 +907,7 @@ public class Decent_Manager : MonoBehaviour
             yield return null;
         }
 
-        while (delay < 2)
+        while (delay < 6)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -903,6 +922,7 @@ public class Decent_Manager : MonoBehaviour
         }
 
         stage4_Zero_Text.text = "보다 넓은 관점에서\n조망할 수 있을 것 입니다.";
+        BGMManager.instance.PlayBGM("Decent_Stage4_3");
         
         while (stage4_Zero_Text.color.a < 1)
         {
@@ -910,7 +930,7 @@ public class Decent_Manager : MonoBehaviour
             yield return null;
         }
 
-        while (delay < 2)
+        while (delay < 3)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -964,7 +984,7 @@ public class Decent_Manager : MonoBehaviour
                 {
                     stage5_Notice_Num++;
 
-                    if (stage5_Notice_Num != 7)
+                    if (stage5_Notice_Num != 8)
                     {
                         Stage5_Tutorial_Notice();
                     }
@@ -1002,24 +1022,34 @@ public class Decent_Manager : MonoBehaviour
         if (stage5_Notice_Num == 1)
         {
             stage5_Notice.text = "수용 연습을 시작합니다.";
+            BGMManager.instance.PlayBGM("Decent_Stage5_Tutorial_1");
         }
         else if (stage5_Notice_Num == 2)
         {
             stage5_Notice.text = "현재 자신이 경험을 받아들임으로써\n자기이해, 자기사랑, 자기수용의 단계를 마무리합시다.";
+            BGMManager.instance.PlayBGM("Decent_Stage5_Tutorial_2");
         }
         else if (stage5_Notice_Num == 3)
         {
-            stage5_Notice.text = "자동차는 나 자신이고\n연료는 자신의 현재 경험입니다.";
+            stage5_Notice.text = "자동차는 나 자신이고\n연료는 자기수용 경험을 나타냅니다.";
+            BGMManager.instance.PlayBGM("Decent_Stage5_Tutorial_3");
         }
         else if (stage5_Notice_Num == 4)
         {
-            stage5_Notice.text = "자동차를 좌우로 드래그하여\n분노 경험과 관련된 연료를 채우세요.";
+            stage5_Notice.text = "자동차를 좌우로 드래그하여\n수용 경험과 관련된 연료를 채우세요.";
+            BGMManager.instance.PlayBGM("Decent_Stage5_Tutorial_4");
         }
         else if (stage5_Notice_Num == 5)
         {
-            stage5_Notice.text = "만약 관련이 없는 연료를 채우게 되면\n에너지가 줄어듭니다.";
+            stage5_Notice.text = "만약 관련이 없는 것과 만나면\n에너지가 줄어듭니다.";
+            BGMManager.instance.PlayBGM("Decent_Stage5_Tutorial_5");
         }
         else if (stage5_Notice_Num == 6)
+        {
+            stage5_Notice.text = "에너지를 충분히 채우면\n이 과정이 종료될 것입니다.";
+            BGMManager.instance.PlayBGM("Decent_Stage5_Tutorial_6");
+        }
+        else if (stage5_Notice_Num == 7)
         {
             stage5_Notice.text = "";
             stage5_Tutorial_Panel.SetActive(true);
@@ -1099,7 +1129,7 @@ public class Decent_Manager : MonoBehaviour
     
     void Fuel()
     {
-        if (isTutorial && stage == 5 && !isSentence && !stage5_isTutorial && stage5_Notice_Num >= 6)
+        if (isTutorial && stage == 5 && !isSentence && !stage5_isTutorial && stage5_Notice_Num >= 7)
         {
             isSentence = true;
             
@@ -1138,19 +1168,23 @@ public class Decent_Manager : MonoBehaviour
             if (rand1 == 0)
             {
                 int rand2 = Random.Range(0, 3);
-                GameObject temp = Instantiate(stage5_fuel);
+                GameObject temp;
 
-                switch (rand2)
+                if (rand2 == 1)
                 {
-                    case 0:
-                        temp = Instantiate(stage5_Obstacle1);
-                        break;
-                    case 1:
-                        temp = Instantiate(stage5_Obstacle2);
-                        break;
-                    case 2:
-                        temp = Instantiate(stage5_Obstacle3);
-                        break;
+                    temp = Instantiate(stage5_Obstacle1);
+                }
+                else if (rand2 == 2)
+                {
+                    temp = Instantiate(stage5_Obstacle2);
+                }
+                else if (rand2 == 3)
+                {
+                    temp = Instantiate(stage5_Obstacle3);
+                }
+                else
+                {
+                    temp = Instantiate(stage5_Obstacle3);
                 }
                 
                 temp.transform.SetParent(stage5_Tutorial_Panel.transform.GetChild(2));
@@ -1207,19 +1241,23 @@ public class Decent_Manager : MonoBehaviour
             if (rand1 == 0)
             {
                 int rand2 = Random.Range(0, 3);
-                GameObject temp = Instantiate(stage5_fuel);
-
-                switch (rand2)
+                GameObject temp;
+                
+                if (rand2 == 1)
                 {
-                    case 0:
-                        temp = Instantiate(stage5_Obstacle1);
-                        break;
-                    case 1:
-                        temp = Instantiate(stage5_Obstacle2);
-                        break;
-                    case 2:
-                        temp = Instantiate(stage5_Obstacle3);
-                        break;
+                    temp = Instantiate(stage5_Obstacle1);
+                }
+                else if (rand2 == 2)
+                {
+                    temp = Instantiate(stage5_Obstacle2);
+                }
+                else if (rand2 == 3)
+                {
+                    temp = Instantiate(stage5_Obstacle3);
+                }
+                else
+                {
+                    temp = Instantiate(stage5_Obstacle3);
                 }
                 
                 temp.transform.SetParent(stage5_Game.transform.GetChild(2));
@@ -1408,10 +1446,10 @@ public class Decent_Manager : MonoBehaviour
         stage1.SetActive(false);
         stage2.SetActive(true);
         stage = 2;
-        stage2_Notice.text = "앞서 선택한 4가지 감정 중 한 가지를 선택해주세요.";
+        stage2_Notice.text = "아래에 앞서 선택한 4가지 감정이 있습니다.\n이 중 한 가지를 선택해 주세요.";
+        BGMManager.instance.PlayBGM("Decent_Stage2_1");
         count = DBManager.instance.decent_Count;
     }
-
     void Reset_Stage6()
     {
         isTutorial = true;
@@ -1447,9 +1485,10 @@ public class Decent_Manager : MonoBehaviour
                 if (tutorial_Sentence.transform.childCount == 0)
                 {
                     tutorial_Notice.text = "사실과 해석에 대한 구분이 잘 되시나요?\n이제부터 본격적으로 시작해봅시다.";
+                    BGMManager.instance.PlayBGM("Decent_Tutorial_4");
                     tutorial_True.SetActive(false);
                     tutorial_Interpret.SetActive(false);
-                    Invoke("Check", 3.0f);
+                    Invoke("Check", 7.5f);
                 }
             }
         }

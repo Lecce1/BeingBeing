@@ -346,6 +346,7 @@ public class GameManager : MonoBehaviour
     IEnumerator Main_Text()
     {
         main_Text.text = "반갑습니다!";
+        BGMManager.instance.PlayBGM("Main_Text_1");
         
         float delay = 0;
         
@@ -370,6 +371,7 @@ public class GameManager : MonoBehaviour
         }
 
         main_Text.text = "빙빙을 찾아주셔서\n감사합니다.";
+        BGMManager.instance.PlayBGM("Main_Text_2");
         
         while (main_Text.color.a < 1)
         {
@@ -392,6 +394,7 @@ public class GameManager : MonoBehaviour
         }
         
         main_Text.text = "BeingBeing은\n자기이해, 자기수용, 자기사랑의\n실현하는 삶을 말합니다.";
+        BGMManager.instance.PlayBGM("Main_Text_3");
         
         while (main_Text.color.a < 1)
         {
@@ -399,7 +402,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         
-        while (delay < 3)
+        while (delay < 6)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -414,6 +417,7 @@ public class GameManager : MonoBehaviour
         }
         
         main_Text.text = "빙빙과 함께 자신감과 행복을\n찾아가는 여행을 시작해봅시다.";
+        BGMManager.instance.PlayBGM("Main_Text_4");
         
         while (main_Text.color.a < 1)
         {
@@ -442,6 +446,11 @@ public class GameManager : MonoBehaviour
         main.SetActive(false);
         stage.SetActive(true);
         loading.SetActive(false);
+
+        if (!BGMManager.instance.bgmAudioSource.isPlaying)
+        {
+            BGMManager.instance.PlayBGM("Main_BGM");
+        }
     }
     
     public void Stage_Select_Buttons(int num)

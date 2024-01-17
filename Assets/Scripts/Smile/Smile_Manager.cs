@@ -122,12 +122,14 @@ public class Smile_Manager : MonoBehaviour
     {
         if (tutorial_Notice_Num == 1)
         {
-            tutorial_Notice.text = "호흡 후에 빙그레 웃음으로 마무리를 합니다.";
+            tutorial_Notice.text = "호흡 후에 빙그레 웃음으로 마무리 합니다.";
+            BGMManager.instance.PlayBGM("Smile_Tutorial_1");
             tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
-            tutorial_Notice.text = "그림과 같이 손가락을\n빙빙이의 입꼬리에 터치하여\n위로 올려 빙그레 미소를 만들어주세요.";
+            tutorial_Notice.text = "그림과 같이 손가락을\n빙빙이의 입꼬리에 올려주세요.";
+            BGMManager.instance.PlayBGM("Smile_Tutorial_2");
             tutorial_Character.SetActive(true);
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Finger3");
@@ -136,7 +138,8 @@ public class Smile_Manager : MonoBehaviour
         {
             tutorial_Notice_Image.SetActive(false);
             gameObject.GetComponent<Touch>().result = Result.none;
-            tutorial_Notice.text = "빙빙이를 따라\n당신의 입꼬리도 올려\n미소를 빙그레 지어보세요.";
+            tutorial_Notice.text = "빙빙이의 입꼬리를 위로 올려\n빙그레 미소짓게 만들어주세요.";
+            BGMManager.instance.PlayBGM("Smile_Tutorial_3");
         }
     }
 
@@ -155,7 +158,8 @@ public class Smile_Manager : MonoBehaviour
                 gameObject.GetComponent<Touch>().result = Result.none;
                 isTutorial_Cursor = true;
                 isDoubleUp = true;
-                tutorial_Notice.text = "잘했어요!\n호흡과 빙그레 연습을 마칩니다.";
+                tutorial_Notice.text = "잘 하셨습니다.\n빙그레 연습을 마칩니다.";
+                BGMManager.instance.PlayBGM("Smile_Tutorial_4");
                 tutorial_Finger.SetActive(false);
             }
         }

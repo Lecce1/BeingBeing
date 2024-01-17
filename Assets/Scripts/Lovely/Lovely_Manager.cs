@@ -130,23 +130,28 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (tutorial_Notice_Num == 1)
         {
-            tutorial_Notice.text = "지금부터 러블리어테션 연습을 시작합니다.";
+            tutorial_Notice.text = "지금부터 러블리어텐션 연습을 시작합니다.";
+            BGMManager.instance.PlayBGM("Lovely_Tutorial_1");
         }
         else if (tutorial_Notice_Num == 2)
         {
             tutorial_Notice.text = "러블리어텐션은 자기 자신의 마음을 사랑스러운 눈으로 바라봐주는 것입니다.";
+            BGMManager.instance.PlayBGM("Lovely_Tutorial_2");
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "자신의 마음을 사랑스럽게 지켜보듯이 자신의 마음의 윤곽을 따라 손가락으로 천천히 그려보세요.";
+            tutorial_Notice.text = "자신의 마음을 사랑스럽게 지켜보고 쓰다듬어 주듯이 자기 마음의 윤곽을 따라 손가락으로 천천히 그려보세요.";
+            BGMManager.instance.PlayBGM("Lovely_Tutorial_3");
         }
         else if (tutorial_Notice_Num == 4)
         {
-            tutorial_Notice.text = "불편한 마음이 줄어들면, 손가락으로 가슴에서 배로 쓰다듬어 주세요.(드래그)";
+            tutorial_Notice.text = "불편한 마음이 줄어들면, 손가락으로 가슴에서 배로 반복하여 쓰다듬어 주세요.(드래그)";
+            BGMManager.instance.PlayBGM("Lovely_Tutorial_4");
         }
         else if (tutorial_Notice_Num == 5)
         {
-            tutorial_Notice.text = "“그래도 화가 나＂라고 말을 하면 그 말풍선에 손가락으로 토닥토닥 두드려주세요(터치터치)";
+            tutorial_Notice.text = "\"그래도 화가 나\" 라는 말풍선이 올라오면 그 말풍선을 손가락으로 터치해주세요.";
+            BGMManager.instance.PlayBGM("Lovely_Tutorial_5");
         }
     }
 
@@ -236,6 +241,7 @@ public class Lovely_Manager : MonoBehaviour
                 {
                     if (touch >= 2)
                     {
+                        BGMManager.instance.PlayBGM("Lovely_Game_2");
                         stage = 4;
                         balloon.SetActive(false);
                         Invoke("Loading_SetActive", 1.5f);
@@ -293,6 +299,7 @@ public class Lovely_Manager : MonoBehaviour
     {
         if (isUp && isDown && isUp2 && isDown2)
         {
+            BGMManager.instance.PlayBGM("Lovely_Game_1");
             Balloon();
         }
         
@@ -338,10 +345,11 @@ public class Lovely_Manager : MonoBehaviour
     public void BalloonClick()
     {
         notice.text = "아직 감정과 분리되지 못했어요.\n남아있는 감정을 토닥토닥 해주세요.";
+        BGMManager.instance.PlayBGM("Lovely_Game_3");
         stage = 3;
         balloon.SetActive(false);
         dragArea.SetActive(true);
-    }
+    } 
 
     void Cursor()
     {

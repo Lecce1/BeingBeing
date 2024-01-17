@@ -121,20 +121,24 @@ public class BodyRecog_Manager : MonoBehaviour
         if (tutorial_Notice_Num == 1)
         {
             tutorial_Notice.text = "신체자각과 감정자각을 시작합니다.";
+            BGMManager.instance.PlayBGM("BodyRecog_Tutorial_1");
             tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
         }
         else if (tutorial_Notice_Num == 2)
         {
             tutorial_Notice.text = "신체자각은\n현재 자신의 몸 상태에 대해\n알아차리는 것입니다.";
+            BGMManager.instance.PlayBGM("BodyRecog_Tutorial_2");
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "머리부터 시작하여 발까지\n신체자각을 통하여 상태를 알아차려 봅시다.";
+            tutorial_Notice.text = "머리부터 시작하여 어깨, 가슴, 배, 무릎, 발의 순서로\n알아차림을 하면 됩니다.";
+            BGMManager.instance.PlayBGM("BodyRecog_Tutorial_3");
         }
         else if (tutorial_Notice_Num == 4)
         {
             tutorial_Notice_Image.SetActive(false);
             tutorial_Notice.text = "이제부터 시작해볼까요?";
+            BGMManager.instance.PlayBGM("BodyRecog_Tutorial_4");
             StartCoroutine("Start_Delay");
         }
     }
@@ -339,6 +343,7 @@ public class BodyRecog_Manager : MonoBehaviour
             {
                 Result(tutorial_Choices.transform.GetChild(1).GetChild(choiceNum - 1).GetChild(2).GetComponent<TextMeshProUGUI>().text);
                 tutorial_Notice.text = "잘 하셨습니다.\n당신의 전체 몸 상태는 다음과 같습니다.";
+                BGMManager.instance.PlayBGM("BodyRecog_Tutorial_5");
                 tutorial_Choices.SetActive(false);
                 tutorial_Choices.transform.GetChild(1).gameObject.SetActive(false);
                 tutorial_Points.SetActive(false);

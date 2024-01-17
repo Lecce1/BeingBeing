@@ -75,6 +75,7 @@ public class Refresh_Manager : MonoBehaviour
         if (game_Notice.GetComponent<Text>().text == "소리를 켜서 안내말을 따라해 주세요.")
         {
             game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+            BGMManager.instance.PlayBGM("Breath_On");
         }
     }
 
@@ -153,7 +154,8 @@ public class Refresh_Manager : MonoBehaviour
 
             if (circle.fillAmount != 1)
             {
-                game_Notice.GetComponent<Text>().text = "내쉬고";
+                game_Notice.GetComponent<Text>().text = "내쉬며";
+                BGMManager.instance.PlayBGM("Breath_Off");
             }
         }
         else if (!isBreathe)
@@ -181,6 +183,7 @@ public class Refresh_Manager : MonoBehaviour
             if (circle.fillAmount != 1)
             {
                 game_Notice.GetComponent<Text>().text = "들이쉬고";
+                BGMManager.instance.PlayBGM("Breath_On");
             }
         }
 

@@ -41,6 +41,7 @@ public class DBManager : MonoBehaviour
 
     void Start()
     {
+        //PlayerPrefs.DeleteAll();
         Init();
     }
     

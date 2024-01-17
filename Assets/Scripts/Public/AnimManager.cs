@@ -57,6 +57,7 @@ public class AnimManager : MonoBehaviour
             DBManager.instance.isFirst = true;
             gameManager.main_Logo.SetActive(false);
             gameManager.main_Text.gameObject.SetActive(true);
+            BGMManager.instance.StopBGM();
             gameManager.StartCoroutine("Main_Text");
         }
         else

@@ -73,7 +73,7 @@ public class Breath_Manager : MonoBehaviour
                 {
                     tutorial_Notice_Num++;
 
-                    if (tutorial_Notice_Num != 6)
+                    if (tutorial_Notice_Num != 5)
                     {
                         Tutorial_Notice();
                     }
@@ -115,6 +115,7 @@ public class Breath_Manager : MonoBehaviour
         if (game_Notice.GetComponent<Text>().text == "소리를 켜서 안내말을 따라해 주세요.")
         {
             game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+            BGMManager.instance.PlayBGM("Breath_On");
         }
         
         finger.SetActive(true);
@@ -127,26 +128,26 @@ public class Breath_Manager : MonoBehaviour
         {
             tutorial_Notice.text = "안녕하세요.\n호흡 연습을 시작합니다.";
             tutorial_Notice_Image.GetComponent<Animator>().Play("Text");
+            BGMManager.instance.PlayBGM("Breath_Tutorial_1");
         }
         else if (tutorial_Notice_Num == 2)
         {
             tutorial_Notice.text = "숨을 들이쉴 때와\n숨을 내쉴 때의 느낌을\n알고 계신가요?";
+            BGMManager.instance.PlayBGM("Breath_Tutorial_2");
         }
         else if (tutorial_Notice_Num == 3)
         {
-            tutorial_Notice.text = "숨을 들이쉬고 내쉴 때의 느낌에\n주의를 기울이며\n호흡을 함께 진행봅시다.";
+            tutorial_Notice.text = "숨을 들이쉬면서 2초 내쉬면서 2초\n한번 호흡을 약 4초 동안 하게됩니다.";
+            BGMManager.instance.PlayBGM("Breath_Tutorial_3");
         }
         else if (tutorial_Notice_Num == 4)
-        {
-            tutorial_Notice.text = "숨을 들이쉬면서 2초\n내쉬면서 2초\n한 호흡은 4초 동안 진행됩니다.";
-        }
-        else if (tutorial_Notice_Num == 5)
         {
             tutorial_Notice_Image.SetActive(false);
             tutorial_Character_Panel.SetActive(true);
             tutorial_Finger.SetActive(true);
             tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger");
-            tutorial_Notice.text = "당신도 빙빙이와 함께\n숨을 들이쉬면서 가슴에서 배로\n손가락을 드래그 합니다.";
+            tutorial_Notice.text = "빙빙이와 함께 여러분도\n숨을 들이쉬면서 손가락을 터치하여\n가슴에서 배로 내려보세요.";
+            BGMManager.instance.PlayBGM("Breath_Tutorial_4");
             isDown = false;
             isUp = false;
         }
@@ -225,7 +226,8 @@ public class Breath_Manager : MonoBehaviour
             {
                 if (!isFirst)
                 {
-                    tutorial_Notice.text = "잘했어요!";
+                    tutorial_Notice.text = "잘 하셨습니다.";
+                    BGMManager.instance.PlayBGM("Breath_Tutorial_6");
                     tutorial_Finger.SetActive(false);
                 }
                 else
@@ -242,13 +244,15 @@ public class Breath_Manager : MonoBehaviour
 
                 if (!isFirst)
                 {
-                    tutorial_Notice.text = "이번에는 빙빙이와 함께\n숨을 내쉬면서 배에서 가슴으로\n드래그 합니다.";
+                    tutorial_Notice.text = "이번에는 함께 숨을 내쉬면서\n손가락을 터치하여 배에서 가슴으로 올려 보세요.";
+                    BGMManager.instance.PlayBGM("Breath_Tutorial_5");
                     tutorial_Finger.SetActive(true);
                     tutorial_Finger.GetComponent<Animator>().Play("Breath_Finger2");
                 }
                 else if(tutorial_Circle.fillAmount != 1)
                 {
-                    tutorial_Notice.text = "내쉬고";
+                    tutorial_Notice.text = "내쉬며";
+                    BGMManager.instance.PlayBGM("Breath_Off");
                 }
 
                 isTouch = false;
@@ -259,6 +263,7 @@ public class Breath_Manager : MonoBehaviour
                 {
                     isFirst = true;
                     tutorial_Notice.text = "잘 하셨습니다.";
+                    BGMManager.instance.PlayBGM("Breath_Tutorial_6");
                     tutorial_Finger.SetActive(false);
                 }
                 else
@@ -276,6 +281,7 @@ public class Breath_Manager : MonoBehaviour
                 if(tutorial_Circle.fillAmount != 1)
                 {
                     tutorial_Notice.text = "숨을 들이쉬고";
+                    BGMManager.instance.PlayBGM("Breath_On");
                 }
 
                 isTouch = false;
@@ -308,7 +314,8 @@ public class Breath_Manager : MonoBehaviour
 
                 if (circle.fillAmount != 1)
                 {
-                    game_Notice.GetComponent<Text>().text = "내쉬고";
+                    game_Notice.GetComponent<Text>().text = "내쉬며";
+                    BGMManager.instance.PlayBGM("Breath_Off");
                     finger.SetActive(true);
                     finger.GetComponent<Animator>().Play("Breath_Finger2");
                 }
@@ -341,6 +348,7 @@ public class Breath_Manager : MonoBehaviour
                 if (circle.fillAmount != 1)
                 {
                     game_Notice.GetComponent<Text>().text = "숨을 들이쉬고";
+                    BGMManager.instance.PlayBGM("Breath_On");
                     finger.SetActive(true);
                     finger.GetComponent<Animator>().Play("Breath_Finger");
                 }
@@ -388,6 +396,7 @@ public class Breath_Manager : MonoBehaviour
             if (tutorial_Circle.fillAmount == 1)
             {
                 tutorial_Notice.text = "잘 하셨습니다. 호흡 연습을 마칩니다.";
+                BGMManager.instance.PlayBGM("Breath_Tutorial_7");
                 Invoke(nameof(Skip), 4.0f);
             }
         }    
